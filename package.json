@@ -2,7 +2,7 @@
   "name": "kevinashley.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://kevinashley.github.io",
   "dependencies": {
     "bootstrap": "^4.1.3",
     "jquery": "^3.3.1",
@@ -17,7 +17,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -b  master -d build",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && for i in build/*/; do cp build/index.html $i; done ",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
