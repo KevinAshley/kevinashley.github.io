@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './css/main.css';
 import {
     BrowserRouter as Router,
-    Route,
-    Link
+    Route
 } from 'react-router-dom';
 
 import Header from './components/header/header';

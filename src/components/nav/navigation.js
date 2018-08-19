@@ -13,6 +13,10 @@ import {
   DropdownMenu,
   DropdownItem } from 'reactstrap';
 
+import {
+  Link
+} from 'react-router-dom';
+
 class Navigation extends Component {
 
     constructor(props) {
@@ -38,7 +42,7 @@ class Navigation extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/subpage/">Subpage</NavLink>
+                <Link to='/subpage' className='nav-link'>Subpage</Link>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
