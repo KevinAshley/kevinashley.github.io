@@ -12,10 +12,10 @@ class Homepage extends Component {
                     <Col>
 
                         <Jumbotron className="mt-2">
-                            <h1 className="display-3">Welcome!</h1>
-                            <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
+                            <h1>Welcome to my website!</h1>
+                            <p className="lead">This website is hosted for free on my GitHub repository, and it was built using React.js and BootStrap components via Reactstrap.</p>
                             <hr className="my-2" />
-                            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                            <p>This website acts like a single-page React application, but it uses React-Router-DOM to achieve multiple routes and a simple hack ensures that every route works as an entry point to my website (so every page is crawlable and indexable by search engine spiders).</p>
                             <p className="lead">
                               <Button color="primary">Learn More</Button>
                             </p>
