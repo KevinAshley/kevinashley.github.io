@@ -17,7 +17,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -b  master -d build",
     "start": "react-scripts start",
-    "build": "react-scripts build && for i in build/*/; do cp build/index.html $i; done ",
+    "build": "react-scripts build && for i in build/*/; do cp build/index.html $i; done && rm build/static/index.html",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
