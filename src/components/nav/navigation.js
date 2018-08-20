@@ -36,6 +36,7 @@ class Navigation extends Component {
     return (
 
         <Navbar color="light" light expand="md">
+          <div className='container'>
           <Link to="/" className='navbar-brand'>HOME</Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -65,6 +66,7 @@ class Navigation extends Component {
               </UncontrolledDropdown>
             </Nav>
           </Collapse>
+          </div>
         </Navbar>
 
     );
