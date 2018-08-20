@@ -12,7 +12,7 @@ class Homepage extends Component {
         <div className="page_container">
             <Container>
                 <Row>
-                    <Col>
+                    <Col className='mt-4'>
 
                         <Jumbotron className="mt-2">
                             <h1>Welcome to my website!</h1>

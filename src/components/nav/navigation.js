@@ -6,7 +6,6 @@ import {
   NavbarToggler,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -43,9 +42,6 @@ class Navigation extends Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <Link to='/subpage' className='nav-link'>Subpage</Link>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
