@@ -35,7 +35,7 @@ class Navigation extends Component {
   render() {
     return (
 
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light expand="md" className='sticky-top'>
           <div className='container'>
           <Link to="/" className='navbar-brand'>HOME</Link>
           <NavbarToggler onClick={this.toggle} />
