@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
   Collapse,
   Navbar,
-  NavbarToggler,
+  Button,
   Nav,
   NavItem,
   UncontrolledDropdown,
@@ -31,13 +31,17 @@ class Navigation extends Component {
       });
     }
 
+
+
   render() {
     return (
 
-        <Navbar color="light" light expand="md" className='sticky-top'>
+        <Navbar color="dark" dark expand="md" className='sticky-top'>
           <div className='container'>
           <Link to="/" className='navbar-brand'>HOME</Link>
-          <NavbarToggler onClick={this.toggle} />
+
+          <Button onClick={this.toggle} type="button" className="navbar-toggler"><i class="fas fa-bars"></i></Button>
+
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
