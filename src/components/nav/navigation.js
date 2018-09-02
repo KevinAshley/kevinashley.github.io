@@ -52,9 +52,9 @@ class Navigation extends Component {
                   Options
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>
-                    Option 1
-                  </DropdownItem>
+
+                  <Link to='/stock' className='dropdown-item'>Stock Tool</Link>
+
                   <DropdownItem>
                     Option 2
                   </DropdownItem>
