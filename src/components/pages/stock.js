@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 
 import { Container, Row, Col, Jumbotron, Button, InputGroup, InputGroupAddon, Input } from 'reactstrap';
 
+import $ from 'jquery';
+
 class Stock extends Component {
 
 
 
   render() {
+
+
 
     async function getData(url) {
         const response = await fetch(url);
@@ -14,11 +18,20 @@ class Stock extends Component {
     }
 
     async function stockLookup() {
+
         var ticker = document.getElementById('ticker').value;
         console.log(ticker);
-        var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE"
+        var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
+        console.log('the api url is ' + requestUrl);
         const data = await getData(requestUrl);
-        var stringifiedData = JSON.stringify(data);
+        const innerData = data["Time Series (Daily)"];
+
+        var arrayLength = Object.keys(innerData).length;
+        console.log(arrayLength);
+
+
+        var stringifiedData = JSON.stringify(innerData);
+
         document.getElementById('stock-info').innerHTML=stringifiedData;
     }
 

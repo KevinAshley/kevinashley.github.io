@@ -40,7 +40,7 @@ class Navigation extends Component {
           <div className='container'>
           <Link to="/" className='navbar-brand'>HOME</Link>
 
-          <Button onClick={this.toggle} type="button" className="navbar-toggler"><i class="fas fa-bars"></i></Button>
+          <Button onClick={this.toggle} type="button" className="navbar-toggler"><i className="fas fa-bars"></i></Button>
 
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -49,11 +49,11 @@ class Navigation extends Component {
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Options
+                  Tools
                 </DropdownToggle>
                 <DropdownMenu right>
 
-                  <Link to='/stock' className='dropdown-item'>Stock Tool</Link>
+                  <Link to='/stock' className='dropdown-item'>Stock Lookup</Link>
 
                   <DropdownItem>
                     Option 2
