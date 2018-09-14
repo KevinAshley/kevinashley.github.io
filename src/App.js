@@ -1,8 +1,4 @@
-import React, {
-  Component,
-} from 'react';
-
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
 import './css/main.css';
 
@@ -10,13 +6,6 @@ import {
     BrowserRouter as Router,
     Route
 } from 'react-router-dom';
-
-
-
-import {
-  activateGeod,
-  closeGeod,
-} from './redux';
 
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
@@ -26,7 +15,7 @@ import Stock from './components/pages/stock';
 import Navigation from './components/nav/navigation';
 
 
-export class App extends Component {
+class App extends Component {
   render() {
     return (
         <Router>
@@ -43,19 +32,4 @@ export class App extends Component {
   }
 }
 
-// AppContainer.js
-const mapStateToProps = (state, ownProps) => ({
-  geod: state.geod,
-});
-
-const mapDispatchToProps = {
-  activateGeod,
-  closeGeod,
-};
-
-const AppContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
-
-export default AppContainer;
+export default App;

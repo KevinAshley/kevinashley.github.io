@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Jumbotron, Button, InputGroup, InputGroupAddon, Input } from 'reactstrap';
 
 import SpecialDropdown from '../misc/SpecialDropdown';
+import ReduxjunkContainer from '../misc/reduxjunk';
 
 class Subpage extends Component {
   render() {
@@ -36,6 +37,11 @@ class Subpage extends Component {
                 <Row>
                     <Col>
                         <SpecialDropdown />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <ReduxjunkContainer />
                     </Col>
                 </Row>
             </Container>
