@@ -24,5 +24,8 @@
     "build": "react-scripts build && for i in build/*/; do cp build/index.html $i; done && rm build/static/index.html",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.0.0"
   }
 }
