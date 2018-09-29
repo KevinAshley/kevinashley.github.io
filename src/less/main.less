@@ -43,3 +43,18 @@ nav.navbar-light .navbar-nav .nav-link {
 .navbar-dark .navbar-nav a.nav-link, .navbar .container .navbar-toggler {
     color: #ffffff;
 }
+
+.hp-slideshow-container .carousel-item {
+    height: 0;
+    padding-bottom: 60%;
+    img {
+        object-fit: cover;
+        position: absolute;
+        min-width: 100%;
+        min-height: 100%;
+    }
+}
+.hp-card-container img.invert {
+    filter: invert(100%);
+    color: red;
+}

@@ -20,19 +20,27 @@ class Stock extends Component {
     async function stockLookup() {
 
         var ticker = document.getElementById('ticker').value;
-        console.log(ticker);
+//        console.log(ticker);
         var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
-        console.log('the api url is ' + requestUrl);
+//        console.log('the api url is ' + requestUrl);
         const data = await getData(requestUrl);
         const innerData = data["Time Series (Daily)"];
-
-        var arrayLength = Object.keys(innerData).length;
-        console.log(arrayLength);
-
+//        var arrayLength = Object.keys(innerData).length;
+//        console.log(arrayLength);
 
         var stringifiedData = JSON.stringify(innerData);
 
         document.getElementById('stock-info').innerHTML=stringifiedData;
+
+        cleanData(stringifiedData);
+    }
+
+    async function cleanData(dataIn) {
+//        console.log(dataIn);
+        var betterData = JSON.parse(dataIn);
+        console.log(betterData);
+        Object.keys(betterData).map(function (key) { betterData[key] = [key,key] });
+        console.log(betterData);
     }
 
     return (
