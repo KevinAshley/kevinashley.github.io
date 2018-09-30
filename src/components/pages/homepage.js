@@ -21,10 +21,10 @@ class Homepage extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="col-12 col-md-4">
+                    <Col className="col-12 col-md-4 mb-4">
                           <HomepageCardContainer />
                     </Col>
-                    <Col className="col-12 col-md-8">
+                    <Col className="col-12 col-md-8 mb-4">
                           <Card className="hp-slideshow-container">
                             <Slideshow />
                           </Card>

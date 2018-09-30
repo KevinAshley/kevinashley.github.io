@@ -10,7 +10,7 @@ class Stock extends Component {
 
   render() {
 
-
+    const google = window.google;
 
     async function getData(url) {
         const response = await fetch(url);
@@ -30,17 +30,45 @@ class Stock extends Component {
 
         var stringifiedData = JSON.stringify(innerData);
 
-        document.getElementById('stock-info').innerHTML=stringifiedData;
-
         cleanData(stringifiedData);
     }
 
     async function cleanData(dataIn) {
 //        console.log(dataIn);
         var betterData = JSON.parse(dataIn);
-        console.log(betterData);
-        Object.keys(betterData).map(function (key) { betterData[key] = [key,key] });
-        console.log(betterData);
+        var dataOut = Object.values(betterData);
+        for (var i=0; i < Object.keys(dataOut).length; i++) {
+            dataOut[i]['6. date'] = Object.keys(betterData)[i]
+            dataOut[i]['3. low'] = Number(Object.values(betterData)[i]['3. low'])
+            dataOut[i]['1. open'] = Number(Object.values(betterData)[i]['1. open'])
+            dataOut[i]['4. close'] = Number(Object.values(betterData)[i]['4. close'])
+            dataOut[i]['2. high'] = Number(Object.values(betterData)[i]['2. high'])
+        };
+        var k = JSON.parse(JSON.stringify( dataOut, ['6. date',"3. low","1. open","4. close","2. high"]));
+        var result = [];
+//        result = Object.values(k.reverse());
+        for (var i=0; i < Object.keys(k).length; i++) {
+            result[i] = Object.values(k[i])
+        };
+        result = result.reverse();
+
+        console.log(result);
+
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+        var data = google.visualization.arrayToDataTable(result, true);
+
+        var options = {
+        legend:'none'
+        };
+
+        var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+        }
+
     }
 
     return (
@@ -65,13 +93,7 @@ class Stock extends Component {
                 </Row>
                 <Row>
                     <Col className='mt-4'>
-                          <p>
-
-                                  <span id='stock-info'>
-
-                                  </span>
-
-                          </p>
+                                  <div id="chart_div"></div>
                     </Col>
                 </Row>
             </Container>
