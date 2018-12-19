@@ -47,8 +47,8 @@ class Stock extends Component {
         var k = JSON.parse(JSON.stringify( dataOut, ['6. date',"3. low","1. open","4. close","2. high"]));
         var result = [];
 //        result = Object.values(k.reverse());
-        for (var i=0; i < Object.keys(k).length; i++) {
-            result[i] = Object.values(k[i])
+        for (var j=0; j < Object.keys(k).length; j++) {
+            result[j] = Object.values(k[j])
         };
         result = result.reverse();
 
