@@ -4,6 +4,16 @@ import { Container, Row, Col, Jumbotron, Button, InputGroup, InputGroupAddon, In
 
 import $ from 'jquery';
 
+import Creatable from 'react-select/lib/Creatable';
+import CreatableSelect from 'react-select/lib/Creatable';
+
+
+const options = [
+  { value: 'MSFT', label: 'MSFT' },
+  { value: 'GOOG', label: 'GOOG' },
+  { value: 'AMD', label: 'AMD' }
+]
+
 class Stock extends Component {
 
 
@@ -61,7 +71,8 @@ class Stock extends Component {
         var data = google.visualization.arrayToDataTable(result, true);
 
         var options = {
-        legend:'none'
+        legend:'none',
+        chartArea:{left:0,top:0,width:"100%",height:"80%"}
         };
 
         var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
@@ -88,6 +99,13 @@ class Stock extends Component {
                           <InputGroup>
                             <Input id="ticker"/>
                             <InputGroupAddon addonType="append"><Button onClick={stockLookup}>Submit</Button></InputGroupAddon>
+                          </InputGroup>
+                          <InputGroup className="w-100 mt-2">
+                            <CreatableSelect
+                                className="creatable-select w-100"
+                                options={options}
+                                formatCreateLabel={(inputValue) => `` + inputValue}
+                            />
                           </InputGroup>
                     </Col>
                 </Row>
