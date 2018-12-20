@@ -65,3 +65,24 @@ nav.navbar-light .navbar-nav .nav-link {
 #ticker, .creatable-select {
     text-transform: uppercase;
 }
+
+@keyframes coin-flip {
+    from { transform: rotate(0deg); height: 200px; width: 200px;}
+    to { transform: rotate(360deg); height: 200px; width: 0px;}
+}
+
+.coin {
+    user-select: none;
+
+    &> img {
+        user-select: none;
+        display: none;
+        cursor: pointer;
+        &.active {
+            display: inline-block;
+        }
+        &.flipping {
+            animation: coin-flip infinite 0.1s linear;
+        }
+    }
+}

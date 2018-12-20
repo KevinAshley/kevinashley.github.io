@@ -10,7 +10,7 @@ import {
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import Homepage from './components/pages/homepage';
-import Subpage from './components/pages/subpage';
+import CoinFlip from './components/pages/coinFlip';
 import Stock from './components/pages/stock';
 import Navigation from './components/nav/navigation';
 
@@ -23,7 +23,7 @@ class App extends Component {
             <Header />
             <Navigation />
                 <Route exact path="/" component={Homepage} />
-                <Route exact path="/subpage" component={Subpage} />
+                <Route exact path="/coin-flip" component={CoinFlip} />
                 <Route exact path="/stock" component={Stock} />
             <Footer />
           </div>

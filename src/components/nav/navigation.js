@@ -45,7 +45,7 @@ class Navigation extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link to='/subpage' className='nav-link'>Subpage</Link>
+                <Link to='/coin-flip' className='nav-link'>Coin Flip</Link>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
