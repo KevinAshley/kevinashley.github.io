@@ -56,6 +56,9 @@ class Navigation extends Component {
               <NavItem>
                 <Link to='/coin-flip' onClick={this.close} className='nav-link'>Coin Flip</Link>
               </NavItem>
+              <NavItem>
+                <Link to='/cricket-scoreboard' onClick={this.close} className='nav-link'>Cricket Scoreboard</Link>
+              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Tools
