@@ -20,15 +20,24 @@ class Navigation extends Component {
     constructor(props) {
       super(props);
 
-      this.toggle = this.toggle.bind(this);
       this.state = {
         isOpen: false
       };
+
+      this.toggle = this.toggle.bind(this);
+      this.close = this.close.bind(this);
+
     }
     toggle() {
       this.setState({
         isOpen: !this.state.isOpen
       });
+    }
+
+    close() {
+        if (this.state.isOpen) {
+            this.toggle();
+        }
     }
 
 
@@ -45,7 +54,7 @@ class Navigation extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link to='/coin-flip' className='nav-link'>Coin Flip</Link>
+                <Link to='/coin-flip' onClick={this.close} className='nav-link'>Coin Flip</Link>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
@@ -53,7 +62,7 @@ class Navigation extends Component {
                 </DropdownToggle>
                 <DropdownMenu right>
 
-                  <Link to='/stock' className='dropdown-item'>Stock Lookup</Link>
+                  <Link to='/stock' onClick={this.close} className='dropdown-item'>Stock Lookup</Link>
 
                   <DropdownItem>
                     Option 2
