@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, Button, InputGroup, InputGroupAddon, Input } from 'reactstrap';
-
-import SpecialDropdown from '../misc/SpecialDropdown';
-import ReduxjunkContainer from '../misc/reduxjunk';
+import { Container, Row, Col, Jumbotron} from 'reactstrap';
 
 class CoinFlip extends Component {
 
@@ -62,8 +59,8 @@ class CoinFlip extends Component {
                     <Row>
                         <Col className="text-center">
                             <span onClick={this.coinFlip} className="coin">
-                                <img draggable="false" className={ flipping + heads } src="/images/heads.png" />
-                                <img draggable="false" className={ flipping + tails } src="/images/tails.png" />
+                                <img alt="heads" draggable="false" className={ flipping + heads } src="/images/heads.png" />
+                                <img alt="tails" draggable="false" className={ flipping + tails } src="/images/tails.png" />
                             </span>
                         </Col>
                     </Row>

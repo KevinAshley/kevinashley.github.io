@@ -88,8 +88,59 @@ nav.navbar-light .navbar-nav .nav-link {
 }
 .counter {
     min-width: 40px;
-}
-.target-label {
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
+    padding: 0 !important;
     font-family: 'ZCOOL KuaiLe', cursive;
+}
+.versus-text {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 1.5rem !important;
+    text-decoration: underline;
+}
+.target-label, .player-score {
+    font-size: 1.6rem;
+    font-family: 'ZCOOL KuaiLe', cursive;
+    .bullseye {
+        color: #3e3e3e;
+    }
+}
+.cricket-name-select__control {
+    font-size: 1.1rem;
+    font-family: 'ZCOOL KuaiLe', cursive;
+}
+.right-slash {
+    position: absolute;
+    font-size: 2.5rem;
+    line-height: 0;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+}
+.x-symbol {
+    font-size: 3rem;
+    line-height: 0;
+    top: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+}
+.circle-slash {
+    position: absolute;
+    font-size: 1.8rem;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.cricket-name-select__indicators {
+    display: none !important;
+}
+.cricket-name-select__placeholder, .cricket-name-select__single-value {
+    margin: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) !important;
+}
+.cricket-name-select__single-value {
+    margin-left: 0 !important;
+}
+.cricket-name-select__menu {
+    z-index: 10 !important;
 }
