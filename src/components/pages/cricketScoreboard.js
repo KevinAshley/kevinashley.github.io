@@ -90,7 +90,7 @@ class CricketScoreboard extends Component {
                     <Col className="w-100 text-right">
 
                         <ButtonGroup className="w-100">
-                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "decrease")}} ><i className="fas fa-minus-circle"></i></Button>
+                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "decrease")}} color="primary" ><i className="fas fa-minus-circle"></i></Button>
                             <Button className="btn-outline-dark disabled counter w-100">
                                 {
                                     this.state.opponentOne[index] === null || this.state.opponentOne[index] === 0 ? <span>&nbsp;</span> :
@@ -100,11 +100,11 @@ class CricketScoreboard extends Component {
                                     this.state.opponentOne[index] > 3 ? "+" + (this.state.opponentOne[index] - 3) : ""
                                 }
                             </Button>
-                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "increase")}} ><i className="fas fa-plus-circle"></i></Button>
+                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "increase")}} color="primary" ><i className="fas fa-plus-circle"></i></Button>
                         </ButtonGroup>
                     </Col>
 
-                    <Col className="target-label col-2">{ index === 6 ? <i className="bullseye far fa-dot-circle"></i> : items[index]['label']}</Col>
+                    <Col className={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "closed-out text-primary target-label col-2" : "target-label col-2"}>{ index === 6 ? <i className="bullseye far fa-dot-circle"></i> : items[index]['label']}</Col>
 
                     <Col className="w-100 text-right">
 
@@ -129,8 +129,8 @@ class CricketScoreboard extends Component {
 
         return (
 
-            <div className="page_container">
-                <Container className="pb-4">
+            <div className="page_container cricket-scoreboard-page-container">
+                <Container>
                     <Row>
                         <Col className='mt-4'>
                             <Jumbotron className="mt-2">
@@ -173,7 +173,7 @@ class CricketScoreboard extends Component {
                             </div>
                         </Col>
                     </Row>
-                    <Row className="mb-4 pb-4">
+                    <Row className="mb-4">
                         <Col className="col-5 player-score">
                             {this.opponentOneScore}
                         </Col>

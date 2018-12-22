@@ -9,14 +9,12 @@
   font-size: 4em;
 }
 
-.App-header {
-  background-color: #222;
+.app-header {
   height: 150px;
   padding: 20px;
-  color: #007bff;
 }
 
-.App-title {
+.app-title {
   font-family: 'Molle', cursive;
   font-size: 2.5em;
   margin-top: 0.25em;
@@ -103,6 +101,9 @@ nav.navbar-light .navbar-nav .nav-link {
     .bullseye {
         color: #3e3e3e;
     }
+    &.closed-out {
+        text-decoration: line-through;
+    }
 }
 .cricket-name-select__control {
     font-size: 1.1rem;
@@ -117,7 +118,7 @@ nav.navbar-light .navbar-nav .nav-link {
     transform: translateX(-50%) rotate(45deg);
 }
 .x-symbol {
-    font-size: 3rem;
+    font-size: 2.5rem;
     line-height: 0;
     top: 50%;
     transform: translateX(-50%);
@@ -137,6 +138,9 @@ nav.navbar-light .navbar-nav .nav-link {
     margin: auto;
     left: 50%;
     transform: translateX(-50%) translateY(-50%) !important;
+}
+.cricket-name-select__placeholder {
+    width: 100%;
 }
 .cricket-name-select__single-value {
     margin-left: 0 !important;
