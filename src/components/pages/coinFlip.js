@@ -52,7 +52,7 @@ class CoinFlip extends Component {
                         <Col className='mt-4'>
                             <Jumbotron className="mt-2">
                                 <h1>Flip A Coin</h1>
-                                <p>Heads or tails? Click on the coin to find out.</p>
+                                <p>Heads or tails?</p>
                             </Jumbotron>
                         </Col>
                     </Row>

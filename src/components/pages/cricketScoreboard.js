@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, Button, ButtonGroup } from 'reactstrap';
+import { Container, Row, Col, Jumbotron, Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import CreatableSelect from 'react-select/lib/Creatable';
 
@@ -22,14 +22,33 @@ class CricketScoreboard extends Component {
         this.state = {
             opponentOne: [],
             opponentTwo: [],
+            modalIsOpen: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.updateScores = this.updateScores.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.resetScoreboard = this.resetScoreboard.bind(this);
 
         this.opponentOneScore = 0;
         this.opponentTwoScore = 0;
 
+    }
+
+    resetScoreboard() {
+        this.setState({
+            opponentOne: []
+        });
+        this.setState({
+            opponentTwo: []
+        });
+        this.toggleModal();
+    }
+
+    toggleModal() {
+        this.setState({
+            modalIsOpen: !this.state.modalIsOpen
+        });
     }
 
     updateScores(opponent) {
@@ -41,10 +60,10 @@ class CricketScoreboard extends Component {
             }
         }
         console.log(opponent + ' score is ' + nextScore);
-        if (opponent == 'opponentOne') {
+        if (opponent === 'opponentOne') {
             this.opponentOneScore = nextScore;
         }
-        if (opponent == 'opponentTwo') {
+        if (opponent === 'opponentTwo') {
             this.opponentTwoScore = nextScore;
         }
     }
@@ -90,7 +109,7 @@ class CricketScoreboard extends Component {
                     <Col className="w-100 text-right">
 
                         <ButtonGroup className="w-100">
-                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "decrease")}} color="primary" ><i className="fas fa-minus-circle"></i></Button>
+                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "decrease")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "primary"} ><i className="fas fa-minus-circle"></i></Button>
                             <Button className="btn-outline-dark disabled counter w-100">
                                 {
                                     this.state.opponentOne[index] === null || this.state.opponentOne[index] === 0 ? <span>&nbsp;</span> :
@@ -100,16 +119,16 @@ class CricketScoreboard extends Component {
                                     this.state.opponentOne[index] > 3 ? "+" + (this.state.opponentOne[index] - 3) : ""
                                 }
                             </Button>
-                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "increase")}} color="primary" ><i className="fas fa-plus-circle"></i></Button>
+                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "increase")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "primary"} className="ml-0" ><i className="fas fa-plus-circle"></i></Button>
                         </ButtonGroup>
                     </Col>
 
-                    <Col className={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "closed-out text-primary target-label col-2" : "target-label col-2"}>{ index === 6 ? <i className="bullseye far fa-dot-circle"></i> : items[index]['label']}</Col>
+                    <Col className={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "closed-out text-danger target-label col-2" : "target-label col-2"}>{ index === 6 ? <i className="bullseye far fa-dot-circle"></i> : items[index]['label']}</Col>
 
                     <Col className="w-100 text-right">
 
                         <ButtonGroup className="w-100">
-                            <Button onClick={() => {this.handleChange(index, 'opponentTwo', "decrease")}} ><i className="fas fa-minus-circle"></i></Button>
+                            <Button onClick={() => {this.handleChange(index, 'opponentTwo', "decrease")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "secondary"}><i className="fas fa-minus-circle"></i></Button>
                             <Button className="btn-outline-dark disabled counter w-100">
                                 {
                                     this.state.opponentTwo[index] === null || this.state.opponentTwo[index] === 0 ? <span>&nbsp;</span> :
@@ -119,7 +138,7 @@ class CricketScoreboard extends Component {
                                     this.state.opponentTwo[index] > 3 ? "+" + (this.state.opponentTwo[index] - 3) : ""
                                 }
                             </Button>
-                            <Button onClick={() => {this.handleChange(index, 'opponentTwo', "increase")}} ><i className="fas fa-plus-circle"></i></Button>
+                            <Button onClick={() => {this.handleChange(index, 'opponentTwo', "increase")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "secondary"} className="ml-0"><i className="fas fa-plus-circle"></i></Button>
                         </ButtonGroup>
                     </Col>
 
@@ -136,6 +155,20 @@ class CricketScoreboard extends Component {
                             <Jumbotron className="mt-2">
                                 <h1>Cricket Scoreboard</h1>
                                 <p>Score your dart game with this mobile optimized cricket scoreboard.</p>
+
+                                    <Button color="light" onClick={this.toggleModal}>Reset Scoreboard</Button>
+
+                                    <Modal isOpen={this.state.modalIsOpen} toggle={this.toggleModal} >
+                                      <ModalHeader toggle={this.toggleModal}>Are you sure?</ModalHeader>
+                                      <ModalBody>
+                                        No undo...
+                                      </ModalBody>
+                                      <ModalFooter>
+                                        <Button color="danger" onClick={this.resetScoreboard}>Reset Scoreboard</Button>{' '}
+                                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                                      </ModalFooter>
+                                    </Modal>
+
                             </Jumbotron>
                         </Col>
                     </Row>
