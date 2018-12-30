@@ -42,6 +42,10 @@ class CricketScoreboard extends Component {
         this.setState({
             opponentTwo: []
         });
+
+        this.opponentOneScore = 0;
+        this.opponentTwoScore = 0;
+
         this.toggleModal();
     }
 
