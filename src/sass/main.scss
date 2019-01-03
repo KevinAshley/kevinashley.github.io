@@ -1,4 +1,6 @@
-// out: ../css/main.css, sourcemap: false, compress: true
+// compileCompressed: ../css/$1.css
+
+$primary: #027afa;
 
 .App {
   text-align: center;
@@ -30,7 +32,7 @@
 }
 
 nav.navbar {
-    background-color: #007bff !important;
+    background-color: $primary !important;
     box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
 }
 
@@ -149,3 +151,6 @@ nav.navbar-light .navbar-nav .nav-link {
 .cricket-name-select__menu {
     z-index: 10 !important;
 }
+
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";

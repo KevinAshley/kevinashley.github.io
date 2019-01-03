@@ -45,7 +45,7 @@ class Navigation extends Component {
   render() {
     return (
 
-        <Navbar color="dark" dark expand="md" className='sticky-top'>
+        <Navbar color="primary" dark expand="md" className='sticky-top'>
           <div className='container'>
           <Link to="/" className='navbar-brand'>HOME</Link>
 
@@ -61,19 +61,12 @@ class Navigation extends Component {
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Tools
+                  Stock Tools
                 </DropdownToggle>
                 <DropdownMenu right>
 
                   <Link to='/stock' onClick={this.close} className='dropdown-item'>Stock Lookup</Link>
 
-                  <DropdownItem>
-                    Option 2
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Reset
-                  </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
