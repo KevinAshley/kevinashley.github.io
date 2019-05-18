@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 
 import { Container, Row, Col, Jumbotron, Button, InputGroup, InputGroupAddon, Input } from 'reactstrap';
 
-import $ from 'jquery';
-
 import Creatable from 'react-select/lib/Creatable';
 import CreatableSelect from 'react-select/lib/Creatable';
 
+import { Chart } from "react-google-charts";
+
+const chartOptions = {
+    candlestick: {
+      fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+      risingColor: { strokeWidth: 0, fill: '#0f9d58' }, // green
+  },
+  chartArea:{left:0,top:10,width:'100%'},
+  vAxis: {textPosition: 'in'}
+}
 
 const options = [
   { value: 'MSFT', label: 'MSFT' },
@@ -18,9 +26,7 @@ class Stock extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            ticker: ""
-        };
+        this.state = {};
         this.handleSelection = this.handleSelection.bind(this);
         this.getData = this.getData.bind(this);
         this.cleanData = this.cleanData.bind(this);
@@ -28,107 +34,87 @@ class Stock extends Component {
 
     cleanData(dataIn) {
 //        console.log(dataIn);
-        var betterData = JSON.parse(dataIn);
-        var dataOut = Object.values(betterData);
-        for (var i=0; i < Object.keys(dataOut).length; i++) {
-            dataOut[i]['6. date'] = Object.keys(betterData)[i]
-            dataOut[i]['3. low'] = Number(Object.values(betterData)[i]['3. low'])
-            dataOut[i]['1. open'] = Number(Object.values(betterData)[i]['1. open'])
-            dataOut[i]['4. close'] = Number(Object.values(betterData)[i]['4. close'])
-            dataOut[i]['2. high'] = Number(Object.values(betterData)[i]['2. high'])
-        };
-        var k = JSON.parse(JSON.stringify( dataOut, ['6. date',"3. low","1. open","4. close","2. high"]));
-        var result = [];
-//        result = Object.values(k.reverse());
-        for (var j=0; j < Object.keys(k).length; j++) {
-            result[j] = Object.values(k[j])
-        };
-        result = result.reverse();
+        var betterData = JSON.parse(JSON.stringify(dataIn));
+        console.log("better data is ", betterData);
 
-        console.log(result);
+        var dataOut = [];
+
+
+        for (var i=0; i < Object.keys(betterData).length; i++) {
+            dataOut[i] = [];
+            dataOut[i][0] = Object.keys(betterData)[i]
+            dataOut[i][1] = Number(Object.values(betterData)[i]['3. low'])
+            dataOut[i][2] = Number(Object.values(betterData)[i]['1. open'])
+            dataOut[i][3] = Number(Object.values(betterData)[i]['4. close'])
+            dataOut[i][4] = Number(Object.values(betterData)[i]['2. high'])
+        };
+
+        dataOut[Object.keys(betterData).length] = [
+            "date",
+            "low",
+            "open",
+            "close",
+            "high"
+        ]
+
+        dataOut.reverse();
+
+        console.log("data out is ", dataOut);
+
+        return dataOut;
 
     }
 
-    getData(url) {
-        const response = fetch(url);
-        return response.json()
+    getData(url, ticker) {
+        fetch(url, {
+        method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(responseData => {
+            console.log(responseData);
+            return responseData;
+        })
+        .then(data => {
+            const innerData = data["Time Series (Daily)"];
+            const clonedData = JSON.parse(JSON.stringify(innerData));
+            console.log("cloned data is ", clonedData);
+            var chartData = this.cleanData(clonedData);
+            // var labels = [
+            //     "date",
+            //     "low",
+            //     "open",
+            //     "close",
+            //     "high"
+            // ];
+
+            this.setState({
+                "ticker" : ticker,
+                "stockData" : data,
+                "chartData" : chartData
+            });
+        })
+        .catch(err => {
+            console.log("fetch error" + err);
+        });
+
     }
 
     handleSelection(inputValue) {
-        console.log(inputValue.value);
-
-        // var ticker = inputValue.value;
-        // var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
-        // const data = this.getData(requestUrl);
-        // const innerData = data["Time Series (Daily)"];
-        // var stringifiedData = JSON.stringify(innerData);
-        // this.cleanData(stringifiedData);
+        var ticker = inputValue.value;
+        var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
+        console.log(requestUrl);
+        this.getData(requestUrl, ticker);
     }
-
 
     render() {
 
-        const google = window.google;
-
-        async function getData(url) {
-            const response = await fetch(url);
-            return response.json()
-        }
-
-        async function stockLookup() {
-
-            var ticker = document.getElementById('ticker').value;
-    //        console.log(ticker);
-            var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
-    //        console.log('the api url is ' + requestUrl);
-            const data = await getData(requestUrl);
-            const innerData = data["Time Series (Daily)"];
-    //        var arrayLength = Object.keys(innerData).length;
-    //        console.log(arrayLength);
-
-            var stringifiedData = JSON.stringify(innerData);
-
-            cleanData(stringifiedData);
-        }
-
-        async function cleanData(dataIn) {
-    //        console.log(dataIn);
-            var betterData = JSON.parse(dataIn);
-            var dataOut = Object.values(betterData);
-            for (var i=0; i < Object.keys(dataOut).length; i++) {
-                dataOut[i]['6. date'] = Object.keys(betterData)[i]
-                dataOut[i]['3. low'] = Number(Object.values(betterData)[i]['3. low'])
-                dataOut[i]['1. open'] = Number(Object.values(betterData)[i]['1. open'])
-                dataOut[i]['4. close'] = Number(Object.values(betterData)[i]['4. close'])
-                dataOut[i]['2. high'] = Number(Object.values(betterData)[i]['2. high'])
-            };
-            var k = JSON.parse(JSON.stringify( dataOut, ['6. date',"3. low","1. open","4. close","2. high"]));
-            var result = [];
-    //        result = Object.values(k.reverse());
-            for (var j=0; j < Object.keys(k).length; j++) {
-                result[j] = Object.values(k[j])
-            };
-            result = result.reverse();
-
-            console.log(result);
-
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(drawChart);
-
-            function drawChart() {
-            var data = google.visualization.arrayToDataTable(result, true);
-
-            var options = {
-            legend:'none',
-            chartArea:{left:0,top:0,width:"100%",height:"80%"}
-            };
-
-            var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-            chart.draw(data, options);
-            }
-
-        }
+        console.log('kevin says the state is ', this.state );
 
         return (
 
@@ -144,13 +130,10 @@ class Stock extends Component {
                     </Row>
                     <Row>
                         <Col>
-                              <InputGroup>
-                                <Input id="ticker"/>
-                                <InputGroupAddon addonType="append"><Button onClick={stockLookup}>Submit</Button></InputGroupAddon>
-                              </InputGroup>
                               <InputGroup className="w-100 mt-2">
                                 <CreatableSelect
-                                    className="creatable-select w-100"
+                                    className="w-100"
+                                    classNamePrefix="react-select"
                                     options={options}
                                     formatCreateLabel={(inputValue) => `` + inputValue}
                                     onChange={this.handleSelection}
@@ -158,11 +141,62 @@ class Stock extends Component {
                               </InputGroup>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className='mt-4'>
-                                      <div id="chart_div"></div>
-                        </Col>
-                    </Row>
+
+                        {
+                            this.state.chartData &&
+                            <React.Fragment>
+                                <Row className="mt-3">
+                                    <Col className="col-6 col-xl-3">
+                                        <div className="card card-body my-2">
+                                            <h4>
+                                                {this.state.chartData[this.state.chartData.length - 1][1]}
+                                            </h4>
+                                            Last Low
+                                        </div>
+                                    </Col>
+                                    <Col className="col-6 col-xl-3">
+                                        <div className="card card-body my-2">
+                                            <h4>
+                                                {this.state.chartData[this.state.chartData.length - 1][2]}
+                                            </h4>
+                                            Last Open
+                                        </div>
+                                    </Col>
+                                    <Col className="col-6 col-xl-3">
+                                        <div className="card card-body my-2">
+                                            <h4>
+                                                {this.state.chartData[this.state.chartData.length - 1][3]}
+                                            </h4>
+                                            Last Close
+                                        </div>
+                                    </Col>
+                                    <Col className="col-6 col-xl-3">
+                                        <div className="card card-body my-2">
+                                            <h4>
+                                                {this.state.chartData[this.state.chartData.length - 1][4]}
+                                            </h4>
+                                            Last High
+                                        </div>
+                                    </Col>
+
+
+                                </Row>
+                                <Row>
+                                    <Col className='mt-4'>
+
+                                    <Chart
+                                      chartType="CandlestickChart"
+                                      loader={<div>Loading Chart</div>}
+                                      data={this.state.chartData}
+                                      options={ chartOptions }
+                                      width="100%"
+                                      height="500px"
+                                    />
+                                    </Col>
+                                </Row>
+                            </React.Fragment>
+                        }
+
                 </Container>
             </div>
 
