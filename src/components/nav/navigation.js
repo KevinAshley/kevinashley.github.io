@@ -59,14 +59,15 @@ class Navigation extends Component {
               <NavItem>
                 <Link to='/cricket-scoreboard' onClick={this.close} className='nav-link'>Cricket Scoreboard</Link>
               </NavItem>
+              <NavItem>
+                <Link to='/stock' onClick={this.close} className='nav-link'>Stock Lookup</Link>
+              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Stock Tools
+                  Account
                 </DropdownToggle>
                 <DropdownMenu right>
-
-                  <Link to='/stock' onClick={this.close} className='dropdown-item'>Stock Lookup</Link>
-
+                    <Link to='/login' onClick={this.close} className='dropdown-item'>Login</Link>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
