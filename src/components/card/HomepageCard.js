@@ -5,15 +5,15 @@ import { Card, CardImg, CardBody, CardTitle, CardText, Button } from 'reactstrap
 import { connect } from 'react-redux';
 
 import {
-  activateGeod,
-  closeGeod,
+  changeCardAppearance
 } from '../../redux';
 
 class HomepageCard extends Component {
   render() {
+
     return (
         <Card className="hp-card-container">
-          {this.props.geod.title ?
+          {this.props.cardState.changed ?
             <CardImg top width="100%" src="images/owl.jpeg" alt="Card image cap" />
           :
             <CardImg top width="100%" src="images/owl.jpeg" alt="Card image cap" className="invert"/>
@@ -25,11 +25,11 @@ class HomepageCard extends Component {
                 Visit another page and return to find the card in the same state you left it.
             </CardText>
 
-            {this.props.geod.title ?
-              <Button onClick={this.props.closeGeod} color="danger">
+            {this.props.cardState.changed ?
+              <Button onClick={() => this.props.changeCardAppearance({changed: false})} color="secondary">
                 Unclick me
               </Button> :
-              <Button onClick={() => this.props.activateGeod({ title: 'Redux that!' })} color="primary">
+              <Button onClick={() => this.props.changeCardAppearance({changed: true})} color="primary">
                 Click me!
               </Button>
             }
@@ -40,13 +40,10 @@ class HomepageCard extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  geod: state.geod,
-});
+const mapStateToProps = (state, ownProps) => (state);
 
 const mapDispatchToProps = {
-  activateGeod,
-  closeGeod,
+  changeCardAppearance
 };
 
 const HomepageCardContainer = connect(

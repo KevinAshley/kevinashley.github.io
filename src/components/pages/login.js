@@ -45,7 +45,7 @@ class login extends Component {
                                     <Label for="examplePassword">Password</Label>
                                     <Input innerRef={this.passwordRef} type="password" name="password" id="examplePassword" placeholder="Enter password here" />
                                 </FormGroup>
-                                <Button type="submit" block>Submit</Button>
+                                <Button type="submit" className="my-4" block>Submit</Button>
                             </Form>
                         </Col>
                     </Row>

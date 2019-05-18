@@ -34,11 +34,9 @@ class CoinFlip extends Component {
                 coinIsHeads: false
             })
         }
-        console.log('coin has flipped');
     }
 
     render() {
-        console.log(this.state.coinIsHeads);
 
         const flipping = this.state.coinIsFlipping ? " flipping " : "" ;
         const heads = this.state.coinIsHeads ? " active " : "";

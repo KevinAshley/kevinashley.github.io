@@ -5,29 +5,25 @@ import {
 } from 'redux';
 
 // actions.js
-export const activateGeod = geod => ({
-  type: 'ACTIVATE_GEOD',
-  geod,
-});
 
-export const closeGeod = () => ({
-  type: 'CLOSE_GEOD',
+export const changeCardAppearance = (input) => ({
+  type: 'changed',
+  changed: input
 });
 
 // reducers.js
-export const geod = (state = {}, action) => {
-  switch (action.type) {
-    case 'ACTIVATE_GEOD':
-      return action.geod;
-    case 'CLOSE_GEOD':
-      return {};
-    default:
-      return state;
-  }
+
+export const cardState = (state = {}, action) => {
+    switch (action.type) {
+        case 'changed':
+            return action.changed;
+        default:
+            return state;
+    }
 };
 
 export const reducers = combineReducers({
-  geod,
+  cardState
 });
 
 // store.js
