@@ -5,15 +5,14 @@ import {
   Navbar,
   Button,
   Nav,
-  NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  NavItem
+} from 'reactstrap';
 
 import {
   Link
 } from 'react-router-dom';
+
+import { connect } from 'react-redux';
 
 class Navigation extends Component {
 
@@ -47,12 +46,37 @@ class Navigation extends Component {
 
         <Navbar color="primary" dark expand="md" className='sticky-top'>
           <div className='container'>
-          <Link to="/" className='navbar-brand'>HOME</Link>
+          <Link to="/" className='navbar-brand'>HOME
+          </Link>
+
+          {this.props.loginState.loggedIn
+              ?
+              <Nav className="ml-auto mr-3" navbar>
+                  <NavItem>
+                      <Link to="/login" className='nav-link'>
+                          Welcome, Kevin
+                          <i className="fas fa-user-check ml-2"></i>
+                      </Link>
+                  </NavItem>
+              </Nav>
+              :
+              <Nav className="ml-auto mr-3" navbar>
+                  <NavItem>
+                      <Link  onClick={this.close} to="/login" className='nav-link'>
+                          Login
+                          <i className="fas fa-user ml-2"></i>
+                      </Link>
+                  </NavItem>
+              </Nav>
+          }
+
+
+
 
           <Button onClick={this.toggle} type="button" className="navbar-toggler"><i className="fas fa-bars"></i></Button>
 
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
+          <Collapse isOpen={this.state.isOpen} className="flex-grow-0" navbar>
+            <Nav navbar>
               <NavItem>
                 <Link to='/coin-flip' onClick={this.close} className='nav-link'>Coin Flip</Link>
               </NavItem>
@@ -62,14 +86,6 @@ class Navigation extends Component {
               <NavItem>
                 <Link to='/stock' onClick={this.close} className='nav-link'>Stock Lookup</Link>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Account
-                </DropdownToggle>
-                <DropdownMenu right>
-                    <Link to='/login' onClick={this.close} className='dropdown-item'>Login</Link>
-                </DropdownMenu>
-              </UncontrolledDropdown>
             </Nav>
           </Collapse>
           </div>
@@ -79,4 +95,10 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation;
+const mapStateToProps = (state, ownProps) => (state);
+
+const NavigationContainer = connect(
+  mapStateToProps
+)(Navigation);
+
+export default NavigationContainer;

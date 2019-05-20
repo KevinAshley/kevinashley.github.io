@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Container, Row, Col, Jumbotron, Form, FormGroup, Input, Button, Alert } from 'reactstrap';
+
+import { connect } from 'react-redux';
+
+import {
+  changeLoginState
+} from '../../redux';
 
 class login extends Component {
 
@@ -13,14 +19,29 @@ class login extends Component {
         this.passwordRef = React.createRef();
 
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        // ghetto auth needs to be replaced
+        this.email = "fake@email.com";
+        this.password = "kevinross";
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.emailRef.current.value, this.passwordRef.current.value);
+        // console.log(this.emailRef.current.value, this.passwordRef.current.value);
+        if (this.emailRef.current.value == this.email && this.passwordRef.current.value == this.password) {
+            this.props.changeLoginState({loggedIn: true});
+            this.setState({
+                loginFailed: false
+            });
+        } else {
+            this.setState({
+                loginFailed: true
+            });
+        }
     }
 
     render() {
+        // console.log(this.props.loginState.loggedIn);
 
         return (
 
@@ -34,21 +55,39 @@ class login extends Component {
                             </Jumbotron>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col>
-                            <Form onSubmit={this.handleSubmit} className="text-left">
-                                <FormGroup>
-                                    <Label for="exampleEmail">Email</Label>
-                                    <Input innerRef={this.emailRef} type="email" name="email" id="exampleEmail" placeholder="Enter email here" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="examplePassword">Password</Label>
-                                    <Input innerRef={this.passwordRef} type="password" name="password" id="examplePassword" placeholder="Enter password here" />
-                                </FormGroup>
-                                <Button type="submit" className="my-4" block>Submit</Button>
-                            </Form>
-                        </Col>
-                    </Row>
+                    {
+                        this.state.loginFailed ?
+                        <Alert color="danger">
+                            Your email or password is incorrect...
+                        </Alert>
+                        : ""
+                    }
+
+                    {
+                        this.props.loginState.loggedIn ?
+                        <Alert color="success">
+                            You are signed in
+                        </Alert>
+                        :
+                        <Row>
+                            <Col>
+                                <Form onSubmit={this.handleSubmit} className="text-left">
+                                    <FormGroup>
+
+                                        <Input innerRef={this.emailRef} type="email" name="email" id="exampleEmail" placeholder="Email" />
+                                    </FormGroup>
+                                    <FormGroup>
+
+                                        <Input innerRef={this.passwordRef} type="password" name="password" id="examplePassword" placeholder="Password" />
+                                    </FormGroup>
+                                    <Button type="submit" className="my-4" block>Submit</Button>
+                                </Form>
+                            </Col>
+                        </Row>
+
+                    }
+
+
                 </Container>
             </div>
 
@@ -56,4 +95,15 @@ class login extends Component {
     }
 }
 
-export default login;
+const mapStateToProps = (state, ownProps) => (state);
+
+const mapDispatchToProps = {
+  changeLoginState
+};
+
+const loginContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(login);
+
+export default loginContainer;

@@ -31,17 +31,26 @@ $primary: #da1700;
   to { transform: rotate(360deg); }
 }
 
-nav.navbar {
-    background-color: $primary !important;
-    box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+// nav.navbar {
+//     background-color: $primary !important;
+//     box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+// }
+//
+// nav.navbar-light .navbar-nav .nav-link {
+//     color: #000000;
+// }
+//
+// .navbar-dark .navbar-nav a.nav-link, .navbar .container .navbar-toggler {
+//     color: #ffffff;
+// }
+
+nav.navbar-dark .navbar-nav .nav-link {
+    color: #fff;
 }
 
-nav.navbar-light .navbar-nav .nav-link {
-    color: #000000;
-}
-
-.navbar-dark .navbar-nav a.nav-link, .navbar .container .navbar-toggler {
-    color: #ffffff;
+nav.navbar-dark .navbar-toggler {
+    color: #fff;
+    border-color: rgba(255,255,255,0.5);
 }
 
 .hp-slideshow-container .carousel-item {

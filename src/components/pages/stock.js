@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, Button, InputGroup, InputGroupAddon, Input } from 'reactstrap';
+import { Container, Row, Col, Jumbotron, InputGroup } from 'reactstrap';
 
-import Creatable from 'react-select/lib/Creatable';
 import CreatableSelect from 'react-select/lib/Creatable';
 
 import { Chart } from "react-google-charts";
@@ -35,7 +34,7 @@ class Stock extends Component {
     cleanData(dataIn) {
 //        console.log(dataIn);
         var betterData = JSON.parse(JSON.stringify(dataIn));
-        console.log("better data is ", betterData);
+        // console.log("better data is ", betterData);
 
         var dataOut = [];
 
@@ -59,7 +58,7 @@ class Stock extends Component {
 
         dataOut.reverse();
 
-        console.log("data out is ", dataOut);
+        // console.log("data out is ", dataOut);
 
         return dataOut;
 
@@ -77,13 +76,13 @@ class Stock extends Component {
             return response.json();
         })
         .then(responseData => {
-            console.log(responseData);
+            // console.log(responseData);
             return responseData;
         })
         .then(data => {
             const innerData = data["Time Series (Daily)"];
             const clonedData = JSON.parse(JSON.stringify(innerData));
-            console.log("cloned data is ", clonedData);
+            // console.log("cloned data is ", clonedData);
             var chartData = this.cleanData(clonedData);
             // var labels = [
             //     "date",
@@ -108,13 +107,13 @@ class Stock extends Component {
     handleSelection(inputValue) {
         var ticker = inputValue.value;
         var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
-        console.log(requestUrl);
+        // console.log(requestUrl);
         this.getData(requestUrl, ticker);
     }
 
     render() {
 
-        console.log('kevin says the state is ', this.state );
+        // console.log('kevin says the state is ', this.state );
 
         return (
 

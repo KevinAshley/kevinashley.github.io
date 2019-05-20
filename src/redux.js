@@ -7,23 +7,40 @@ import {
 // actions.js
 
 export const changeCardAppearance = (input) => ({
-  type: 'changed',
+  type: 'changedCard',
   changed: input
 });
+
+export const changeLoginState = (input) => ({
+    type: 'changedLogin',
+    loggedIn: input
+})
 
 // reducers.js
 
 export const cardState = (state = {}, action) => {
     switch (action.type) {
-        case 'changed':
+        case 'changedCard':
             return action.changed;
         default:
             return state;
     }
 };
 
+export const loginState = (state = {}, action) => {
+    switch (action.type) {
+        case 'changedLogin':
+            return action.loggedIn;
+        default:
+            return state;
+    }
+};
+
+
+
 export const reducers = combineReducers({
-  cardState
+  cardState,
+  loginState
 });
 
 // store.js
