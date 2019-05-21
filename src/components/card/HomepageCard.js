@@ -14,9 +14,9 @@ class HomepageCard extends Component {
     return (
         <Card className="hp-card-container">
           {this.props.cardState.changed ?
-            <CardImg top width="100%" src="images/owl.jpeg" alt="Card image cap" />
-          :
             <CardImg top width="100%" src="images/owl.jpeg" alt="Card image cap" className="invert"/>
+          :
+            <CardImg top width="100%" src="images/owl.jpeg" alt="Card image cap" />
           }
           <CardBody>
             <CardTitle>Card With Redux State</CardTitle>

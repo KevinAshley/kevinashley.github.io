@@ -5,7 +5,7 @@ class Header extends Component {
     return (
         <header className="app-header text-primary bg-dark">
           <i className="fas fa-compact-disc App-logo"></i>
-          <h1 className="app-title">Kevin Ashley</h1>
+          <h1 className="app-title text-light">Kevin Ashley</h1>
         </header>
     );
   }
