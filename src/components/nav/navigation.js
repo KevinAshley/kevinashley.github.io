@@ -52,10 +52,12 @@ class Navigation extends Component {
         <Navbar color="primary" dark className='sticky-top p-0'>
           <div className='w-100'>
               <Container className="main-bar w-100 d-flex px-3 py-2">
-                  <Link to="/" className='navbar-brand'>
+                  <Link to="/" onClick={this.close} className='navbar-brand'>
                       HOME
                   </Link>
-                  <Account />
+                  <Account
+                      close={this.close}
+                  />
                   <Button onClick={this.toggle} type="button" className="navbar-toggler"><i className="fas fa-bars"></i></Button>
               </Container>
 

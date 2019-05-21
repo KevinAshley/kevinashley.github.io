@@ -14,7 +14,12 @@ export const changeCardAppearance = (input) => ({
 export const changeLoginState = (input) => ({
     type: 'changedLogin',
     loggedIn: input
-})
+});
+
+export const changeAuthentication = (input) => ({
+    type: 'changedAuth',
+    authenticating: input
+});
 
 // reducers.js
 
@@ -31,6 +36,15 @@ export const loginState = (state = {}, action) => {
     switch (action.type) {
         case 'changedLogin':
             return action.loggedIn;
+        default:
+            return state;
+    }
+};
+
+export const authState = (state = {}, action) => {
+    switch (action.type) {
+        case 'changedAuth':
+            return action.authenticating;
         default:
             return state;
     }

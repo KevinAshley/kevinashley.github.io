@@ -9,6 +9,9 @@
 # production
 /build
 
+# firebase and other API keys
+/src/sensitiveData
+
 # misc
 .DS_Store
 .env.local

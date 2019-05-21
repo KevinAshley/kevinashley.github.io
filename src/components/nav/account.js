@@ -13,31 +13,55 @@ import {
 } from 'react-router-dom';
 
 import { connect } from 'react-redux';
+import {
+  changeLoginState
+} from '../../redux';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from "firebase/app";
 import "firebase/auth";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD1lvWoJbwf84DzZ50Add1cVWAk8D-rwSw",
-  authDomain: "kevinashley-c0fcb.firebaseapp.com",
-  databaseURL: "https://kevinashley-c0fcb.firebaseio.com",
-  projectId: "kevinashley-c0fcb",
-  storageBucket: "kevinashley-c0fcb.appspot.com",
-  messagingSenderId: "592064038980",
-  appId: "1:592064038980:web:7e9132c92a40b8d8"
-};
 
 
 class Account extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+          authenticationVerified: false
+      };
+
+      this.updateLoginStatus = this.updateLoginStatus.bind(this);
+      this.handleLoginIconClick = this.handleLoginIconClick.bind(this);
     }
 
-    componentDidMount() {
-        firebase.initializeApp(firebaseConfig);
+    handleLoginIconClick() {
+        this.updateLoginStatus();
+        this.props.close();
+    }
+
+    updateLoginStatus() {
+        var user = firebase.auth().currentUser;
+        if (user) {
+            // User is signed in.
+            console.log('firebase user login');
+            if (!this.props.loginState.loggedIn) {
+                  this.props.changeLoginState({
+                      loggedIn: true
+                  })
+            }
+        } else {
+            // No user is signed in.
+            console.log('no firebase login');
+            if (this.props.loginState.loggedIn) {
+                this.props.changeLoginState({
+                    loggedIn: false
+                });
+            }
+        }
+    }
+
+    componentDidUpdate() {
+        this.updateLoginStatus();
     }
 
     render() {
@@ -49,7 +73,7 @@ class Account extends Component {
                         ?
                         <Nav className="ml-auto mr-3" navbar>
                             <NavItem>
-                                <Link to="/login" className='nav-link'>
+                                <Link onClick={this.handleLoginIconClick} to="/login" className='nav-link'>
                                     Welcome, Kevin
                                     <i className="fas fa-user-check ml-2"></i>
                                 </Link>
@@ -58,7 +82,7 @@ class Account extends Component {
                         :
                         <Nav className="ml-auto mr-3" navbar>
                             <NavItem>
-                                <Link  onClick={this.close} to="/login" className='nav-link'>
+                                <Link onClick={this.handleLoginIconClick} to="/login" className='nav-link'>
                                     Login
                                     <i className="fas fa-user ml-2"></i>
                                 </Link>
@@ -73,8 +97,13 @@ class Account extends Component {
 
 const mapStateToProps = (state, ownProps) => (state);
 
+const mapDispatchToProps = {
+  changeLoginState
+};
+
 const AccountContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Account);
 
 export default AccountContainer;

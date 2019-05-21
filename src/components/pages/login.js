@@ -5,8 +5,13 @@ import { Container, Row, Col, Jumbotron, Form, FormGroup, Input, Button, Alert }
 import { connect } from 'react-redux';
 
 import {
-  changeLoginState
+  changeLoginState,
+  changeAuthentication
 } from '../../redux';
+
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 class login extends Component {
 
@@ -20,22 +25,35 @@ class login extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        // ghetto auth needs to be replaced
-        this.email = "fake@email.com";
-        this.password = "kevinross";
+        this.handleSignOut = this.handleSignOut.bind(this);
+
+    }
+
+    handleSignOut() {
+        firebase.auth().signOut().then(function() {
+          // Sign-out successful.
+          console.log("Sign-out successful.");
+
+        }).catch(function(error) {
+          // An error happened.
+          console.log("An error happened", error);
+        });
+
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        // console.log(this.emailRef.current.value, this.passwordRef.current.value);
-        if (this.emailRef.current.value == this.email && this.passwordRef.current.value == this.password) {
-            this.props.changeLoginState({loggedIn: true});
-            this.setState({
-                loginFailed: false
+
+        if (!this.props.loginState.loggedIn) {
+
+            firebase.auth().signInWithEmailAndPassword(this.emailRef.current.value, this.passwordRef.current.value).catch(function(error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // ...
             });
-        } else {
-            this.setState({
-                loginFailed: true
+            this.props.changeAuthentication({
+                authenticating: true
             });
         }
     }
@@ -47,27 +65,44 @@ class login extends Component {
 
             <div className="page_container">
                 <Container>
-                    <Row>
-                        <Col className='mt-4'>
-                            <Jumbotron className="mt-2">
-                                <h1>Log In</h1>
-                                <p>Sign in to access advanced features</p>
-                            </Jumbotron>
-                        </Col>
-                    </Row>
                     {
-                        this.state.loginFailed ?
-                        <Alert color="danger">
-                            Your email or password is incorrect...
-                        </Alert>
-                        : ""
+                        this.props.loginState.loggedIn ?
+                        <Row>
+                            <Col className='mt-4'>
+                                <Jumbotron className="mt-2">
+                                    <h1>Signed In</h1>
+                                    <p>Welcome back, Kevin</p>
+                                </Jumbotron>
+                            </Col>
+                        </Row>
+                        :
+                        <Row>
+                            <Col className='mt-4'>
+                                <Jumbotron className="mt-2">
+                                    <h1>Log In</h1>
+                                    <p>Sign in to access advanced features</p>
+                                </Jumbotron>
+                            </Col>
+                        </Row>
+                    }
+
+                    {
+                        // !this.props.loginState.loggedIn ?
+                        // <Alert color="danger">
+                        //     Incorrect email or password
+                        // </Alert>
+                        // : ""
                     }
 
                     {
                         this.props.loginState.loggedIn ?
-                        <Alert color="success">
-                            You are signed in
-                        </Alert>
+                        <Row>
+                            <Col>
+                                <Button onClick={ this.handleSignOut } block>
+                                    Sign out
+                                </Button>
+                            </Col>
+                        </Row>
                         :
                         <Row>
                             <Col>
@@ -98,7 +133,8 @@ class login extends Component {
 const mapStateToProps = (state, ownProps) => (state);
 
 const mapDispatchToProps = {
-  changeLoginState
+  changeLoginState,
+  changeAuthentication
 };
 
 const loginContainer = connect(
