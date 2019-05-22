@@ -14,75 +14,60 @@ import {
 
 import { connect } from 'react-redux';
 import {
+  changeAuthentication,
   changeLoginState
 } from '../../redux';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import firebaseConfig from '../../sensitiveData/firebaseConfig';
 
+firebase.initializeApp(firebaseConfig);
 
 class Account extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {
-          authenticationVerified: false
-      };
 
-      this.updateLoginStatus = this.updateLoginStatus.bind(this);
-      this.handleLoginIconClick = this.handleLoginIconClick.bind(this);
+      this.handleClick = this.handleClick.bind(this);
     }
 
-    handleLoginIconClick() {
-        this.updateLoginStatus();
+    handleClick() {
         this.props.close();
     }
 
-    updateLoginStatus() {
-        var user = firebase.auth().currentUser;
-        if (user) {
-            // User is signed in.
-            console.log('firebase user login');
-            if (!this.props.loginState.loggedIn) {
-                  this.props.changeLoginState({
-                      loggedIn: true
-                  })
-            }
-        } else {
-            // No user is signed in.
-            console.log('no firebase login');
-            if (this.props.loginState.loggedIn) {
-                this.props.changeLoginState({
-                    loggedIn: false
-                });
-            }
-        }
-    }
-
-    componentDidUpdate() {
-        this.updateLoginStatus();
-    }
-
     render() {
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in.
+                this.props.changeLoginState(true);
+            } else {
+                // No user is signed in.
+                this.props.changeLoginState(false);
+            }
+        });
+
         return (
 
             <React.Fragment>
                 {
-                    this.props.loginState.loggedIn
+                    // check if the user is defined
+                    this.props.loggedIn
                         ?
-                        <Nav className="ml-auto mr-3" navbar>
+                        <Nav className="ml-auto px-2 mr-2" navbar>
                             <NavItem>
-                                <Link onClick={this.handleLoginIconClick} to="/login" className='nav-link'>
+                                <Link onClick={this.handleClick} to="/login" className='nav-link px-2'>
                                     Welcome, Kevin
                                     <i className="fas fa-user-check ml-2"></i>
                                 </Link>
                             </NavItem>
                         </Nav>
                         :
-                        <Nav className="ml-auto mr-3" navbar>
+                        <Nav className="ml-auto mr-2" navbar>
                             <NavItem>
-                                <Link onClick={this.handleLoginIconClick} to="/login" className='nav-link'>
+                                <Link onClick={this.handleClick} to="/login" className='nav-link px-2'>
                                     Login
                                     <i className="fas fa-user ml-2"></i>
                                 </Link>
@@ -98,6 +83,7 @@ class Account extends Component {
 const mapStateToProps = (state, ownProps) => (state);
 
 const mapDispatchToProps = {
+  changeAuthentication,
   changeLoginState
 };
 

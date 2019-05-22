@@ -16,17 +16,7 @@ import CricketScoreboard from './components/pages/cricketScoreboard';
 import Stock from './components/pages/stock';
 import Login from './components/pages/login';
 
-import * as firebase from "firebase/app";
-import "firebase/auth";
-
-import firebaseConfig from './sensitiveData/firebaseConfig';
-
-
 class App extends Component {
-
-  componentDidMount() {
-      firebase.initializeApp(firebaseConfig);
-  }
 
   render() {
     return (

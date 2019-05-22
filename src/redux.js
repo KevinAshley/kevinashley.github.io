@@ -12,7 +12,7 @@ export const changeCardAppearance = (input) => ({
 });
 
 export const changeLoginState = (input) => ({
-    type: 'changedLogin',
+    type: 'changedLoginState',
     loggedIn: input
 });
 
@@ -32,21 +32,21 @@ export const cardState = (state = {}, action) => {
     }
 };
 
-export const loginState = (state = {}, action) => {
+export const loggedIn = (state = {}, action) => {
     switch (action.type) {
-        case 'changedLogin':
+        case 'changedLoginState':
             return action.loggedIn;
         default:
-            return state;
+            return false;
     }
 };
 
-export const authState = (state = {}, action) => {
+export const authenticating = (state = {}, action) => {
     switch (action.type) {
         case 'changedAuth':
             return action.authenticating;
         default:
-            return state;
+            return false;
     }
 };
 
@@ -54,7 +54,8 @@ export const authState = (state = {}, action) => {
 
 export const reducers = combineReducers({
   cardState,
-  loginState
+  loggedIn,
+  authenticating
 });
 
 // store.js
