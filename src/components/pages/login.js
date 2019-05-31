@@ -40,13 +40,25 @@ class login extends Component {
     handleSignIn(event) {
         event.preventDefault();
 
-        firebase.auth().signInWithEmailAndPassword(this.emailRef.current.value, this.passwordRef.current.value).catch(function(error) {
+        // display error for incorrect password
+        this.setState({
+            showLoginError: false
+        });
+
+        firebase.auth().signInWithEmailAndPassword(this.emailRef.current.value, this.passwordRef.current.value).catch((error) => {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
-            console.log("an error occurred", error.code, error.message)
+            console.log("an error occurred", error.code, error.message);
+
+            // display error for incorrect password
+            this.setState({
+                showLoginError: true
+            });
         });
+
+        this.props.changeAuthentication(true);
     }
 
     render() {
@@ -74,6 +86,15 @@ class login extends Component {
                                 </Jumbotron>
                             </Col>
                         </Row>
+                    }
+
+                    {
+                        this.state.showLoginError ?
+                        <Alert color="danger">
+                            Incorrect Login Info
+                        </Alert>
+                        :
+                        ""
                     }
 
                     {

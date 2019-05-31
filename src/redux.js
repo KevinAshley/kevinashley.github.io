@@ -45,6 +45,8 @@ export const authenticating = (state = {}, action) => {
     switch (action.type) {
         case 'changedAuth':
             return action.authenticating;
+        case 'changedLoginState':
+            return false;
         default:
             return false;
     }
