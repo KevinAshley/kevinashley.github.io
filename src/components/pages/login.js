@@ -17,7 +17,9 @@ class login extends Component {
     constructor(props) {
         super(props);
         // Set the state directly. Use props if necessary.
-        this.state = {};
+        this.state = {
+            errorMessage: ""
+        };
 
         this.emailRef = React.createRef();
         this.passwordRef = React.createRef();
@@ -50,11 +52,12 @@ class login extends Component {
             var errorCode = error.code;
             var errorMessage = error.message;
             // ...
-            console.log("an error occurred", error.code, error.message);
+            console.log("an error occurred", errorCode, errorMessage);
 
             // display error for incorrect password
             this.setState({
-                showLoginError: true
+                showLoginError: true,
+                errorMessage: errorMessage
             });
         });
 
@@ -91,7 +94,9 @@ class login extends Component {
                     {
                         this.state.showLoginError ?
                         <Alert color="danger">
-                            Incorrect Login Info
+                            {
+                                "Error. " + this.state.errorMessage
+                            }
                         </Alert>
                         :
                         ""
