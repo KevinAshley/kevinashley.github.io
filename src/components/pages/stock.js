@@ -6,11 +6,16 @@ import CreatableSelect from 'react-select/lib/Creatable';
 
 import { Chart } from "react-google-charts";
 
-const chartOptions = {
-    candlestick: {
-      fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
-      risingColor: { strokeWidth: 0, fill: '#0f9d58' }, // green
+const candlestickChartOptions = {
+  candlestick: {
+    fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+    risingColor: { strokeWidth: 0, fill: '#0f9d58' } // green
   },
+  chartArea:{left:0,top:10,width:'100%',height:'300'},
+  vAxis: {textPosition: 'in'}
+}
+
+const volumeChartOptions = {
   chartArea:{left:0,top:10,width:'100%'},
   vAxis: {textPosition: 'in'}
 }
@@ -28,16 +33,38 @@ class Stock extends Component {
         this.state = {};
         this.handleSelection = this.handleSelection.bind(this);
         this.getData = this.getData.bind(this);
-        this.cleanData = this.cleanData.bind(this);
+        this.formatCandlestickData = this.formatCandlestickData.bind(this);
+        this.formatVolumeData = this.formatVolumeData.bind(this);
     }
 
-    cleanData(dataIn) {
-//        console.log(dataIn);
+    formatVolumeData(dataIn) {
         var betterData = JSON.parse(JSON.stringify(dataIn));
         // console.log("better data is ", betterData);
 
         var dataOut = [];
 
+        for (var i=0; i < Object.keys(betterData).length; i++) {
+            dataOut[i] = [];
+            dataOut[i][0] = Object.keys(betterData)[i]
+            dataOut[i][1] = Number(Object.values(betterData)[i]['5. volume'])
+        };
+
+        dataOut[Object.keys(betterData).length] = [
+            "date",
+            "volume"
+        ]
+
+        dataOut.reverse();
+        // console.log("data out is ", dataOut);
+        return dataOut;
+    }
+
+    formatCandlestickData(dataIn) {
+//        console.log(dataIn);
+        var betterData = JSON.parse(JSON.stringify(dataIn));
+        // console.log("better data is ", betterData);
+
+        var dataOut = [];
 
         for (var i=0; i < Object.keys(betterData).length; i++) {
             dataOut[i] = [];
@@ -83,7 +110,8 @@ class Stock extends Component {
             const innerData = data["Time Series (Daily)"];
             const clonedData = JSON.parse(JSON.stringify(innerData));
             // console.log("cloned data is ", clonedData);
-            var chartData = this.cleanData(clonedData);
+            var candlestickData = this.formatCandlestickData(clonedData);
+            var volumeData = this.formatVolumeData(clonedData);
             // var labels = [
             //     "date",
             //     "low",
@@ -95,7 +123,8 @@ class Stock extends Component {
             this.setState({
                 "ticker" : ticker,
                 "stockData" : data,
-                "chartData" : chartData
+                "candlestickData" : candlestickData,
+                "volumeData" : volumeData
             });
         })
         .catch(err => {
@@ -113,7 +142,7 @@ class Stock extends Component {
 
     render() {
 
-        // console.log('kevin says the state is ', this.state );
+        console.log('the state is ', this.state );
 
         return (
 
@@ -142,55 +171,55 @@ class Stock extends Component {
                     </Row>
 
                         {
-                            this.state.chartData &&
+                            this.state.candlestickData && this.state.volumeData &&
                             <React.Fragment>
                                 <Row className="mt-3">
+
                                     <Col className="col-6 col-xl-3">
                                         <div className="card card-body my-2">
                                             <h4>
-                                                {this.state.chartData[this.state.chartData.length - 1][1]}
+                                                ${this.state.candlestickData[this.state.candlestickData.length - 1][3].toLocaleString()}
                                             </h4>
-                                            Last Low
-                                        </div>
-                                    </Col>
-                                    <Col className="col-6 col-xl-3">
-                                        <div className="card card-body my-2">
-                                            <h4>
-                                                {this.state.chartData[this.state.chartData.length - 1][2]}
-                                            </h4>
-                                            Last Open
-                                        </div>
-                                    </Col>
-                                    <Col className="col-6 col-xl-3">
-                                        <div className="card card-body my-2">
-                                            <h4>
-                                                {this.state.chartData[this.state.chartData.length - 1][3]}
-                                            </h4>
-                                            Last Close
-                                        </div>
-                                    </Col>
-                                    <Col className="col-6 col-xl-3">
-                                        <div className="card card-body my-2">
-                                            <h4>
-                                                {this.state.chartData[this.state.chartData.length - 1][4]}
-                                            </h4>
-                                            Last High
+                                            Closing Price<br />
+                                            on&nbsp;
+                                            {this.state.candlestickData[this.state.candlestickData.length - 1][0]}
                                         </div>
                                     </Col>
 
+                                    <Col className="col-6 col-xl-3">
+                                        <div className="card card-body my-2">
+                                            <h4>
+                                                {this.state.volumeData[this.state.volumeData.length - 1][1].toLocaleString()}
+                                            </h4>
+                                            Shares Traded<br />
+                                            on&nbsp;
+                                            {this.state.volumeData[this.state.volumeData.length - 1][0]}
+                                        </div>
+                                    </Col>
 
                                 </Row>
                                 <Row>
                                     <Col className='mt-4'>
-
-                                    <Chart
-                                      chartType="CandlestickChart"
-                                      loader={<div>Loading Chart</div>}
-                                      data={this.state.chartData}
-                                      options={ chartOptions }
-                                      width="100%"
-                                      height="500px"
-                                    />
+                                        <Chart
+                                          chartType="CandlestickChart"
+                                          loader={<div>Loading Chart</div>}
+                                          data={this.state.candlestickData}
+                                          options={ candlestickChartOptions }
+                                          width="100%"
+                                          height="300px"
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Chart
+                                          chartType="ColumnChart"
+                                          loader={<div>Loading Chart</div>}
+                                          data={this.state.volumeData}
+                                          options={ volumeChartOptions }
+                                          width="100%"
+                                          height="200px"
+                                        />
                                     </Col>
                                 </Row>
                             </React.Fragment>
