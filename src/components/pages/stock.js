@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, InputGroup } from 'reactstrap';
+import { Container, Row, Col, Jumbotron, InputGroup, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Label } from 'reactstrap';
 
 import CreatableSelect from 'react-select/lib/Creatable';
 
 import { Chart } from "react-google-charts";
+
+import DatePicker from "react-datepicker";
 
 const candlestickChartOptions = {
   candlestick: {
@@ -30,11 +32,37 @@ class Stock extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            dropdownOpen: false,
+            startDate: new Date(),
+            endDate: new Date()
+        };
         this.handleSelection = this.handleSelection.bind(this);
         this.getData = this.getData.bind(this);
         this.formatCandlestickData = this.formatCandlestickData.bind(this);
         this.formatVolumeData = this.formatVolumeData.bind(this);
+        this.toggle = this.toggle.bind(this);
+
+        this.handleStartDateChange = this.handleStartDateChange.bind(this);
+        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    }
+
+    handleEndDateChange(date) {
+        this.setState({
+          endDate: date
+        });
+    }
+
+    handleStartDateChange(date) {
+        this.setState({
+          startDate: date
+        });
+    }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        });
     }
 
     formatVolumeData(dataIn) {
@@ -158,15 +186,43 @@ class Stock extends Component {
                     </Row>
                     <Row>
                         <Col>
-                              <InputGroup className="w-100 mt-2">
+                            <InputGroup className="w-100 mt-2">
                                 <CreatableSelect
-                                    className="w-100"
+                                    className="flex-grow-1 mr-2"
                                     classNamePrefix="react-select"
                                     options={options}
                                     formatCreateLabel={(inputValue) => `` + inputValue}
                                     onChange={this.handleSelection}
                                 />
-                              </InputGroup>
+                                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                                    <DropdownToggle color="secondary" outline caret>
+                                      Date Range
+                                    </DropdownToggle>
+                                    <DropdownMenu className="px-2" right>
+                                        <Label>Start Date</Label>
+                                        <DatePicker
+                                            selected={this.state.startDate}
+                                            onChange={this.handleStartDateChange}
+
+                                            selectsStart
+                                            startDate={this.state.startDate}
+                                            endDate={this.state.endDate}
+
+                                            className="mb-2"
+                                        />
+                                        <Label>End Date</Label>
+                                        <DatePicker
+                                            selected={this.state.endDate}
+                                            onChange={this.handleEndDateChange}
+
+                                            selectsEnd
+                                            startDate={this.state.startDate}
+                                            endDate={this.state.endDate}
+                                        />
+                                    </DropdownMenu>
+                                </ButtonDropdown>
+
+                            </InputGroup>
                         </Col>
                     </Row>
 
@@ -175,18 +231,18 @@ class Stock extends Component {
                             <React.Fragment>
                                 <Row className="mt-3">
 
-                                    <Col className="col-6 col-xl-3">
+                                    <Col className="col-6 col-xl-6">
                                         <div className="card card-body my-2">
                                             <h4>
                                                 ${this.state.candlestickData[this.state.candlestickData.length - 1][3].toLocaleString()}
                                             </h4>
-                                            Closing Price<br />
+                                            Last Trade Price<br />
                                             on&nbsp;
                                             {this.state.candlestickData[this.state.candlestickData.length - 1][0]}
                                         </div>
                                     </Col>
 
-                                    <Col className="col-6 col-xl-3">
+                                    <Col className="col-6 col-xl-6">
                                         <div className="card card-body my-2">
                                             <h4>
                                                 {this.state.volumeData[this.state.volumeData.length - 1][1].toLocaleString()}

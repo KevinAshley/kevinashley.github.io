@@ -177,5 +177,10 @@ nav.navbar-dark .navbar-toggler {
     background-color: $primary !important;
 }
 
+.react-datepicker-popper {
+    right: 0 !important;
+    left: auto !important;
+}
 
+@import "../../node_modules/react-datepicker/dist/react-datepicker.css";
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
