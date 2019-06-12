@@ -227,7 +227,7 @@ class Stock extends Component {
                     </Row>
 
                         {
-                            this.state.candlestickData && this.state.volumeData &&
+                            this.state.candlestickData && this.state.volumeData ?
                             <React.Fragment>
                                 <Row className="mt-3">
 
@@ -279,6 +279,9 @@ class Stock extends Component {
                                     </Col>
                                 </Row>
                             </React.Fragment>
+                            :
+                            <div className="stockPage-spacer">
+                            </div>
                         }
 
                 </Container>
