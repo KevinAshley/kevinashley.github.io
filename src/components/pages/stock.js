@@ -4,7 +4,7 @@ import { Container, Row, Col, Jumbotron, InputGroup, ButtonDropdown,
     DropdownToggle, DropdownMenu, DropdownItem, Label,
 Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 
-import CreatableSelect from 'react-select/lib/Creatable';
+import AsyncSelect from 'react-select/lib/Async';
 
 import { Chart } from "react-google-charts";
 
@@ -24,10 +24,10 @@ const volumeChartOptions = {
   vAxis: {textPosition: 'in'}
 }
 
-const options = [
-  { value: 'MSFT', label: 'MSFT' },
-  { value: 'GOOG', label: 'GOOG' },
-  { value: 'AMD', label: 'AMD' }
+const defaultOptions = [
+    {label: "AMD - Advanced Micro Devices Inc.", value: "AMD"},
+    {label: "GOOG - Alphabet Inc.", value: "GOOG"},
+    {label: "MSFT - Microsoft Corporation", value: "MSFT"}
 ]
 
 class Stock extends Component {
@@ -35,10 +35,11 @@ class Stock extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dropdownOpen: false,
+            inputValue: "",
             startDate: new Date(),
             endDate: new Date(),
-            dateOption: 0
+            dateOption: 0,
+            options: []
         };
         this.handleSelection = this.handleSelection.bind(this);
         this.getData = this.getData.bind(this);
@@ -50,7 +51,64 @@ class Stock extends Component {
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
 
         this.changeDateOption = this.changeDateOption.bind(this);
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.filterOptions = this.filterOptions.bind(this);
+        this.loadOptions = this.loadOptions.bind(this);
     }
+
+    filterOptions(inputValue) {
+      return this.state.options.filter(i =>
+        i.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+    };
+
+    loadOptions(inputValue, callback) {
+        var requestUrl = "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + inputValue + "&apikey=BF9KJPW0QTI88ECE";
+
+        fetch(requestUrl, {
+            method: 'GET',
+            headers: {
+                "Accept": "application/json",
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(responseData => {
+            // console.log(responseData);
+            return responseData;
+        })
+        .then(data => {
+            const innerData = data['bestMatches'];
+            const clonedData = JSON.parse(JSON.stringify(innerData));
+
+            var newOptions = [];
+
+            clonedData.map((item, index) => {
+                newOptions.push(
+                    { value: item["1. symbol"], label: item["1. symbol"] + " - " + item["2. name"] }
+                );
+            });
+
+            this.setState({
+                options: newOptions,
+                verboseOptions: clonedData
+            });
+            callback(this.filterOptions(inputValue));
+        })
+        .catch(err => {
+            console.log("fetch error" + err);
+        });
+
+    };
+
+    handleInputChange(newValue) {
+        const inputValue = newValue.replace(/\W/g, '');
+        this.setState({ inputValue });
+        return inputValue;
+    };
 
     changeDateOption(newOption) {
         this.setState({
@@ -198,11 +256,14 @@ class Stock extends Component {
                     <Row>
                         <Col className='mb-4'>
                             <InputGroup className="w-100 mt-2">
-                                <CreatableSelect
+                                <AsyncSelect
                                     className="flex-grow-1"
                                     classNamePrefix="react-select"
-                                    options={options}
-                                    formatCreateLabel={(inputValue) => `` + inputValue}
+
+                                    cacheOptions
+                                    loadOptions={this.loadOptions}
+                                    defaultOptions={defaultOptions}
+                                    onInputChange={this.handleInputChange}
                                     onChange={this.handleSelection}
                                 />
                             </InputGroup>
