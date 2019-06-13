@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, InputGroup, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Label } from 'reactstrap';
+import { Container, Row, Col, Jumbotron, InputGroup, ButtonDropdown,
+    DropdownToggle, DropdownMenu, DropdownItem, Label,
+Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
 
 import CreatableSelect from 'react-select/lib/Creatable';
 
@@ -35,7 +37,8 @@ class Stock extends Component {
         this.state = {
             dropdownOpen: false,
             startDate: new Date(),
-            endDate: new Date()
+            endDate: new Date(),
+            dateOption: 0
         };
         this.handleSelection = this.handleSelection.bind(this);
         this.getData = this.getData.bind(this);
@@ -45,6 +48,14 @@ class Stock extends Component {
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
+
+        this.changeDateOption = this.changeDateOption.bind(this);
+    }
+
+    changeDateOption(newOption) {
+        this.setState({
+            dateOption: newOption
+        });
     }
 
     handleEndDateChange(date) {
@@ -180,51 +191,64 @@ class Stock extends Component {
                         <Col className='mt-4'>
                             <Jumbotron className="mt-2">
                                 <h1>Look Up A Stock</h1>
-                                <p>This page retrieves stock data from the Alpha Vantage API</p>
+                                <p>This page retrieves stock data from the Alpha&nbsp;Vantage&nbsp;API</p>
                             </Jumbotron>
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col className='mb-4'>
                             <InputGroup className="w-100 mt-2">
                                 <CreatableSelect
-                                    className="flex-grow-1 mr-2"
+                                    className="flex-grow-1"
                                     classNamePrefix="react-select"
                                     options={options}
                                     formatCreateLabel={(inputValue) => `` + inputValue}
                                     onChange={this.handleSelection}
                                 />
-                                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                    <DropdownToggle color="secondary" outline caret>
-                                      Date Range
-                                    </DropdownToggle>
-                                    <DropdownMenu className="px-2" right>
-                                        <Label>Start Date</Label>
-                                        <DatePicker
-                                            selected={this.state.startDate}
-                                            onChange={this.handleStartDateChange}
-
-                                            selectsStart
-                                            startDate={this.state.startDate}
-                                            endDate={this.state.endDate}
-
-                                            className="mb-2"
-                                        />
-                                        <Label>End Date</Label>
-                                        <DatePicker
-                                            selected={this.state.endDate}
-                                            onChange={this.handleEndDateChange}
-
-                                            selectsEnd
-                                            startDate={this.state.startDate}
-                                            endDate={this.state.endDate}
-                                        />
-                                    </DropdownMenu>
-                                </ButtonDropdown>
-
                             </InputGroup>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            <ButtonToolbar>
+                                <ButtonGroup className="btn-block">
+                                    <Button onClick={() => {this.changeDateOption(0)}} color={this.state.dateOption == 0 ? "dark" : "secondary"}>100 days</Button>
+                                    <Button onClick={() => {this.changeDateOption(1)}} color={this.state.dateOption == 1 ? "dark" : "secondary"}>1 year</Button>
+                                    <Button onClick={() => {this.changeDateOption(2)}} color={this.state.dateOption == 2 ? "dark" : "secondary"}>5 years</Button>
+                                    <Button onClick={() => {this.changeDateOption(3)}} color={this.state.dateOption == 3 ? "dark" : "secondary"}>Custom</Button>
+                                </ButtonGroup>
+                            </ButtonToolbar>
+                        </Col>
+                    </Row>
+                    {
+                        this.state.dateOption == 3 &&
+                        <Row>
+                            <Col className="col-6 text-left">
+                                <Label className="mb-0 mt-3">Start Date</Label>
+                                <DatePicker
+                                    selected={this.state.startDate}
+                                    onChange={this.handleStartDateChange}
+
+                                    selectsStart
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+
+                                    className="mb-2"
+                                />
+                            </Col>
+                            <Col className="col-6 text-left right-column">
+                                <Label className="mb-0 mt-3">End Date</Label>
+                                <DatePicker
+                                    selected={this.state.endDate}
+                                    onChange={this.handleEndDateChange}
+
+                                    selectsEnd
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+                                />
+                            </Col>
+                        </Row>
+                    }
 
                         {
                             this.state.candlestickData && this.state.volumeData ?

@@ -181,9 +181,29 @@ nav.navbar-dark .navbar-toggler {
     height: 400px;
 }
 
+.right-column {
+    .react-datepicker-popper {
+        right: 1.8rem !important;
+        left: auto !important;
+    }
+    .react-datepicker__triangle {
+        left: auto;
+        right: 50px;
+    }
+}
+
 .react-datepicker-popper {
-    right: 0 !important;
-    left: auto !important;
+    z-index: 1020;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+    .react-datepicker__input-container {
+        width: 100%;
+        input {
+            width: 100%;
+        }
+    }
 }
 
 @import "../../node_modules/react-datepicker/dist/react-datepicker.css";
