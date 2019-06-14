@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Container, Row, Col, Jumbotron, InputGroup, ButtonDropdown,
     DropdownToggle, DropdownMenu, DropdownItem, Label,
-Button, ButtonGroup, ButtonToolbar } from 'reactstrap';
+Button, ButtonGroup, ButtonToolbar, Collapse } from 'reactstrap';
 
 import AsyncSelect from 'react-select/lib/Async';
 
@@ -281,35 +281,37 @@ class Stock extends Component {
                             </ButtonToolbar>
                         </Col>
                     </Row>
-                    {
-                        this.state.dateOption == 3 &&
-                        <Row>
-                            <Col className="col-6 text-left">
-                                <Label className="mb-0 mt-3">Start Date</Label>
-                                <DatePicker
-                                    selected={this.state.startDate}
-                                    onChange={this.handleStartDateChange}
 
-                                    selectsStart
-                                    startDate={this.state.startDate}
-                                    endDate={this.state.endDate}
+                    <Collapse isOpen={this.state.dateOption == 3 ? true : false}>
+                        <div className="card px-4 pb-2 mt-4 bg-light">
+                            <Row>
+                                <Col className="col-6 text-left">
+                                    <Label className="mb-0 mt-1">Start Date</Label>
+                                    <DatePicker
+                                        selected={this.state.startDate}
+                                        onChange={this.handleStartDateChange}
 
-                                    className="mb-2"
-                                />
-                            </Col>
-                            <Col className="col-6 text-left right-column">
-                                <Label className="mb-0 mt-3">End Date</Label>
-                                <DatePicker
-                                    selected={this.state.endDate}
-                                    onChange={this.handleEndDateChange}
+                                        selectsStart
+                                        startDate={this.state.startDate}
+                                        endDate={this.state.endDate}
 
-                                    selectsEnd
-                                    startDate={this.state.startDate}
-                                    endDate={this.state.endDate}
-                                />
-                            </Col>
-                        </Row>
-                    }
+                                        className="mb-2"
+                                    />
+                                </Col>
+                                <Col className="col-6 text-left right-column">
+                                    <Label className="mb-0 mt-1">End Date</Label>
+                                    <DatePicker
+                                        selected={this.state.endDate}
+                                        onChange={this.handleEndDateChange}
+
+                                        selectsEnd
+                                        startDate={this.state.startDate}
+                                        endDate={this.state.endDate}
+                                    />
+                                </Col>
+                            </Row>
+                        </div>
+                    </Collapse>
 
                         {
                             this.state.candlestickData && this.state.volumeData ?

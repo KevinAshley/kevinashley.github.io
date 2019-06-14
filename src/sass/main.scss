@@ -1,6 +1,7 @@
 // compileCompressed: ../css/$1.css
 
 $primary: #da1700;
+$light: #e9ecef;
 
 .App {
   text-align: center;
@@ -193,6 +194,10 @@ nav.navbar-dark .navbar-toggler {
 }
 
 .react-datepicker-popper {
+    z-index: 1020;
+}
+
+.react-select__menu {
     z-index: 1020;
 }
 
