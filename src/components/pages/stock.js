@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col, Jumbotron, InputGroup, ButtonDropdown,
-    DropdownToggle, DropdownMenu, DropdownItem, Label,
+import { Container, Row, Col, Jumbotron, InputGroup, Label,
 Button, ButtonGroup, ButtonToolbar, Collapse } from 'reactstrap';
 
 import AsyncSelect from 'react-select/lib/Async';
@@ -30,13 +29,24 @@ const defaultOptions = [
     {label: "MSFT - Microsoft Corporation", value: "MSFT"}
 ]
 
+const formatDate = (inputDate) => {
+    return(
+        inputDate.toISOString().substr(0,10)
+    )
+}
+
 class Stock extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             inputValue: "",
-            startDate: new Date(),
+            startDate:
+                new Date(
+                    new Date().getFullYear(),
+                    new Date().getMonth() - 6,
+                    new Date().getDate()
+                ),
             endDate: new Date(),
             dateOption: 0,
             options: []
@@ -111,9 +121,42 @@ class Stock extends Component {
     };
 
     changeDateOption(newOption) {
+        const dateObject = {
+            startDate: this.state.startDate,
+            endDate: this.state.endDate
+        }
+
+        if (newOption == 0) {
+            dateObject.startDate = new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() - 6,
+                new Date().getDate()
+            );
+            dateObject.endDate = new Date();
+        }
+        if (newOption == 1) {
+            dateObject.startDate = new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() - 12,
+                new Date().getDate()
+            );
+            dateObject.endDate = new Date();
+        }
+        if (newOption == 2) {
+            dateObject.startDate = new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() - (12 * 5),
+                new Date().getDate()
+            );
+            dateObject.endDate = new Date();
+        }
+
         this.setState({
-            dateOption: newOption
+            dateOption: newOption,
+            startDate: dateObject.startDate,
+            endDate: dateObject.endDate
         });
+
     }
 
     handleEndDateChange(date) {
@@ -240,6 +283,7 @@ class Stock extends Component {
     render() {
 
         console.log('the state is ', this.state );
+        console.log('the date is', this.state.startDate, formatDate(this.state.startDate));
 
         return (
 
@@ -273,7 +317,7 @@ class Stock extends Component {
                         <Col>
                             <ButtonToolbar>
                                 <ButtonGroup className="btn-block">
-                                    <Button onClick={() => {this.changeDateOption(0)}} color={this.state.dateOption == 0 ? "dark" : "secondary"}>100 days</Button>
+                                    <Button onClick={() => {this.changeDateOption(0)}} color={this.state.dateOption == 0 ? "dark" : "secondary"}>6 months</Button>
                                     <Button onClick={() => {this.changeDateOption(1)}} color={this.state.dateOption == 1 ? "dark" : "secondary"}>1 year</Button>
                                     <Button onClick={() => {this.changeDateOption(2)}} color={this.state.dateOption == 2 ? "dark" : "secondary"}>5 years</Button>
                                     <Button onClick={() => {this.changeDateOption(3)}} color={this.state.dateOption == 3 ? "dark" : "secondary"}>Custom</Button>

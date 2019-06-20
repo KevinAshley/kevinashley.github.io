@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 import {
-  Collapse,
-  Navbar,
-  Button,
   Nav,
   NavItem
 } from 'reactstrap';
