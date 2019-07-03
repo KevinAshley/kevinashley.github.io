@@ -275,15 +275,34 @@ class Stock extends Component {
 
     handleSelection(inputValue) {
         var ticker = inputValue.value;
-        var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
+        var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
         // console.log(requestUrl);
         this.getData(requestUrl, ticker);
     }
 
     render() {
 
-        console.log('the state is ', this.state );
-        console.log('the date is', this.state.startDate, formatDate(this.state.startDate));
+        // console.log('the state is ', this.state );
+        // console.log('the date is', this.state.startDate, formatDate(this.state.startDate));
+        const filteredCandlestickData = [];
+        const filteredVolumeData = [];
+
+        if (this.state.candlestickData && this.state.volumeData) {
+            this.state.candlestickData.map((item, index) => {
+                var itemDate = new Date(item[0]);
+                if (index == 0 || (+itemDate >= +this.state.startDate && +itemDate <= +this.state.endDate)) {
+                    filteredCandlestickData.push(item);
+                }
+            });
+            this.state.volumeData.map((item, index) => {
+                var itemDate = new Date(item[0]);
+                if (index == 0 || (+itemDate >= +this.state.startDate && +itemDate <= +this.state.endDate)) {
+                    filteredVolumeData.push(item);
+                }
+            });
+        }
+
+        // console.log('filtered data is', filteredCandlestickData, filteredVolumeData);
 
         return (
 
@@ -365,22 +384,22 @@ class Stock extends Component {
                                     <Col className="col-6 col-xl-6">
                                         <div className="card card-body my-2">
                                             <h4>
-                                                ${this.state.candlestickData[this.state.candlestickData.length - 1][3].toLocaleString()}
+                                                ${filteredCandlestickData[filteredCandlestickData.length - 1][3].toLocaleString()}
                                             </h4>
                                             Last Trade Price<br />
                                             on&nbsp;
-                                            {this.state.candlestickData[this.state.candlestickData.length - 1][0]}
+                                            {filteredCandlestickData[filteredCandlestickData.length - 1][0]}
                                         </div>
                                     </Col>
 
                                     <Col className="col-6 col-xl-6">
                                         <div className="card card-body my-2">
                                             <h4>
-                                                {this.state.volumeData[this.state.volumeData.length - 1][1].toLocaleString()}
+                                                {filteredVolumeData[filteredVolumeData.length - 1][1].toLocaleString()}
                                             </h4>
                                             Shares Traded<br />
                                             on&nbsp;
-                                            {this.state.volumeData[this.state.volumeData.length - 1][0]}
+                                            {filteredVolumeData[filteredVolumeData.length - 1][0]}
                                         </div>
                                     </Col>
 
@@ -390,7 +409,7 @@ class Stock extends Component {
                                         <Chart
                                           chartType="CandlestickChart"
                                           loader={<div>Loading Chart</div>}
-                                          data={this.state.candlestickData}
+                                          data={ filteredCandlestickData }
                                           options={ candlestickChartOptions }
                                           width="100%"
                                           height="300px"
@@ -402,7 +421,7 @@ class Stock extends Component {
                                         <Chart
                                           chartType="ColumnChart"
                                           loader={<div>Loading Chart</div>}
-                                          data={this.state.volumeData}
+                                          data={ filteredVolumeData }
                                           options={ volumeChartOptions }
                                           width="100%"
                                           height="200px"
