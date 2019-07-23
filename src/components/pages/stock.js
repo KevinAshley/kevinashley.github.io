@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Container, Row, Col, Jumbotron, InputGroup, Label,
-Button, ButtonGroup, ButtonToolbar, Collapse } from 'reactstrap';
+Button, ButtonGroup, ButtonToolbar, Collapse, Spinner} from 'reactstrap';
 
 import AsyncSelect from 'react-select/lib/Async';
 
@@ -177,7 +177,7 @@ class Stock extends Component {
         });
     }
 
-    formatVolumeData(dataIn) {
+    async formatVolumeData(dataIn) {
         var betterData = JSON.parse(JSON.stringify(dataIn));
         // console.log("better data is ", betterData);
 
@@ -199,7 +199,7 @@ class Stock extends Component {
         return dataOut;
     }
 
-    formatCandlestickData(dataIn) {
+    async formatCandlestickData(dataIn) {
 //        console.log(dataIn);
         var betterData = JSON.parse(JSON.stringify(dataIn));
         // console.log("better data is ", betterData);
@@ -231,52 +231,49 @@ class Stock extends Component {
 
     }
 
-    getData(url, ticker) {
-        fetch(url, {
-        method: 'GET',
+    async getData(url, ticker) {
+
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
                 "Accept": "application/json",
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => {
-            return response.json();
-        })
-        .then(responseData => {
-            // console.log(responseData);
-            return responseData;
-        })
-        .then(data => {
-            const innerData = data["Time Series (Daily)"];
-            const clonedData = JSON.parse(JSON.stringify(innerData));
-            // console.log("cloned data is ", clonedData);
-            var candlestickData = this.formatCandlestickData(clonedData);
-            var volumeData = this.formatVolumeData(clonedData);
-            // var labels = [
-            //     "date",
-            //     "low",
-            //     "open",
-            //     "close",
-            //     "high"
-            // ];
+        console.log('got a response');
+        const responseData = await response.json();
+        console.log('got response data');
+        if (!responseData) {
+            console.log("error there was a problem");
+        };
 
-            this.setState({
-                "ticker" : ticker,
-                "stockData" : data,
-                "candlestickData" : candlestickData,
-                "volumeData" : volumeData
-            });
-        })
-        .catch(err => {
-            console.log("fetch error" + err);
+        const innerData = await responseData["Time Series (Daily)"];
+        const clonedData = await JSON.parse(JSON.stringify(innerData));
+        // console.log("cloned data is ", clonedData);
+        console.log('crunching the data');
+        var candlestickData = await this.formatCandlestickData(clonedData);
+        console.log('candlestick data ready');
+        var volumeData = await this.formatVolumeData(clonedData);
+        console.log('volume data ready');
+
+        this.setState({
+            "ticker" : ticker,
+            "stockData" : responseData,
+            "candlestickData" : candlestickData,
+            "volumeData" : volumeData,
+            "loading": false
         });
 
     }
 
-    handleSelection(inputValue) {
+    async handleSelection(inputValue) {
         var ticker = inputValue.value;
         var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full&symbol=" + ticker + "&apikey=BF9KJPW0QTI88ECE";
         // console.log(requestUrl);
+        this.setState({
+            loading: true,
+            loadingMessage: "Fetching data..."
+        });
         this.getData(requestUrl, ticker);
     }
 
@@ -377,7 +374,7 @@ class Stock extends Component {
                     </Collapse>
 
                         {
-                            this.state.candlestickData && this.state.volumeData ?
+                            this.state.candlestickData && this.state.volumeData && !this.state.loading ?
                             <React.Fragment>
                                 <Row className="mt-3">
 
@@ -408,7 +405,7 @@ class Stock extends Component {
                                     <Col className='mt-4'>
                                         <Chart
                                           chartType="CandlestickChart"
-                                          loader={<div>Loading Chart</div>}
+                                          loader={<Spinner color="primary" style={{ width: '5rem', height: '5rem' }} type="grow" />}
                                           data={ filteredCandlestickData }
                                           options={ candlestickChartOptions }
                                           width="100%"
@@ -420,7 +417,7 @@ class Stock extends Component {
                                     <Col>
                                         <Chart
                                           chartType="ColumnChart"
-                                          loader={<div>Loading Chart</div>}
+                                          loader={""}
                                           data={ filteredVolumeData }
                                           options={ volumeChartOptions }
                                           width="100%"
@@ -430,11 +427,48 @@ class Stock extends Component {
                                 </Row>
                             </React.Fragment>
                             :
-                            <div className="stockPage-spacer">
-                            </div>
+                            ""
                         }
 
+                        {
+                            this.state.loading
+                            ?
+                            <Row>
+                                <Col className="pt-4 text-center">
+                                    <p>
+                                        {
+                                            this.state.loadingMessage
+                                            ?
+                                                this.state.loadingMessage
+                                            :
+                                                "Loading..."
+                                        }
+
+                                    </p>
+                                    <Spinner color="primary" style={{ width: '5rem', height: '5rem' }} type="grow" />
+                                </Col>
+                            </Row>
+                            :
+                            ""
+                        }
+
+
                 </Container>
+
+                { this.state.stockData
+                    ?
+                    ""
+                    :
+                    <Container>
+                        <Row>
+                            <Col>
+                                <div className="stockPage-spacer">
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                }
+
             </div>
 
     );
