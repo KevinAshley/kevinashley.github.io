@@ -12,28 +12,29 @@ import Navigation from './components/nav/navigation';
 import Footer from './components/footer/footer';
 import Homepage from './components/pages/homepage';
 import CoinFlip from './components/pages/coinFlip';
+import RiverCricket from './components/pages/riverCricket';
 import CricketScoreboard from './components/pages/cricketScoreboard';
 import Stock from './components/pages/stock';
 import Login from './components/pages/login';
 
-class App extends Component {
-
-  render() {
+const App = (props) => {
     return (
         <Router>
           <div className="App">
             <Header />
             <Navigation />
-                <Route exact path="/" component={Homepage} />
-                <Route exact path="/coin-flip" component={CoinFlip} />
-                <Route exact path="/cricket-scoreboard" component={CricketScoreboard} />
-                <Route exact path="/stock" component={Stock} />
-                <Route exact path="/login" component={Login} />
+            <div className="page-wrapper">
+                <Route exact path="/" render={() => <Homepage/>} />
+                <Route exact path="/coin-flip" render={() => <CoinFlip/>} />
+                <Route exact path="/cricket-scoreboard" render={() => <CricketScoreboard/>} />
+                <Route exact path="/stock" render={() => <Stock/>} />
+                <Route exact path="/river-cricket" render={() => <RiverCricket />} />
+                <Route exact path="/login" render={() => <Login/>} />
+            </div>
             <Footer />
           </div>
         </Router>
     );
-  }
 }
 
 export default App;

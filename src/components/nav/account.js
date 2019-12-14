@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
+import React, {
+    Component
+} from 'react';
 
 import {
-  Nav,
-  NavItem
+    Nav,
+    NavItem
 } from 'reactstrap';
 
 import {
-  Link
+    Link
 } from 'react-router-dom';
 
-import { connect } from 'react-redux';
 import {
-  changeAuthentication,
-  changeLoginState
+    connect
+} from 'react-redux';
+import {
+    changeAuthentication,
+    changeLoginState
 } from '../../redux';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -25,9 +29,9 @@ firebase.initializeApp(firebaseConfig);
 class Account extends Component {
 
     constructor(props) {
-      super(props);
+        super(props);
 
-      this.handleClick = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick() {
@@ -35,6 +39,8 @@ class Account extends Component {
     }
 
     render() {
+
+        console.log('account props - ', this.props);
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -46,23 +52,19 @@ class Account extends Component {
             }
         });
 
-        return (
-
-            <React.Fragment>
-                {
-                    // check if the user is defined
-                    this.props.loggedIn
-                        ?
-                        <Nav className="ml-auto px-2 mr-2" navbar>
+        return (<React.Fragment>
+            {
+                // check if the user is defined
+                this.props.loggedIn
+                    ? <Nav className="ml-auto px-2 mr-2" navbar>
                             <NavItem>
                                 <Link onClick={this.handleClick} to="/login" className='nav-link px-2'>
-                                    Welcome, Kevin
+                                    Signed In
                                     <i className="fas fa-user-check ml-2"></i>
                                 </Link>
                             </NavItem>
                         </Nav>
-                        :
-                        <Nav className="ml-auto mr-2" navbar>
+                    : <Nav className="ml-auto mr-2" navbar>
                             <NavItem>
                                 <Link onClick={this.handleClick} to="/login" className='nav-link px-2'>
                                     Login
@@ -70,23 +72,18 @@ class Account extends Component {
                                 </Link>
                             </NavItem>
                         </Nav>
-                }
-            </React.Fragment>
-
-        );
+            }
+        </React.Fragment>);
     }
 }
 
 const mapStateToProps = (state, ownProps) => (state);
 
 const mapDispatchToProps = {
-  changeAuthentication,
-  changeLoginState
+    changeAuthentication,
+    changeLoginState
 };
 
-const AccountContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Account);
+const AccountContainer = connect(mapStateToProps, mapDispatchToProps)(Account);
 
 export default AccountContainer;

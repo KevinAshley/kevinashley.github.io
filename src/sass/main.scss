@@ -1,20 +1,14 @@
 // compileCompressed: ../css/$1.css
 
-$primary: #6c006b;
+$primary: #0f688c;
 $light: #e9ecef;
 
 .App {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  font-size: 4em;
-}
-
 .app-header {
-  height: 150px;
-  padding: 20px;
+  padding: 5px 20px;
 }
 
 .app-title {
@@ -27,9 +21,8 @@ $light: #e9ecef;
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.page-wrapper {
+    min-height: 100vh;
 }
 
 // nav.navbar {
@@ -148,23 +141,7 @@ nav.navbar-dark .navbar-toggler {
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
-.cricket-name-select__indicators {
-    display: none !important;
-}
-.cricket-name-select__placeholder, .cricket-name-select__single-value {
-    margin: auto;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%) !important;
-}
-.cricket-name-select__placeholder {
-    width: 100%;
-}
-.cricket-name-select__single-value {
-    margin-left: 0 !important;
-}
-.cricket-name-select__menu {
-    z-index: 10 !important;
-}
+
 
 .cricket-name-select__control--is-focused, .react-select__control--is-focused {
     border-color: $primary !important;
@@ -181,6 +158,8 @@ nav.navbar-dark .navbar-toggler {
 .stockPage-spacer {
     height: 400px;
 }
+
+
 
 .right-column {
     .react-datepicker-popper {

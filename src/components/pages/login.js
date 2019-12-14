@@ -1,11 +1,25 @@
-import React, { Component } from 'react';
-
-import { Container, Row, Col, Jumbotron, Form, FormGroup, Input, Button, Alert } from 'reactstrap';
-
-import { connect } from 'react-redux';
+import React, {
+    Component
+} from 'react';
 
 import {
-  changeAuthentication
+    Container,
+    Row,
+    Col,
+    Jumbotron,
+    Form,
+    FormGroup,
+    Input,
+    Button,
+    Alert
+} from 'reactstrap';
+
+import {
+    connect
+} from 'react-redux';
+
+import {
+    changeAuthentication
 } from '../../redux';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -61,10 +75,24 @@ class login extends Component {
             });
         });
 
+        // if (firebase.auth().currentUser) {
+        //     if (firebase.auth().currentUser.name) {
+        //         this.setState({
+        //             userName: firebase.auth().currentUser.name
+        //         })
+        //     } else if (firebase.auth().currentUser.email) {
+        //         this.setState({
+        //             userName: firebase.auth().currentUser.email
+        //         })
+        //     }
+        // }
+
         this.props.changeAuthentication(true);
     }
 
     render() {
+
+
 
         return (
 
@@ -76,7 +104,7 @@ class login extends Component {
                             <Col className='mt-4'>
                                 <Jumbotron className="mt-2">
                                     <h1>Signed In</h1>
-                                    <p>Welcome back, Kevin</p>
+                                    <p>Welcome back!</p>
                                 </Jumbotron>
                             </Col>
                         </Row>
@@ -141,12 +169,12 @@ class login extends Component {
 const mapStateToProps = (state, ownProps) => (state);
 
 const mapDispatchToProps = {
-  changeAuthentication
+    changeAuthentication
 };
 
 const loginContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(login);
 
 export default loginContainer;

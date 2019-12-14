@@ -1,17 +1,167 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { Container, Row, Col, Jumbotron, Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+    Container,
+    Row,
+    Col,
+    Jumbotron,
+    Button,
+    ButtonGroup,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
+} from 'reactstrap';
 
 import CreatableSelect from 'react-select/lib/Creatable';
 
 const items = [
-    {label:'20', value:20},
-    {label:'19', value:19},
-    {label:'18', value:18},
-    {label:'17', value:17},
-    {label:'16', value:16},
-    {label:'15', value:15},
-    {label:'bulls', value:25},
+    {
+        label: '20',
+        value: 20
+    }, {
+        label: '19',
+        value: 19
+    }, {
+        label: '18',
+        value: 18
+    }, {
+        label: '17',
+        value: 17
+    }, {
+        label: '16',
+        value: 16
+    }, {
+        label: '15',
+        value: 15
+    }, {
+        label: 'bulls',
+        value: 25
+    }
+]
+
+const commonNames = [
+    'Liam',
+    'Noah',
+    'William',
+    'James',
+    'Oliver',
+    'Benjamin',
+    'Elijah',
+    'Lucas',
+    'Mason',
+    'Logan',
+    'Alexander',
+    'Ethan',
+    'Jacob',
+    'Michael',
+    'Daniel',
+    'Henry',
+    'Jackson',
+    'Sebastian',
+    'Aiden',
+    'Matthew',
+    'Samuel',
+    'David',
+    'Joseph',
+    'Carter',
+    'Owen',
+    'Wyatt',
+    'John',
+    'Jack',
+    'Luke',
+    'Jayden',
+    'Dylan',
+    'Grayson',
+    'Levi',
+    'Isaac',
+    'Gabriel',
+    'Julian',
+    'Mateo',
+    'Anthony',
+    'Jaxon',
+    'Lincoln',
+    'Joshua',
+    'Christopher',
+    'Andrew',
+    'Theodore',
+    'Caleb',
+    'Ryan',
+    'Asher',
+    'Nathan',
+    'Thomas',
+    'Leo',
+    'Emma',
+    'Olivia',
+    'Ava',
+    'Isabella',
+    'Sophia',
+    'Charlotte',
+    'Mia',
+    'Amelia',
+    'Harper',
+    'Evelyn',
+    'Abigail',
+    'Emily',
+    'Elizabeth',
+    'Mila',
+    'Ella',
+    'Avery',
+    'Sofia',
+    'Camila',
+    'Aria',
+    'Scarlett',
+    'Victoria',
+    'Madison',
+    'Luna',
+    'Grace',
+    'Chloe',
+    'Penelope',
+    'Layla',
+    'Riley',
+    'Zoey',
+    'Nora',
+    'Lily',
+    'Eleanor',
+    'Hannah',
+    'Lillian',
+    'Addison',
+    'Aubrey',
+    'Ellie',
+    'Stella',
+    'Natalie',
+    'Zoe',
+    'Leah',
+    'Hazel',
+    'Violet',
+    'Aurora',
+    'Savannah',
+    'Audrey',
+    'Brooklyn',
+    'Bella',
+    'Claire',
+    'Skylar',
+    'Kevin',
+    'Austin',
+    'Brett',
+    "Dave",
+    "Dan",
+    "Chris",
+    "Zack",
+    "Tim"
+]
+
+const nameOptions = [
+    {
+        value: 'Kevin',
+        label: 'Kevin'
+    }, {
+        value: 'Austin',
+        label: 'Austin'
+    }, {
+        value: 'Brett',
+        label: 'Brett'
+    }
 ]
 
 class CricketScoreboard extends Component {
@@ -23,6 +173,10 @@ class CricketScoreboard extends Component {
             opponentOne: [],
             opponentTwo: [],
             modalIsOpen: false,
+            nameOptions: commonNames.sort().map((item) => {
+                // console.log(item);
+                return {"value": item, "label": item}
+            })
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -36,12 +190,8 @@ class CricketScoreboard extends Component {
     }
 
     resetScoreboard() {
-        this.setState({
-            opponentOne: []
-        });
-        this.setState({
-            opponentTwo: []
-        });
+        this.setState({opponentOne: []});
+        this.setState({opponentTwo: []});
 
         this.opponentOneScore = 0;
         this.opponentTwoScore = 0;
@@ -57,7 +207,7 @@ class CricketScoreboard extends Component {
 
     updateScores(opponent) {
         var nextScore = 0;
-        for (var i = 0 ; i < 7 ; i++) {
+        for (var i = 0; i < 7; i++) {
             // this.opponentOneScore = this.opponentOneScore + (this.state.opponentOne[i] * items[i]['value']);
             if (this.state[opponent][i] > 3) {
                 nextScore = nextScore + ((this.state[opponent][i] - 3) * items[i]['value']);
@@ -90,141 +240,172 @@ class CricketScoreboard extends Component {
         }
         newObject[index] = nextTally;
         if (opponent === "opponentOne") {
-            this.setState({
-                opponentOne: newObject
-            });
+            this.setState({opponentOne: newObject});
         }
         if (opponent === "opponentTwo") {
-            this.setState({
-                opponentTwo: newObject
-            });
+            this.setState({opponentTwo: newObject});
         }
         this.updateScores(opponent);
 
     }
 
-
     render() {
 
         const scoreBoardMarkup = items.map((item, index) => {
-            return (
-                <div key={index} className="row text-center flex-nowrap mb-2 pb-2 border-bottom">
+            return (<div key={index} className="row text-center flex-nowrap mb-2 pb-2 border-bottom">
 
-                    <Col className="w-100 text-right">
+                <Col className="w-100 text-right">
 
-                        <ButtonGroup className="w-100">
-                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "decrease")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "primary"} ><i className="fas fa-minus-circle"></i></Button>
-                            <Button className="btn-outline-dark disabled counter w-100">
-                                {
-                                    this.state.opponentOne[index] === null || this.state.opponentOne[index] === 0 ? <span>&nbsp;</span> :
-                                    this.state.opponentOne[index] === 1 ? <div className="right-slash">|</div> :
-                                    this.state.opponentOne[index] === 2 ? <div className="slash-container"><span className="x-symbol">&#10005;</span></div> :
-                                    this.state.opponentOne[index] === 3 ? <div className="slash-container"><span className="x-symbol">&#10005;</span><i className="fas fa-circle-notch circle-slash"></i></div> :
-                                    this.state.opponentOne[index] > 3 ? "+" + (this.state.opponentOne[index] - 3) : ""
-                                }
-                            </Button>
-                            <Button onClick={() => {this.handleChange(index, 'opponentOne', "increase")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "primary"} className="ml-0" ><i className="fas fa-plus-circle"></i></Button>
-                        </ButtonGroup>
-                    </Col>
+                    <ButtonGroup className="w-100">
+                        <Button onClick={() => {
+                                this.handleChange(index, 'opponentOne', "decrease")
+                            }} color={this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2
+                                ? "light"
+                                : "primary"}>
+                            <i className="fas fa-minus-circle"></i>
+                        </Button>
+                        <Button className="btn-outline-dark disabled counter w-100">
+                            {
+                                this.state.opponentOne[index] === null || this.state.opponentOne[index] === 0
+                                    ? <span>&nbsp;</span>
+                                    : this.state.opponentOne[index] === 1
+                                        ? <div className="right-slash">|</div>
+                                        : this.state.opponentOne[index] === 2
+                                            ? <div className="slash-container">
+                                                    <span className="x-symbol">&#10005;</span>
+                                                </div>
+                                            : this.state.opponentOne[index] === 3
+                                                ? <div className="slash-container">
+                                                        <span className="x-symbol">&#10005;</span>
+                                                        <i className="fas fa-circle-notch circle-slash"></i>
+                                                    </div>
+                                                : this.state.opponentOne[index] > 3
+                                                    ? "+" + (
+                                                    this.state.opponentOne[index] - 3)
+                                                    : ""
+                            }
+                        </Button>
+                        <Button onClick={() => {
+                                this.handleChange(index, 'opponentOne', "increase")
+                            }} color={this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2
+                                ? "light"
+                                : "primary"} className="ml-0">
+                            <i className="fas fa-plus-circle"></i>
+                        </Button>
+                    </ButtonGroup>
+                </Col>
 
-                    <Col className={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "closed-out text-danger target-label col-2" : "target-label col-2"}>{ index === 6 ? <i className="bullseye far fa-dot-circle"></i> : items[index]['label']}</Col>
+                <Col className={this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2
+                        ? "closed-out text-danger target-label col-2"
+                        : "target-label col-2"}>{
+                        index === 6
+                            ? <i className="bullseye far fa-dot-circle"></i>
+                            : items[index]['label']
+                    }</Col>
 
-                    <Col className="w-100 text-right">
+                <Col className="w-100 text-right">
 
-                        <ButtonGroup className="w-100">
-                            <Button onClick={() => {this.handleChange(index, 'opponentTwo', "decrease")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "secondary"}><i className="fas fa-minus-circle"></i></Button>
-                            <Button className="btn-outline-dark disabled counter w-100">
-                                {
-                                    this.state.opponentTwo[index] === null || this.state.opponentTwo[index] === 0 ? <span>&nbsp;</span> :
-                                    this.state.opponentTwo[index] === 1 ? <div className="right-slash">|</div> :
-                                    this.state.opponentTwo[index] === 2 ? <div className="slash-container"><span className="x-symbol">&#10005;</span></div> :
-                                    this.state.opponentTwo[index] === 3 ? <div className="slash-container"><span className="x-symbol">&#10005;</span><i className="fas fa-circle-notch circle-slash"></i></div> :
-                                    this.state.opponentTwo[index] > 3 ? "+" + (this.state.opponentTwo[index] - 3) : ""
-                                }
-                            </Button>
-                            <Button onClick={() => {this.handleChange(index, 'opponentTwo', "increase")}} color={ this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2 ? "light" : "secondary"} className="ml-0"><i className="fas fa-plus-circle"></i></Button>
-                        </ButtonGroup>
-                    </Col>
+                    <ButtonGroup className="w-100">
+                        <Button onClick={() => {
+                                this.handleChange(index, 'opponentTwo', "decrease")
+                            }} color={this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2
+                                ? "light"
+                                : "secondary"}>
+                            <i className="fas fa-minus-circle"></i>
+                        </Button>
+                        <Button className="btn-outline-dark disabled counter w-100">
+                            {
+                                this.state.opponentTwo[index] === null || this.state.opponentTwo[index] === 0
+                                    ? <span>&nbsp;</span>
+                                    : this.state.opponentTwo[index] === 1
+                                        ? <div className="right-slash">|</div>
+                                        : this.state.opponentTwo[index] === 2
+                                            ? <div className="slash-container">
+                                                    <span className="x-symbol">&#10005;</span>
+                                                </div>
+                                            : this.state.opponentTwo[index] === 3
+                                                ? <div className="slash-container">
+                                                        <span className="x-symbol">&#10005;</span>
+                                                        <i className="fas fa-circle-notch circle-slash"></i>
+                                                    </div>
+                                                : this.state.opponentTwo[index] > 3
+                                                    ? "+" + (
+                                                    this.state.opponentTwo[index] - 3)
+                                                    : ""
+                            }
+                        </Button>
+                        <Button onClick={() => {
+                                this.handleChange(index, 'opponentTwo', "increase")
+                            }} color={this.state.opponentOne[index] > 2 && this.state.opponentTwo[index] > 2
+                                ? "light"
+                                : "secondary"} className="ml-0">
+                            <i className="fas fa-plus-circle"></i>
+                        </Button>
+                    </ButtonGroup>
+                </Col>
 
-                </div>
-            );
+            </div>);
         });
 
-        return (
+        return (<div className="page_container cricket-scoreboard-page-container">
+            <Container>
+                <Row>
+                    <Col className='mt-4'>
+                        <Jumbotron className="mt-2">
+                            <h1>Cricket Scoreboard</h1>
+                            <p>Score your dart game with this mobile optimized cricket scoreboard.</p>
 
-            <div className="page_container cricket-scoreboard-page-container">
-                <Container>
-                    <Row>
-                        <Col className='mt-4'>
-                            <Jumbotron className="mt-2">
-                                <h1>Cricket Scoreboard</h1>
-                                <p>Score your dart game with this mobile optimized cricket scoreboard.</p>
+                            <Button color="danger" onClick={this.toggleModal}>Reset Scoreboard</Button>
 
-                                    <Button color="light" onClick={this.toggleModal}>Reset Scoreboard</Button>
+                            <Modal isOpen={this.state.modalIsOpen} toggle={this.toggleModal}>
+                                <ModalHeader toggle={this.toggleModal}>Are you sure?</ModalHeader>
+                                <ModalBody>
+                                    No undo...
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="danger" onClick={this.resetScoreboard}>Reset Scoreboard</Button>{' '}
+                                    <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+                                </ModalFooter>
+                            </Modal>
 
-                                    <Modal isOpen={this.state.modalIsOpen} toggle={this.toggleModal} >
-                                      <ModalHeader toggle={this.toggleModal}>Are you sure?</ModalHeader>
-                                      <ModalBody>
-                                        No undo...
-                                      </ModalBody>
-                                      <ModalFooter>
-                                        <Button color="danger" onClick={this.resetScoreboard}>Reset Scoreboard</Button>{' '}
-                                        <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-                                      </ModalFooter>
-                                    </Modal>
+                        </Jumbotron>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="col-5">
+                        <CreatableSelect createOptionPosition="first" placeholder="Player 1" isClearable={true} classNamePrefix="cricket-name-select" options={this.state.nameOptions} formatCreateLabel={(inputValue) => `` + inputValue}/>
+                    </Col>
+                    <Col className="col-2 versus-text">
+                        VS
+                    </Col>
+                    <Col className="col-5">
+                        <CreatableSelect createOptionPosition="first" placeholder="Player 2" isClearable={true} classNamePrefix="cricket-name-select" options={this.state.nameOptions} formatCreateLabel={(inputValue) => `` + inputValue}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <hr className="mb-2"/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="scoreboard-container">
+                            {scoreBoardMarkup}
+                        </div>
+                    </Col>
+                </Row>
+                <Row className="mb-4">
+                    <Col className="col-5 player-score">
+                        {this.opponentOneScore}
+                    </Col>
+                    <Col className="col-2"></Col>
+                    <Col className="col-5 player-score">
+                        {this.opponentTwoScore}
+                    </Col>
+                </Row>
 
-                            </Jumbotron>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="col-5">
-                            <CreatableSelect
-                                placeholder="Player 1"
-                                classNamePrefix="cricket-name-select"
-                                formatCreateLabel={(inputValue) => `` + inputValue}
-                                isClearable
-                            />
-
-                        </Col>
-                        <Col className="col-2 versus-text">
-                            VS
-                        </Col>
-                        <Col className="col-5">
-                            <CreatableSelect
-                                placeholder="Player 2"
-                                classNamePrefix="cricket-name-select"
-                                formatCreateLabel={(inputValue) => `` + inputValue}
-                                isClearable
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <hr className="mb-2"/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <div className="scoreboard-container">
-                                {scoreBoardMarkup}
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row className="mb-4">
-                        <Col className="col-5 player-score">
-                            {this.opponentOneScore}
-                        </Col>
-                        <Col className="col-2">
-                        </Col>
-                        <Col className="col-5 player-score">
-                            {this.opponentTwoScore}
-                        </Col>
-                    </Row>
-
-                </Container>
-            </div>
-
-        );
+            </Container>
+        </div>);
     }
 }
 

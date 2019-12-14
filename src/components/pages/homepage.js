@@ -9,7 +9,7 @@ class Homepage extends Component {
   render() {
     return (
 
-        <div className="page_container">
+
             <Container>
                 <Row>
                     <Col className='mt-4'>
@@ -33,7 +33,7 @@ class Homepage extends Component {
                     </Col>
                 </Row>
             </Container>
-        </div>
+        
 
     );
   }
