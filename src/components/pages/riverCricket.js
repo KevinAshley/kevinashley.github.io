@@ -6,7 +6,9 @@ import {
     Container,
     Row,
     Col,
+    Card,
     Jumbotron,
+    Button,
     Nav,
     NavItem,
     Dropdown,
@@ -23,25 +25,122 @@ import {
     Table
 } from 'reactstrap';
 
+import Select from 'react-select';
+
 import {
     connect
 } from 'react-redux';
 
-const rowsOfJunk = ["1", "1"]
+const rowsOfJunk = ["1", "1"];
+
+const product = {
+    name: "Junk Beer",
+    description: "IPA",
+    packaging: {
+        keg: [
+            '5 gallon',
+            '15.5 gallon'
+        ],
+        case: [
+            "16oz cans",
+            "22oz bottles"
+        ]
+    }
+}
+
+const store = {
+    name: "Raleys",
+    address: "123 fake street",
+    phone: "123-123-4567",
+    primaryContact: "Steve Erwin",
+    secondaryContact: "James Smith"
+}
+
+const contact = {
+    name: "Steve Erwin",
+    title: "Manager",
+    phone: "916-555-3333",
+    email: "steve@email.com"
+}
+
+const tabs = [{
+        name: "Sales"
+    },
+    {
+        name: "Reports"
+    },
+    {
+        name: "Inventory"
+    },
+    {
+        name: "Stores"
+    },
+    {
+        name: "Contacts"
+    }
+]
+
+const storeInputs = [{
+    placeholer: "Store",
+    width: 12
+}]
+
+const newSaleInputs = [{
+        type: "input",
+        placeholer: "Beer",
+        width: 4
+    },
+    {
+        type: "input",
+        placeholer: "Packaging",
+        width: 4
+    },
+    {
+        type: "input",
+        placeholer: "Qty",
+        width: 3
+    },
+    {
+        type: "remove",
+        placeholer: "Remove",
+        width: 1
+    }
+]
 
 class RiverCricketComponent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            dropdownOpen: false
+            activeTab: 0,
+            orderItems: [
+                "testOrder"
+            ]
         }
-        this.toggle = this.toggle.bind(this);
+        this.changeTabs = this.changeTabs.bind(this);
+        this.addItem = this.addItem.bind(this);
+        this.removeItem = this.removeItem.bind(this);
     }
 
-    toggle() {
+    addItem() {
+        var orderItems = JSON.parse(JSON.stringify(this.state.orderItems));
+        orderItems.push("testOrder");
         this.setState({
-            dropdownOpen: !this.state.dropdownOpen
+            orderItems: orderItems
+        })
+    }
+
+    removeItem() {
+        var orderItems = JSON.parse(JSON.stringify(this.state.orderItems));
+        orderItems.pop();
+        this.setState({
+            orderItems: orderItems
+        })
+    }
+
+    changeTabs(tab) {
+        this.setState({
+            activeTab: tab
         })
     }
 
@@ -66,111 +165,110 @@ class RiverCricketComponent extends Component {
                 <Row>
                     <Col>
                         <Nav tabs className="mb-4">
-                            <NavItem>
-                                <NavLink href="#" active>Link</NavLink>
-                            </NavItem>
-                            <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                <DropdownToggle nav caret>
-                                    Dropdown
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem header>Header</DropdownItem>
-                                    <DropdownItem disabled>Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                    <DropdownItem divider/>
-                                    <DropdownItem>Another Action</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
-                            <NavItem>
-                                <NavLink href="#">Link</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="#">Another Link</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink disabled href="#">Disabled Link</NavLink>
-                            </NavItem>
+                            {
+                                tabs.map((item, index) => {
+                                    return(
+                                        <NavItem key={index}>
+                                            <NavLink
+                                                href="#"
+                                                active={this.state.activeTab == index}
+                                                onClick={() => this.changeTabs(index)}
+                                            >
+                                                {item.name}
+                                            </NavLink>
+                                        </NavItem>
+                                    )
+
+                                })
+                            }
                         </Nav>
-                    </Col>
-                </Row>
-                <Row className="mb-4">
-                    <Col md={6}>
-                        <ListGroup>
-                            <ListGroupItem color="success">Cras justo odio</ListGroupItem>
-                            <ListGroupItem color="info">Dapibus ac facilisis in</ListGroupItem>
-                            <ListGroupItem color="warning">Morbi leo risus</ListGroupItem>
-                            <ListGroupItem color="danger">Porta ac consectetur ac</ListGroupItem>
-                        </ListGroup>
-                    </Col>
-                    <Col md={6}>
-                        <ListGroup>
-                            <ListGroupItem color="primary">Cras justo odio</ListGroupItem>
-                            <ListGroupItem color="warning">Morbi leo risus</ListGroupItem>
-                            <ListGroupItem color="info">Dapibus ac facilisis in</ListGroupItem>
-                            <ListGroupItem color="secondary">Porta ac consectetur ac</ListGroupItem>
-                        </ListGroup>
                     </Col>
                 </Row>
 
                 {
-                    rowsOfJunk.map((item, key) => {
-                        return (<Row key={key} form className="mb-4">
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label for="exampleCity">City</Label>
-                                    <Input type="text" name="city" id="exampleCity"/>
-                                </FormGroup>
-                            </Col>
-                            <Col md={4}>
-                                <FormGroup>
-                                    <Label for="exampleState">State</Label>
-                                    <Input type="text" name="state" id="exampleState"/>
-                                </FormGroup>
-                            </Col>
-                            <Col md={2}>
-                                <FormGroup>
-                                    <Label for="exampleZip">Zip</Label>
-                                    <Input type="text" name="zip" id="exampleZip"/>
-                                </FormGroup>
-                            </Col>
-                        </Row>)
-                    })
+                    // this is the reporting tab
+                    this.state.activeTab == 1 &&
+                    <p>
+                        Reports go here
+                    </p>
                 }
 
-                <Row className="mb-4">
-                    <Col>
-                        <Table hover size="sm" dark>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twittesr</td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
+                {
+                    // this is the sales tab
+                    this.state.activeTab == 0 &&
+                    <React.Fragment>
+                        <Card className="p-4 bg-light">
+                            <h4 className="text-center mb-4">
+                                Enter New Sale
+                            </h4>
+                            <Row>
+                                {
+                                    storeInputs.map((item, index) => {
+                                        return(
+                                            <Col key={index} sm={item.width} className="mb-3">
+                                                <Select placeholder={item.placeholer} />
+                                            </Col>
+                                        )
+
+                                    })
+                                }
+                                <Col>
+                                    <Card className="pt-3 px-4 mb-4">
+                                        {this.state.orderItems.map((orderItem, orderIndex) => {
+                                            return(
+                                                <Row key={orderIndex}>
+                                                    {
+                                                        newSaleInputs.map((item, index) => {
+                                                            return(
+                                                                <React.Fragment>
+                                                                    {
+                                                                        item.type == "remove" ?
+                                                                        <Col key={index} sm={item.width} className="mb-3">
+                                                                            <div className="d-flex justify-content-center align-items-center h-100">
+                                                                                <Button onClick={this.removeItem} color="link" className={this.state.orderItems.length == 1 ? "disabled p-0" : "p-0"}>
+                                                                                    <i className="fas fa-minus-circle"></i>
+                                                                                </Button>
+                                                                            </div>
+                                                                        </Col>
+                                                                        :
+                                                                        <Col key={index} sm={item.width} className="mb-3">
+                                                                            <Select placeholder={item.placeholer} />
+                                                                        </Col>
+                                                                    }
+
+                                                                </React.Fragment>
+
+                                                            )
+
+                                                        })
+                                                    }
+                                                </Row>
+                                            )
+                                        })}
+
+                                    </Card>
+                                </Col>
+
+                            </Row>
+                            <Row className="justify-content-end">
+                                <Col sm={3} className="mb-3 text-right">
+                                    <Button color="info" onClick={this.addItem}>Add Item</Button>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Button block>
+                                        Submit
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Card>
+
+
+                    </React.Fragment>
+                }
+
+
 
             </Container>
         </div>);
