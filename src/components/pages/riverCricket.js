@@ -25,6 +25,8 @@ import {
     Table
 } from 'reactstrap';
 
+import Accounts from "../riverCricket/accounts";
+
 import Select from 'react-select';
 
 import {
@@ -48,7 +50,7 @@ const product = {
     }
 }
 
-const store = {
+const accountSample = {
     name: "Raleys",
     address: "123 fake street",
     phone: "123-123-4567",
@@ -64,16 +66,16 @@ const contact = {
 }
 
 const tabs = [{
-        name: "Sales"
+        name: "Reports"
     },
     {
-        name: "Reports"
+        name: "Sales"
     },
     {
         name: "Inventory"
     },
     {
-        name: "Stores"
+        name: "Accounts"
     },
     {
         name: "Contacts"
@@ -81,38 +83,61 @@ const tabs = [{
 ]
 
 const storeInputs = [{
-    placeholer: "Store",
-    width: 12
+    placeholer: "Account",
+    xsWidth: 12
 }]
 
-const newSaleInputs = [{
-        type: "input",
+const qtyOptions = [
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+]
+
+const makeSelectOptionsArray = (optionsArray) => {
+    let newOptions = [];
+    optionsArray.map((item, index) => {
+        newOptions[index] = {
+            label: item,
+            value: item
+        };
+    })
+    console.log('newOptions');
+    return newOptions;
+}
+
+const newSaleFields = [{
+        fieldType: "input",
         placeholer: "Beer",
-        width: 4
+        xsWidth: 12,
+        mdWidth: 4
     },
     {
-        type: "input",
+        fieldType: "input",
         placeholer: "Packaging",
-        width: 4
+        xsWidth: 5,
+        mdWidth: 4
     },
     {
-        type: "input",
+        fieldType: "input",
         placeholer: "Qty",
-        width: 3
+        xsWidth: 5,
+        mdWidth: 3,
+        options: makeSelectOptionsArray(qtyOptions)
     },
     {
-        type: "remove",
+        fieldType: "remove",
         placeholer: "Remove",
-        width: 1
+        xsWidth: 2,
+        mdWidth: 1
     }
 ]
+
+
 
 class RiverCricketComponent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 0,
+            activeTab: 3,
             orderItems: [
                 "testOrder"
             ]
@@ -187,7 +212,7 @@ class RiverCricketComponent extends Component {
 
                 {
                     // this is the reporting tab
-                    this.state.activeTab == 1 &&
+                    this.state.activeTab == 0 &&
                     <p>
                         Reports go here
                     </p>
@@ -195,17 +220,17 @@ class RiverCricketComponent extends Component {
 
                 {
                     // this is the sales tab
-                    this.state.activeTab == 0 &&
+                    this.state.activeTab == 1 &&
                     <React.Fragment>
-                        <Card className="p-4 bg-light">
+                        <Card className="p-4 mb-4 bg-light">
                             <h4 className="text-center mb-4">
-                                Enter New Sale
+                                New Sale
                             </h4>
                             <Row>
                                 {
                                     storeInputs.map((item, index) => {
                                         return(
-                                            <Col key={index} sm={item.width} className="mb-3">
+                                            <Col key={index} xs={item.xsWidth} className="mb-3">
                                                 <Select placeholder={item.placeholer} />
                                             </Col>
                                         )
@@ -213,45 +238,47 @@ class RiverCricketComponent extends Component {
                                     })
                                 }
                                 <Col>
-                                    <Card className="pt-3 px-4 mb-4">
+
                                         {this.state.orderItems.map((orderItem, orderIndex) => {
                                             return(
-                                                <Row key={orderIndex}>
-                                                    {
-                                                        newSaleInputs.map((item, index) => {
-                                                            return(
-                                                                <React.Fragment>
-                                                                    {
-                                                                        item.type == "remove" ?
-                                                                        <Col key={index} sm={item.width} className="mb-3">
-                                                                            <div className="d-flex justify-content-center align-items-center h-100">
-                                                                                <Button onClick={this.removeItem} color="link" className={this.state.orderItems.length == 1 ? "disabled p-0" : "p-0"}>
-                                                                                    <i className="fas fa-minus-circle"></i>
-                                                                                </Button>
-                                                                            </div>
-                                                                        </Col>
-                                                                        :
-                                                                        <Col key={index} sm={item.width} className="mb-3">
-                                                                            <Select placeholder={item.placeholer} />
-                                                                        </Col>
-                                                                    }
+                                                <Card className="pt-3 px-4 mb-4">
+                                                    <Row key={orderIndex}>
+                                                        {
+                                                            newSaleFields.map((item, index) => {
+                                                                return(
+                                                                    <React.Fragment>
+                                                                        {
+                                                                            item.fieldType == "remove" ?
+                                                                            <Col key={index} xs={item.xsWidth} md={item.mdWidth} className="mb-3">
+                                                                                <div className="d-flex justify-content-center align-items-center h-100">
+                                                                                    <Button onClick={this.removeItem} color="link" className={this.state.orderItems.length == 1 ? "disabled p-0" : "p-0"}>
+                                                                                        <i className="fas fa-minus-circle"></i>
+                                                                                    </Button>
+                                                                                </div>
+                                                                            </Col>
+                                                                            :
+                                                                            <Col key={index} xs={item.xsWidth} md={item.mdWidth} className="mb-3">
+                                                                                <Select options={item.options} clearable placeholder={item.placeholer} />
+                                                                            </Col>
+                                                                        }
 
-                                                                </React.Fragment>
+                                                                    </React.Fragment>
 
-                                                            )
+                                                                )
 
-                                                        })
-                                                    }
-                                                </Row>
+                                                            })
+                                                        }
+                                                    </Row>
+                                                </Card>
                                             )
                                         })}
 
-                                    </Card>
+
                                 </Col>
 
                             </Row>
                             <Row className="justify-content-end">
-                                <Col sm={3} className="mb-3 text-right">
+                                <Col xs={6} md={3} className="mb-4 text-right">
                                     <Button color="info" onClick={this.addItem}>Add Item</Button>
                                 </Col>
                             </Row>
@@ -266,6 +293,12 @@ class RiverCricketComponent extends Component {
 
 
                     </React.Fragment>
+                }
+
+                {
+                    // this is the accounts tab
+                    this.state.activeTab == 3 &&
+                    <Accounts />
                 }
 
 
