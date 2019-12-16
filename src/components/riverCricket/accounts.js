@@ -1,6 +1,4 @@
-import React, {
-    Component
-} from "react";
+import React, {Component} from "react";
 
 import {
     Container,
@@ -57,7 +55,8 @@ const makeSelectOptionsArray = optionsArray => {
     return newOptions;
 };
 
-const newSaleFields = [{
+const newSaleFields = [
+    {
         fieldType: "input",
         placeholer: "Company",
         xsWidth: 12,
@@ -86,13 +85,13 @@ const accountSample = {
     secondaryContact: "James Smith"
 };
 
-const getObjectIndexArray = (object) => {
+const getObjectIndexArray = object => {
     let indexArray = [];
     Object.keys(object).forEach((key, index) => {
         indexArray[index] = key;
-    })
+    });
     return indexArray;
-}
+};
 
 const accountsArray = [accountSample, accountSample, accountSample];
 
@@ -106,13 +105,11 @@ class Accounts extends Component {
     render() {
         return (
             <React.Fragment>
-
                 <div className="text-right mb-4">
                     <Button color="link">
                         Add Account
-                        <i class="fas fa-plus-circle ml-3"></i>
+                        <i class="fas fa-plus-circle ml-2"></i>
                     </Button>
-
                 </div>
 
                 <Row className="mb-4">
@@ -120,48 +117,39 @@ class Accounts extends Component {
                         <Table striped className="bg-light mb-4">
                             <thead>
                                 <tr>
-                                    {
-                                        getObjectIndexArray(accountSample).map((item, index) => {
-                                            return(
-                                                <th key={index}>{item}</th>
-                                            )
-                                        })
-                                    }
-
+                                    {getObjectIndexArray(accountSample).map(
+                                        (item, index) => {
+                                            return <th key={index}>{item}</th>;
+                                        }
+                                    )}
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    {
-                                        getObjectIndexArray(accountSample).map((item, index) => {
-                                            return(
-                                                <td key={index}>{item}</td>
-                                            )
-                                        })
-                                    }
+                                    {getObjectIndexArray(accountSample).map(
+                                        (item, index) => {
+                                            return <td key={index}>{item}</td>;
+                                        }
+                                    )}
                                 </tr>
                                 <tr>
-                                    {
-                                        getObjectIndexArray(accountSample).map((item, index) => {
-                                            return(
-                                                <td key={index}>{item}</td>
-                                            )
-                                        })
-                                    }
-                                </tr><tr>
-                                    {
-                                        getObjectIndexArray(accountSample).map((item, index) => {
-                                            return(
-                                                <td key={index}>{item}</td>
-                                            )
-                                        })
-                                    }
+                                    {getObjectIndexArray(accountSample).map(
+                                        (item, index) => {
+                                            return <td key={index}>{item}</td>;
+                                        }
+                                    )}
+                                </tr>
+                                <tr>
+                                    {getObjectIndexArray(accountSample).map(
+                                        (item, index) => {
+                                            return <td key={index}>{item}</td>;
+                                        }
+                                    )}
                                 </tr>
                             </tbody>
                         </Table>
                     </Col>
                 </Row>
-
             </React.Fragment>
         );
     }
