@@ -24,7 +24,7 @@ import {
 
 import Sales from "../riverCricket/sales";
 
-import Accounts from "../riverCricket/accounts";
+import Stores from "../riverCricket/stores";
 import Select from "react-select";
 import {connect} from "react-redux";
 import {makeSelectOptionsArray} from "../../utils/reactSelect";
@@ -40,7 +40,7 @@ const tabs = [
         name: "Inventory"
     },
     {
-        name: "Accounts"
+        name: "Stores"
     },
     {
         name: "Contacts"
@@ -51,7 +51,7 @@ class RiverCricketComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 1
+            activeTab: 3
         };
         this.changeTabs = this.changeTabs.bind(this);
     }
@@ -107,7 +107,7 @@ class RiverCricketComponent extends Component {
                     {// this is the sales tab
                     this.state.activeTab == 1 && <Sales />}
                     {// this is the accounts tab
-                    this.state.activeTab == 3 && <Accounts />}
+                    this.state.activeTab == 3 && <Stores />}
                 </Container>
             </div>
         );

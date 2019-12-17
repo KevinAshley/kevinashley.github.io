@@ -75,18 +75,6 @@ class login extends Component {
             });
         });
 
-        // if (firebase.auth().currentUser) {
-        //     if (firebase.auth().currentUser.name) {
-        //         this.setState({
-        //             userName: firebase.auth().currentUser.name
-        //         })
-        //     } else if (firebase.auth().currentUser.email) {
-        //         this.setState({
-        //             userName: firebase.auth().currentUser.email
-        //         })
-        //     }
-        // }
-
         this.props.changeAuthentication(true);
     }
 

@@ -15,7 +15,6 @@ import {
     connect
 } from 'react-redux';
 import {
-    changeAuthentication,
     changeLoginState
 } from '../../redux';
 
@@ -45,7 +44,7 @@ class Account extends Component {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in.
-                this.props.changeLoginState(true);
+                this.props.changeLoginState(true, firebase.auth().currentUser.email);
             } else {
                 // No user is signed in.
                 this.props.changeLoginState(false);
@@ -80,7 +79,6 @@ class Account extends Component {
 const mapStateToProps = (state, ownProps) => (state);
 
 const mapDispatchToProps = {
-    changeAuthentication,
     changeLoginState
 };
 

@@ -27,7 +27,6 @@ import {
     ModalFooter
 } from "reactstrap";
 
-import Accounts from "../riverCricket/accounts";
 import Select from "react-select";
 import {connect} from "react-redux";
 import {makeSelectOptionsArray} from "../../utils/reactSelect";
@@ -50,13 +49,13 @@ const newSaleFields = [
     {
         fieldType: "input",
         placeholer: "Packaging",
-        xsWidth: 6,
+        xsWidth: 7,
         mdWidth: 6
     },
     {
         fieldType: "input",
         placeholer: "Qty",
-        xsWidth: 6,
+        xsWidth: 5,
         mdWidth: 6,
         options: makeSelectOptionsArray(qtyOptions)
     }
