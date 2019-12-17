@@ -34,7 +34,7 @@ const rowsOfJunk = ["1", "1"];
 
 const storeInputs = [
     {
-        placeholer: "Account",
+        placeholer: "Store",
         xsWidth: 12
     }
 ];
@@ -124,11 +124,13 @@ class AddSale extends Component {
                                                                     index
                                                                 ) => {
                                                                     return (
-                                                                        <React.Fragment>
+                                                                        <React.Fragment
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                        >
                                                                             <Col
-                                                                                key={
-                                                                                    index
-                                                                                }
+
                                                                                 xs={
                                                                                     item.xsWidth
                                                                                 }

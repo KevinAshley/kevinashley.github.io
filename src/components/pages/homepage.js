@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Jumbotron, Card } from 'reactstrap';
 
 import Slideshow from '../slideshow/slideshow';
-import HomepageCardContainer from '../card/HomepageCard';
 
 class Homepage extends Component {
   render() {
@@ -23,17 +22,14 @@ class Homepage extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="col-12 col-md-4 mb-4">
-                          <HomepageCardContainer />
-                    </Col>
-                    <Col className="col-12 col-md-8 mb-4">
-                          <Card className="hp-slideshow-container">
+                    <Col className="col-12 mb-4">
+                        <Card className="hp-slideshow-container">
                             <Slideshow />
-                          </Card>
+                        </Card>
                     </Col>
                 </Row>
             </Container>
-        
+
 
     );
   }

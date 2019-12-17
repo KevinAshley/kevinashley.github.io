@@ -26,10 +26,10 @@ import {
 import SampleTable from "../riverCricket/sampleTable";
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
-import * as firebase from "firebase/app";
-import "firebase/firestore";
-
-var db = firebase.firestore();
+// import * as firebase from "firebase/app";
+// import "firebase/firestore";
+//
+// var db = firebase.firestore();
 
 class Stores extends Component {
     constructor(props) {
@@ -37,14 +37,14 @@ class Stores extends Component {
         this.state = {};
     }
     render() {
-        db.collection("accounts")
-            .get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                });
-            });
+        // db.collection("accounts")
+        //     .get()
+        //     .then(function(querySnapshot) {
+        //         querySnapshot.forEach(function(doc) {
+        //             // doc.data() is never undefined for query doc snapshots
+        //             console.log(doc.id, " => ", doc.data());
+        //         });
+        //     });
         return (
             <React.Fragment>
                 <div className="text-right mb-4">

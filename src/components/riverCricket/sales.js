@@ -111,7 +111,7 @@ class Sales extends Component {
                         onClick={this.toggleModal}
                     >
                         Add Sale
-                        <i class="fas fa-plus-circle ml-2"></i>
+                        <i className="fas fa-plus-circle ml-2"></i>
                     </Button>
 
                 </div>

@@ -4,66 +4,42 @@ import {
   createStore,
 } from 'redux';
 
+const initialState = {
+  loggedIn: false,
+  userEmail: ''
+}
+
 // actions.js
 
-export const changeCardAppearance = (input) => ({
-  type: 'changedCard',
-  changed: input
-});
-
-export const changeLoginState = (input) => ({
-    type: 'changedLoginState',
-    loggedIn: input
-});
-
-export const changeAuthentication = (input) => ({
-    type: 'changedAuth',
-    authenticating: input
+export const changeLoginState = (loggedInState, userEmail) => ({
+    type: 'CHANGE_LOGIN_STATE',
+    loggedIn: loggedInState,
+    email: userEmail
 });
 
 // reducers.js
 
-export const cardState = (state = {}, action) => {
+const loggedIn = (state, action) => {
     switch (action.type) {
-        case 'changedCard':
-            return action.changed;
+        case 'CHANGE_LOGIN_STATE':
+            return action.loggedIn
         default:
-            return state;
+            return false
     }
-};
+}
 
-export const loggedIn = (state = {}, action) => {
+const userEmail = (state, action) => {
     switch (action.type) {
-        case 'changedLoginState':
-            return action.loggedIn;
+        case 'CHANGE_LOGIN_STATE':
+            return action.email
         default:
-            return false;
+            return false
     }
-};
-
-export const authenticating = (state = {}, action) => {
-    switch (action.type) {
-        case 'changedAuth':
-            return action.authenticating;
-        case 'changedLoginState':
-            return false;
-        default:
-            return false;
-    }
-};
-
-
+}
 
 export const reducers = combineReducers({
-  cardState,
   loggedIn,
-  authenticating
+  userEmail
 });
 
-// store.js
-export function configureStore(initialState = {}) {
-  const store = createStore(reducers, initialState);
-  return store;
-};
-
-export const store = configureStore();
+export const store = createStore(reducers, initialState);

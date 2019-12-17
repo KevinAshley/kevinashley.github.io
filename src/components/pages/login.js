@@ -18,10 +18,6 @@ import {
     connect
 } from 'react-redux';
 
-import {
-    changeAuthentication
-} from '../../redux';
-
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from "firebase/app";
 import "firebase/auth";
@@ -75,7 +71,6 @@ class login extends Component {
             });
         });
 
-        this.props.changeAuthentication(true);
     }
 
     render() {
@@ -156,13 +151,8 @@ class login extends Component {
 
 const mapStateToProps = (state, ownProps) => (state);
 
-const mapDispatchToProps = {
-    changeAuthentication
-};
-
 const loginContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(login);
 
 export default loginContainer;
