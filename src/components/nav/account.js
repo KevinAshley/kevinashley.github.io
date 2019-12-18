@@ -65,13 +65,13 @@ class Account extends Component {
 
     render() {
 
-        // console.log('account props - ', this.props);
-        // console.log('account state - ', this.state);
+        console.log('account props - ', this.props);
+        console.log('account state - ', this.state);
 
         const {user} = this.state;
 
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
+        firebase.auth().onAuthStateChanged((firebaseUser) => {
+            if (firebaseUser) {
                 // User is signed in.
                 const userEmail = firebase.auth().currentUser.email;
                 this.props.changeLoginState(true, userEmail);

@@ -23,11 +23,17 @@ import {
 } from "reactstrap";
 
 import Sales from "../riverCricket/sales";
-
+import Products from "../riverCricket/products";
 import Stores from "../riverCricket/stores";
 import Select from "react-select";
 import {connect} from "react-redux";
 import {makeSelectOptionsArray} from "../../utils/reactSelect";
+
+import * as firebase from "firebase/app";
+import "firebase/firestore";
+
+var database = firebase.firestore();
+
 const rowsOfJunk = ["1", "1"];
 const tabs = [
     {
@@ -37,7 +43,7 @@ const tabs = [
         name: "Sales"
     },
     {
-        name: "Inventory"
+        name: "Products"
     },
     {
         name: "Stores"
@@ -51,7 +57,7 @@ class RiverCricketComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 3
+            activeTab: 2
         };
         this.changeTabs = this.changeTabs.bind(this);
     }
@@ -106,6 +112,8 @@ class RiverCricketComponent extends Component {
 
                     {// this is the sales tab
                     this.state.activeTab == 1 && <Sales />}
+                    {// this is the products tab
+                    this.state.activeTab == 2 && <Products database={database} />}
                     {// this is the accounts tab
                     this.state.activeTab == 3 && <Stores />}
                 </Container>
