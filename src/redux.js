@@ -6,15 +6,15 @@ import {
 
 const initialState = {
   loggedIn: false,
-  userEmail: ''
+  user: {}
 }
 
 // actions.js
 
-export const changeLoginState = (loggedInState, userEmail) => ({
+export const changeLoginState = (loggedIn, user) => ({
     type: 'CHANGE_LOGIN_STATE',
-    loggedIn: loggedInState,
-    email: userEmail
+    loggedIn: loggedIn,
+    user: user
 });
 
 // reducers.js
@@ -28,10 +28,10 @@ const loggedIn = (state, action) => {
     }
 }
 
-const userEmail = (state, action) => {
+const user = (state, action) => {
     switch (action.type) {
         case 'CHANGE_LOGIN_STATE':
-            return action.email
+            return action.user
         default:
             return false
     }
@@ -39,7 +39,7 @@ const userEmail = (state, action) => {
 
 export const reducers = combineReducers({
   loggedIn,
-  userEmail
+  user
 });
 
 export const store = createStore(reducers, initialState);

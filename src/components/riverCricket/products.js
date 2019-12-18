@@ -31,7 +31,7 @@ class Products extends Component {
         this.state = {};
     }
     render() {
-        console.log('products props - ',this.props);
+        // console.log('products props - ',this.props);
 
         this.props.database.collection("accounts")
             .get()

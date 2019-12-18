@@ -14,6 +14,7 @@ import {
 import {
     connect
 } from 'react-redux';
+
 import {
     changeLoginState
 } from '../../redux';
@@ -32,11 +33,6 @@ class Account extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            user: {
-                email: ""
-            }
-        }
 
         this.handleClick = this.handleClick.bind(this);
     }
@@ -45,39 +41,39 @@ class Account extends Component {
         this.props.close();
     }
 
-    componentDidUpdate(prevProps) {
-
-        if (this.props.userEmail && this.props.userEmail !== this.state.user.email) {
-            db.collection("users").where("email", "==", this.props.userEmail)
-                .get()
-                .then(
-                    (querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        // doc.data() is never undefined for query doc snapshots
-                        // console.log(doc.id, " => ", doc.data());
-                        this.setState({
-                            user: doc.data()
-                        })
-                    });
-                });
-        }
-    }
-
     render() {
 
-        console.log('account props - ', this.props);
-        console.log('account state - ', this.state);
+        // console.log('account props - ', this.props);
+        // console.log('account state - ', this.state);
 
-        const {user} = this.state;
+        const {user} = this.props;
 
         firebase.auth().onAuthStateChanged((firebaseUser) => {
             if (firebaseUser) {
+                console.log('signed in');
                 // User is signed in.
-                const userEmail = firebase.auth().currentUser.email;
-                this.props.changeLoginState(true, userEmail);
+                if (this.props.loggedIn == false) {
+                    const userEmail = firebase.auth().currentUser.email;
+
+                    db.collection("users").where("email", "==", userEmail)
+                        .get()
+                        .then(
+                            (querySnapshot) => {
+                            querySnapshot.forEach((doc) => {
+                                const docUser = doc.data();
+                                // console.log(docUser);
+                                this.props.changeLoginState(true, docUser)
+                            });
+                        });
+                    ;
+                }
+
             } else {
+                console.log('signed out');
                 // No user is signed in.
-                this.props.changeLoginState(false, '');
+                if (this.props.loggedIn == true) {
+                    this.props.changeLoginState(false, {});
+                }
             }
         });
 
@@ -97,7 +93,7 @@ class Account extends Component {
                                 </Link>
                             </NavItem>
                         </Nav>
-                    : <Nav className="ml-auto mr-2" navbar>
+                    : <Nav className="ml-auto px-2 mr-2" navbar>
                             <NavItem>
                                 <Link onClick={this.handleClick} to="/login" className='nav-link px-2'>
                                     Login

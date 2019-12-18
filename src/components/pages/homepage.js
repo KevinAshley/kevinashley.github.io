@@ -15,9 +15,6 @@ class Homepage extends Component {
 
                         <Jumbotron className="mt-2">
                             <h1>Welcome to my website!</h1>
-                            <p className="mb-0">This website is hosted on Github. View my repository <a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/KevinAshley/kevinashley.github.io">here</a>
-                            <br /><br />
-                            Kevin Ashley</p>
                     </Jumbotron>
                     </Col>
                 </Row>
