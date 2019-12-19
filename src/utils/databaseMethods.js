@@ -1,8 +1,8 @@
 import React from "react";
 
-export const getCollectionDocs = (database, collectionName) => {
+export const getCollectionDocs = (databaseOrDocRef, collectionName) => {
     let docs = {};
-    database.collection(collectionName)
+    databaseOrDocRef.collection(collectionName)
         .get()
         .then(
             (querySnapshot) => {
@@ -10,6 +10,17 @@ export const getCollectionDocs = (database, collectionName) => {
                 // doc.data() is never undefined for query doc snapshots
                 // console.log(doc.id, " => ", doc.data());
                 docs[doc.id] = doc.data();
+                // docs[doc.id]['inventory'];
+                var subcollectionName = "";
+                if (collectionName == 'products') {
+                    subcollectionName = 'inventory';
+                }
+
+                if (subcollectionName) {
+                    var subDocRef = databaseOrDocRef.collection(collectionName).doc(doc.id);
+                    docs[doc.id][subcollectionName] = getCollectionDocs(subDocRef, subcollectionName);
+                }
+
             });
         });
     return docs;

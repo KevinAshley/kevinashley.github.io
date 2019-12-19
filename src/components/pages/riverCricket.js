@@ -66,7 +66,8 @@ class RiverCricketComponent extends Component {
         this.setState({activeTab: tab});
     }
     render() {
-        // console.log("riverCricket props - ", this.props);
+        console.log("riverCricket props - ", this.props);
+
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing
             return "";
@@ -121,9 +122,9 @@ class RiverCricketComponent extends Component {
         );
     }
 }
-const mapStateToProps = state => {
-    const {loggedIn} = state;
-    return {loggedIn: loggedIn};
-};
+
+const mapStateToProps = (state, ownProps) => (state);
+
 const RiverCricket = connect(mapStateToProps)(RiverCricketComponent);
+
 export default RiverCricket;

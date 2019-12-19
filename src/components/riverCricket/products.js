@@ -34,24 +34,17 @@ import SampleTable from "../riverCricket/sampleTable";
 class Products extends Component {
     constructor(props) {
         super(props);
+        var account = this.props.database.collection("accounts").doc(this.props.accountId);
+        var products = getCollectionDocs(account, "products");
+        console.log(products);
         this.state = {
-            accountId: "",
-            productIds: [],
-            products: []
+            products: products
         };
     }
+
     render() {
-        // console.log('products props - ',this.props);
-        // console.log('products state - ',this.state);
-
-        const {user} = this.props;
-        const userEmail = user ? user.email : "";
-
-        // console.log(userEmail);
-        const db = this.props.database;
-
-        let accounts = getCollectionDocs(db, "accounts");
-        // console.log('accounts are - ', accounts);
+        console.log('products props - ',this.props);
+        console.log('products state - ',this.state);
 
         // if (!this.state.accountId) {
         //     db.collection("accounts").where("userEmails", "array-contains", userEmail)

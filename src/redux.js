@@ -35,7 +35,7 @@ const user = (state, action) => {
         case 'CHANGE_LOGIN_STATE':
             return action.user
         default:
-            return false
+            return {}
     }
 }
 
@@ -44,7 +44,7 @@ const accountId = (state, action) => {
         case 'CHANGE_LOGIN_STATE':
             return action.accountId
         default:
-            return false
+            return ''
     }
 }
 
