@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
     Container,
     Row,
@@ -26,8 +26,8 @@ import Sales from "../riverCricket/sales";
 import Products from "../riverCricket/products";
 import Stores from "../riverCricket/stores";
 import Select from "react-select";
-import {connect} from "react-redux";
-import {makeSelectOptionsArray} from "../../utils/reactSelect";
+import { connect } from "react-redux";
+import { makeSelectOptionsArray } from "../../utils/reactSelect";
 
 import * as firebase from "firebase/app";
 import "firebase/firestore";
@@ -63,10 +63,10 @@ class RiverCricketComponent extends Component {
     }
 
     changeTabs(tab) {
-        this.setState({activeTab: tab});
+        this.setState({ activeTab: tab });
     }
     render() {
-        console.log("riverCricket props - ", this.props);
+        // console.log("riverCricket props - ", this.props);
 
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing
@@ -114,7 +114,9 @@ class RiverCricketComponent extends Component {
                     {// this is the sales tab
                     this.state.activeTab == 1 && <Sales />}
                     {// this is the products tab
-                    this.state.activeTab == 2 && <Products database={database} />}
+                    this.state.activeTab == 2 && (
+                        <Products database={database} />
+                    )}
                     {// this is the accounts tab
                     this.state.activeTab == 3 && <Stores />}
                 </Container>
@@ -123,7 +125,7 @@ class RiverCricketComponent extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => (state);
+const mapStateToProps = (state, ownProps) => state;
 
 const RiverCricket = connect(mapStateToProps)(RiverCricketComponent);
 
