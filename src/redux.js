@@ -6,15 +6,17 @@ import {
 
 const initialState = {
   loggedIn: false,
-  user: {}
+  user: {},
+  accountId: ''
 }
 
 // actions.js
 
-export const changeLoginState = (loggedIn, user) => ({
+export const changeLoginState = (loggedIn, user, accountId) => ({
     type: 'CHANGE_LOGIN_STATE',
     loggedIn: loggedIn,
-    user: user
+    user: user,
+    accountId: accountId
 });
 
 // reducers.js
@@ -37,9 +39,19 @@ const user = (state, action) => {
     }
 }
 
+const accountId = (state, action) => {
+    switch (action.type) {
+        case 'CHANGE_LOGIN_STATE':
+            return action.accountId
+        default:
+            return false
+    }
+}
+
 export const reducers = combineReducers({
   loggedIn,
-  user
+  user,
+  accountId
 });
 
 export const store = createStore(reducers, initialState);

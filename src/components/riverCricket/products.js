@@ -23,28 +23,66 @@ import {
     Table
 } from "reactstrap";
 
+import {
+    connect
+} from 'react-redux';
+
+import {getCollectionDocs} from '../../utils/databaseMethods';
+
 import SampleTable from "../riverCricket/sampleTable";
 
 class Products extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            accountId: "",
+            productIds: [],
+            products: []
+        };
     }
     render() {
         // console.log('products props - ',this.props);
+        // console.log('products state - ',this.state);
 
-        this.props.database.collection("accounts")
-            .get()
-            .then(
-                (querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-                    // this.setState({
-                    //     user: doc.data()
-                    // })
-                });
-            });
+        const {user} = this.props;
+        const userEmail = user ? user.email : "";
+
+        // console.log(userEmail);
+        const db = this.props.database;
+
+        let accounts = getCollectionDocs(db, "accounts");
+        // console.log('accounts are - ', accounts);
+
+        // if (!this.state.accountId) {
+        //     db.collection("accounts").where("userEmails", "array-contains", userEmail)
+        //         .get()
+        //         .then(
+        //             (querySnapshot) => {
+        //             querySnapshot.forEach((doc) => {
+        //                 // doc.data() is never undefined for query doc snapshots
+        //                 console.log(doc.id, " => ", doc.data());
+        //                 this.setState({
+        //                     accountId: doc.id
+        //                 })
+        //             });
+        //         });
+        // }
+        //
+        // if (this.state.accountId && this.state.productIds.length == 0) {
+        //     db.collection("accounts").doc(this.state.accountId).collection("products")
+        //         .get()
+        //         .then(
+        //             (querySnapshot) => {
+        //             querySnapshot.forEach((doc) => {
+        //                 // doc.data() is never undefined for query doc snapshots
+        //                 console.log(doc.id, " => ", doc.data());
+        //                 this.setState({
+        //                     productIds: [...this.state.productIds, doc.id],
+        //                     products: [...this.state.productIds, doc.data()]
+        //                 })
+        //             });
+        //         });
+        // }
 
         return (
             <React.Fragment>
@@ -65,4 +103,8 @@ class Products extends Component {
     }
 }
 
-export default Products;
+const mapStateToProps = (state, ownProps) => (state);
+
+const ProductsContainer = connect(mapStateToProps)(Products);
+
+export default ProductsContainer;

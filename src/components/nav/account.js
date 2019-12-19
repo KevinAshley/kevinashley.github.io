@@ -54,25 +54,41 @@ class Account extends Component {
                 // User is signed in.
                 if (this.props.loggedIn == false) {
                     const userEmail = firebase.auth().currentUser.email;
+                    var docUser = {};
+                    var accountId = '';
 
                     db.collection("users").where("email", "==", userEmail)
                         .get()
                         .then(
                             (querySnapshot) => {
                             querySnapshot.forEach((doc) => {
-                                const docUser = doc.data();
+                                docUser = doc.data();
                                 // console.log(docUser);
-                                this.props.changeLoginState(true, docUser)
+
                             });
+                            db.collection("accounts").where("userEmails", "array-contains", userEmail)
+                                .get()
+                                .then(
+                                    (querySnapshot) => {
+                                    querySnapshot.forEach((doc) => {
+                                        accountId = doc.id;
+                                        // console.log(docUser);
+                                    });
+                                    // console.log('kevin - ', docUser, accountId);
+
+                                    this.props.changeLoginState(true, docUser, accountId);
+                                });
+                            ;
                         });
                     ;
+
                 }
 
             } else {
                 console.log('signed out');
                 // No user is signed in.
                 if (this.props.loggedIn == true) {
-                    this.props.changeLoginState(false, {});
+                    this.props.changeLoginState(false, {}, '');
                 }
             }
         });
