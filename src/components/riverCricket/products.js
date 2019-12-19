@@ -43,39 +43,8 @@ class Products extends Component {
     }
 
     render() {
-        console.log('products props - ',this.props);
+        // console.log('products props - ',this.props);
         console.log('products state - ',this.state);
-
-        // if (!this.state.accountId) {
-        //     db.collection("accounts").where("userEmails", "array-contains", userEmail)
-        //         .get()
-        //         .then(
-        //             (querySnapshot) => {
-        //             querySnapshot.forEach((doc) => {
-        //                 // doc.data() is never undefined for query doc snapshots
-        //                 console.log(doc.id, " => ", doc.data());
-        //                 this.setState({
-        //                     accountId: doc.id
-        //                 })
-        //             });
-        //         });
-        // }
-        //
-        // if (this.state.accountId && this.state.productIds.length == 0) {
-        //     db.collection("accounts").doc(this.state.accountId).collection("products")
-        //         .get()
-        //         .then(
-        //             (querySnapshot) => {
-        //             querySnapshot.forEach((doc) => {
-        //                 // doc.data() is never undefined for query doc snapshots
-        //                 console.log(doc.id, " => ", doc.data());
-        //                 this.setState({
-        //                     productIds: [...this.state.productIds, doc.id],
-        //                     products: [...this.state.productIds, doc.data()]
-        //                 })
-        //             });
-        //         });
-        // }
 
         return (
             <React.Fragment>
@@ -88,7 +57,36 @@ class Products extends Component {
 
                 <Row className="mb-4">
                     <Col>
-                        <SampleTable />
+                        <Table striped>
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Username</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>twitter</td>
+                            </tr>
+                          </tbody>
+                        </Table>
                     </Col>
                 </Row>
             </React.Fragment>
