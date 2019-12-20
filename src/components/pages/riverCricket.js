@@ -32,6 +32,8 @@ import { makeSelectOptionsArray } from "../../utils/reactSelect";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 
+import { getCollectionDocs } from "../../utils/databaseQueries";
+
 var database = firebase.firestore();
 
 const rowsOfJunk = ["1", "1"];
@@ -57,16 +59,42 @@ class RiverCricketComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 2
+            activeTab: 2,
+            accountRef: undefined,
+            accountData: undefined
         };
+
         this.changeTabs = this.changeTabs.bind(this);
+        this.updateData = this.updateData.bind(this);
+    }
+
+    updateData(data) {
+        // console.log("the returned data is - ", data);
+        this.setState({
+            accountData: data,
+            loading: false
+        });
+    }
+
+    componentDidUpdate() {
+        if (database && this.props.accountId && !this.state.accountRef) {
+            this.setState({
+                accountRef: database
+                    .collection("accounts")
+                    .doc(this.props.accountId)
+            });
+        }
+        if (this.state.accountRef && !this.state.accountData) {
+            getCollectionDocs(database, "accounts", this.updateData);
+        }
     }
 
     changeTabs(tab) {
         this.setState({ activeTab: tab });
     }
     render() {
-        // console.log("riverCricket props - ", this.props);
+        console.log("riverCricket props - ", this.props);
+        console.log("riverCricket state - ", this.state);
 
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing

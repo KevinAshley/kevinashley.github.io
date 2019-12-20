@@ -26,7 +26,7 @@ import {
 
 import { connect } from "react-redux";
 
-import { getCollectionDocs } from "../../utils/databaseMethods";
+import { getCollectionDocs } from "../../utils/databaseQueries";
 
 import SampleTable from "../riverCricket/sampleTable";
 
