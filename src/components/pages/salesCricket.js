@@ -64,16 +64,24 @@ class SalesCricketComponent extends Component {
             accountData: undefined
         };
 
+        this.backgroundState = {};
+
         this.changeTabs = this.changeTabs.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.updateMyState = this.updateMyState.bind(this);
+    }
+
+    updateMyState() {
+        this.setState(this.backgroundState);
     }
 
     updateData(data) {
         // console.log("the returned data is - ", data);
-        this.setState({
+        this.backgroundState = {
             accountData: data,
             loading: false
-        });
+        };
+        this.setState(this.backgroundState);
     }
 
     componentDidUpdate() {
@@ -85,7 +93,12 @@ class SalesCricketComponent extends Component {
             });
         }
         if (this.state.accountRef && !this.state.accountData) {
-            getCollectionDocs(database, "accounts", this.updateData);
+            getCollectionDocs(
+                database,
+                "accounts",
+                this.updateData,
+                this.updateMyState
+            );
         }
     }
 

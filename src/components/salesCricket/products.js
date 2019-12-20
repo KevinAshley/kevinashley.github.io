@@ -54,7 +54,7 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        getCollectionDocs(this.accountRef, "products", this.updateData);
+        // getCollectionDocs(this.accountRef, "products", this.updateData);
     }
 
     render() {

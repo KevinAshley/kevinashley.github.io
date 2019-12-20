@@ -3,7 +3,8 @@ import React from "react";
 export const getCollectionDocs = (
     databaseOrDocRef,
     collectionName,
-    returnData
+    returnData,
+    updateState
 ) => {
     let docs = [];
     var subcollectionNames = [];
@@ -41,12 +42,14 @@ export const getCollectionDocs = (
                     getCollectionDocs(
                         subDocRef,
                         subcollectionName,
-                        returnFunction
+                        returnFunction,
+                        updateState
                     );
                 });
 
                 docs.push(docData);
             });
             returnData(docs);
+            updateState();
         });
 };
