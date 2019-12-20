@@ -106,8 +106,8 @@ class SalesCricketComponent extends Component {
         this.setState({ activeTab: tab });
     }
     render() {
-        console.log("SalesCricket props - ", this.props);
-        console.log("SalesCricket state - ", this.state);
+        // console.log("SalesCricket props - ", this.props);
+        // console.log("SalesCricket state - ", this.state);
 
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing
