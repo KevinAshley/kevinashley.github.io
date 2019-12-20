@@ -25,8 +25,8 @@ import {
     Table
 } from "reactstrap";
 
-import AddSale from "../riverCricket/addSale";
-import SampleTable from "../riverCricket/sampleTable";
+import AddSale from "../salesCricket/addSale";
+import SampleTable from "../salesCricket/sampleTable";
 
 import Select from "react-select";
 import {connect} from "react-redux";

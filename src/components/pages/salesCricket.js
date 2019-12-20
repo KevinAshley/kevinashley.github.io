@@ -22,9 +22,9 @@ import {
     Table
 } from "reactstrap";
 
-import Sales from "../riverCricket/sales";
-import Products from "../riverCricket/products";
-import Stores from "../riverCricket/stores";
+import Sales from "../salesCricket/sales";
+import Products from "../salesCricket/products";
+import Stores from "../salesCricket/stores";
 import Select from "react-select";
 import { connect } from "react-redux";
 import { makeSelectOptionsArray } from "../../utils/reactSelect";
@@ -55,7 +55,7 @@ const tabs = [
     }
 ];
 
-class RiverCricketComponent extends Component {
+class SalesCricketComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -93,8 +93,8 @@ class RiverCricketComponent extends Component {
         this.setState({ activeTab: tab });
     }
     render() {
-        console.log("riverCricket props - ", this.props);
-        console.log("riverCricket state - ", this.state);
+        console.log("SalesCricket props - ", this.props);
+        console.log("SalesCricket state - ", this.state);
 
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing
@@ -106,7 +106,7 @@ class RiverCricketComponent extends Component {
                     <Row>
                         <Col className="mt-4">
                             <Jumbotron className="mt-2 text-center">
-                                <h1>River Cricket</h1>
+                                <h1>Sales Cricket</h1>
                             </Jumbotron>
                         </Col>
                     </Row>
@@ -155,6 +155,6 @@ class RiverCricketComponent extends Component {
 
 const mapStateToProps = (state, ownProps) => state;
 
-const RiverCricket = connect(mapStateToProps)(RiverCricketComponent);
+const SalesCricket = connect(mapStateToProps)(SalesCricketComponent);
 
-export default RiverCricket;
+export default SalesCricket;

@@ -28,7 +28,7 @@ import { connect } from "react-redux";
 
 import { getCollectionDocs } from "../../utils/databaseQueries";
 
-import SampleTable from "../riverCricket/sampleTable";
+import SampleTable from "../salesCricket/sampleTable";
 
 class Products extends Component {
     constructor(props) {
