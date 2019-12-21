@@ -3,22 +3,23 @@ import React from "react";
 export const getCollectionDocs = (
     databaseOrDocRef,
     collectionName,
-    returnData,
+    docs,
     updateState
 ) => {
-    let docs = [];
-    var subcollectionNames = [];
     databaseOrDocRef
         .collection(collectionName)
         .get()
         .then(querySnapshot => {
+            var i = 0;
             querySnapshot.forEach(doc => {
                 // doc.data() is never undefined for query doc snapshots
+                docs.push(doc.data());
 
-                var docData = doc.data();
+                // updateState();
 
+                var subcollectionNames = [];
                 if (collectionName == "accounts") {
-                    subcollectionNames = ["products", "stores"];
+                    subcollectionNames = ["products"];
                 }
                 if (collectionName == "users") {
                     subcollectionNames = [];
@@ -27,29 +28,30 @@ export const getCollectionDocs = (
                     subcollectionNames = ["inventory"];
                 }
                 if (collectionName == "stores") {
-                    subcollectionNames = ["contacts"];
+                    subcollectionNames = [];
                 }
 
-                subcollectionNames.map((subcollectionName, index) => {
-                    const returnFunction = data => {
-                        docData[subcollectionName] = data;
-                    };
+                if (
+                    subcollectionNames.length &&
+                    subcollectionNames.length > 0
+                ) {
+                    subcollectionNames.map((subcollectionName, index) => {
+                        docs[i][subcollectionName] = [];
 
-                    var subDocRef = databaseOrDocRef
-                        .collection(collectionName)
-                        .doc(doc.id);
+                        var subDocRef = databaseOrDocRef
+                            .collection(collectionName)
+                            .doc(doc.id);
 
-                    getCollectionDocs(
-                        subDocRef,
-                        subcollectionName,
-                        returnFunction,
-                        updateState
-                    );
-                });
+                        getCollectionDocs(
+                            subDocRef,
+                            subcollectionName,
+                            docs[i][subcollectionName],
+                            updateState
+                        );
+                    });
+                }
 
-                docs.push(docData);
+                i += 1;
             });
-            returnData(docs);
-            updateState();
         });
 };

@@ -64,24 +64,17 @@ class SalesCricketComponent extends Component {
             accountData: undefined
         };
 
-        this.backgroundState = {};
+        this.docs = [];
 
         this.changeTabs = this.changeTabs.bind(this);
         this.updateData = this.updateData.bind(this);
-        this.updateMyState = this.updateMyState.bind(this);
     }
 
-    updateMyState() {
-        this.setState(this.backgroundState);
-    }
-
-    updateData(data) {
-        // console.log("the returned data is - ", data);
-        this.backgroundState = {
-            accountData: data[0],
-            loading: false
-        };
-        this.setState(this.backgroundState);
+    updateData() {
+        // console.log("hello");
+        this.setState({
+            data: this.docs
+        });
     }
 
     componentDidUpdate() {
@@ -92,12 +85,17 @@ class SalesCricketComponent extends Component {
                     .doc(this.props.accountId)
             });
         }
-        if (this.state.accountRef && !this.state.accountData) {
-            getCollectionDocs(
-                database,
-                "accounts",
-                this.updateData,
-                this.updateMyState
+        if (this.state.accountRef && !this.state.requestedData) {
+            this.setState(
+                {
+                    requestedData: true
+                },
+                getCollectionDocs(
+                    database,
+                    "accounts",
+                    this.docs,
+                    this.updateData
+                )
             );
         }
     }
@@ -108,6 +106,7 @@ class SalesCricketComponent extends Component {
     render() {
         // console.log("SalesCricket props - ", this.props);
         // console.log("SalesCricket state - ", this.state);
+        console.log("this.docs - ", this.docs);
 
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing
