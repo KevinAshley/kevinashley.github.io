@@ -78,7 +78,7 @@ class SalesCricketComponent extends Component {
     updateData(data) {
         // console.log("the returned data is - ", data);
         this.backgroundState = {
-            accountData: data,
+            accountData: data[0],
             loading: false
         };
         this.setState(this.backgroundState);
@@ -156,7 +156,13 @@ class SalesCricketComponent extends Component {
                     this.state.activeTab == 1 && <Sales />}
                     {// this is the products tab
                     this.state.activeTab == 2 && (
-                        <Products database={database} />
+                        <Products
+                            products={
+                                this.state.accountData
+                                    ? this.state.accountData.products
+                                    : undefined
+                            }
+                        />
                     )}
                     {// this is the accounts tab
                     this.state.activeTab == 3 && <Stores />}

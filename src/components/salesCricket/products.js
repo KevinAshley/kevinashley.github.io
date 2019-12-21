@@ -26,6 +26,8 @@ import {
 
 import { connect } from "react-redux";
 
+import Graph from "./components/graph";
+
 import { getCollectionDocs } from "../../utils/databaseQueries";
 
 import SampleTable from "../salesCricket/sampleTable";
@@ -33,28 +35,17 @@ import SampleTable from "../salesCricket/sampleTable";
 class Products extends Component {
     constructor(props) {
         super(props);
-        this.accountRef = this.props.database
-            .collection("accounts")
-            .doc(this.props.accountId);
-
-        // console.log(products);
         this.state = {
             loading: true
         };
-
-        this.updateData = this.updateData.bind(this);
     }
 
-    updateData(data) {
-        // console.log("the returned data is - ", data);
-        this.setState({
-            products: data,
-            loading: false
-        });
-    }
-
-    componentDidMount() {
-        // getCollectionDocs(this.accountRef, "products", this.updateData);
+    componentDidUpdate() {
+        if (this.state.loading && this.props.products) {
+            this.setState({
+                loading: false
+            });
+        }
     }
 
     render() {
@@ -79,52 +70,7 @@ class Products extends Component {
                                 />
                             </div>
                         ) : (
-                            <Table striped className="bg-light">
-                                <thead>
-                                    <tr>
-                                        {Object.keys(
-                                            this.state.products[0]
-                                        ).map((item, index) => {
-                                            return <th key={index}>{item}</th>;
-                                        })}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.products &&
-                                        this.state.products.length !== 0 && (
-                                            <React.Fragment>
-                                                {this.state.products.map(
-                                                    (item, index) => {
-                                                        return (
-                                                            <tr key={index}>
-                                                                {Object.values(
-                                                                    item
-                                                                ).map(
-                                                                    (
-                                                                        item,
-                                                                        index
-                                                                    ) => {
-                                                                        return (
-                                                                            <td
-                                                                                key={
-                                                                                    index
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    item
-                                                                                }
-                                                                            </td>
-                                                                        );
-                                                                    }
-                                                                )}
-                                                            </tr>
-                                                        );
-                                                    }
-                                                )}
-                                            </React.Fragment>
-                                        )}
-                                </tbody>
-                            </Table>
+                            <Graph graphData={this.props.products} />
                         )}
                     </Col>
                 </Row>
