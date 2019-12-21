@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 
 import {
@@ -49,8 +51,8 @@ class Products extends Component {
     }
 
     render() {
-        // console.log('products props - ',this.props);
-        // console.log("products state - ", this.state);
+        console.log("products props - ", this.props);
+        console.log("products state - ", this.state);
 
         return (
             <React.Fragment>

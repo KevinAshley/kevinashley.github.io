@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 
 import {
@@ -29,10 +31,7 @@ class Graph extends Component {
         super(props);
     }
     render() {
-        this.props.graphData &&
-            this.props.graphData[0] &&
-            console.log(this.props.graphData[0]);
-
+        return "";
         return (
             <React.Fragment>
                 <Table>
@@ -40,6 +39,9 @@ class Graph extends Component {
                         {this.props.graphData.map((product, productIndex) => {
                             return (
                                 <React.Fragment key={productIndex}>
+                                    <tr>
+                                        <td>{product.name}</td>
+                                    </tr>
                                     {product.inventory &&
                                         product.inventory.map(
                                             (inventory, unitIndex) => {

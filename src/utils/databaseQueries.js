@@ -15,7 +15,7 @@ export const getCollectionDocs = (
                 // doc.data() is never undefined for query doc snapshots
                 docs.push(doc.data());
 
-                // updateState();
+                updateState();
 
                 var subcollectionNames = [];
                 if (collectionName == "accounts") {

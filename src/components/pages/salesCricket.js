@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 import {
     Container,
@@ -60,8 +62,8 @@ class SalesCricketComponent extends Component {
         super(props);
         this.state = {
             activeTab: 2,
-            accountRef: undefined,
-            accountData: undefined
+            data: undefined,
+            renderTrigger: true
         };
 
         this.docs = [];
@@ -73,7 +75,8 @@ class SalesCricketComponent extends Component {
     updateData() {
         // console.log("hello");
         this.setState({
-            data: this.docs
+            data: this.docs[0],
+            renderTrigger: !this.state.renderTrigger
         });
     }
 
@@ -106,7 +109,7 @@ class SalesCricketComponent extends Component {
     render() {
         // console.log("SalesCricket props - ", this.props);
         // console.log("SalesCricket state - ", this.state);
-        console.log("this.docs - ", this.docs);
+        // console.log("this.docs - ", this.docs);
 
         if (!this.props.loggedIn) {
             // if not logged in, then show nothing
@@ -157,10 +160,11 @@ class SalesCricketComponent extends Component {
                     this.state.activeTab == 2 && (
                         <Products
                             products={
-                                this.state.accountData
-                                    ? this.state.accountData.products
+                                this.state.data
+                                    ? this.state.data.products
                                     : undefined
                             }
+                            renderTrigger={this.state.renderTrigger}
                         />
                     )}
                     {// this is the accounts tab
