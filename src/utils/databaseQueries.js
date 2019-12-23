@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 
 export const getCollectionDocs = (
@@ -14,8 +16,6 @@ export const getCollectionDocs = (
             querySnapshot.forEach(doc => {
                 // doc.data() is never undefined for query doc snapshots
                 docs.push(doc.data());
-
-                updateState();
 
                 var subcollectionNames = [];
                 if (collectionName == "accounts") {
@@ -53,5 +53,6 @@ export const getCollectionDocs = (
 
                 i += 1;
             });
+            updateState();
         });
 };

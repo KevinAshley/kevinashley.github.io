@@ -70,6 +70,7 @@ class SalesCricketComponent extends Component {
 
         this.changeTabs = this.changeTabs.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.fetchData = this.fetchData.bind(this);
     }
 
     updateData() {
@@ -80,7 +81,7 @@ class SalesCricketComponent extends Component {
         });
     }
 
-    componentDidUpdate() {
+    fetchData() {
         if (database && this.props.accountId && !this.state.accountRef) {
             this.setState({
                 accountRef: database
@@ -101,6 +102,14 @@ class SalesCricketComponent extends Component {
                 )
             );
         }
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    componentDidUpdate() {
+        this.fetchData();
     }
 
     changeTabs(tab) {

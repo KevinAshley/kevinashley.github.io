@@ -31,47 +31,76 @@ class Graph extends Component {
         super(props);
     }
     render() {
-        return "";
         return (
             <React.Fragment>
-                <Table>
+                <Table bordered responsive>
+                    <thead className="bg-dark text-light">
+                        <tr>
+                            <th>
+                                <span className="text-nowrap">Product</span>
+                            </th>
+                            <th>
+                                <span className="text-nowrap">Opt. 1</span>
+                            </th>
+                            <th>
+                                <span className="text-nowrap">Opt. 2</span>
+                            </th>
+                            <th>
+                                <span className="text-nowrap">Price</span>
+                            </th>
+                            <th>
+                                <span className="text-nowrap">Stock</span>
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {this.props.graphData.map((product, productIndex) => {
+                            const rowColor = productIndex & 1 ? "bg-light" : "";
                             return (
                                 <React.Fragment key={productIndex}>
-                                    <tr>
-                                        <td>{product.name}</td>
-                                    </tr>
-                                    {product.inventory &&
-                                        product.inventory.map(
-                                            (inventory, unitIndex) => {
-                                                return (
-                                                    <tr key={unitIndex}>
-                                                        {inventory.options &&
-                                                            inventory.options.map(
-                                                                (
-                                                                    option,
-                                                                    optionIndex
-                                                                ) => {
-                                                                    return (
-                                                                        <td
-                                                                            key={
-                                                                                optionIndex
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                option[
-                                                                                    optionIndex
-                                                                                ]
-                                                                            }
-                                                                        </td>
-                                                                    );
-                                                                }
+                                    {product.inventory && (
+                                        <React.Fragment key={productIndex}>
+                                            {product.inventory.map(
+                                                (inventory, unitIndex) => {
+                                                    return (
+                                                        <tr
+                                                            key={unitIndex}
+                                                            className={rowColor}
+                                                        >
+                                                            <td>
+                                                                {product.name}
+                                                            </td>
+                                                            {inventory.options && (
+                                                                <React.Fragment>
+                                                                    <td>
+                                                                        {
+                                                                            inventory
+                                                                                .options[0]
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            inventory
+                                                                                .options[1]
+                                                                        }
+                                                                    </td>
+                                                                </React.Fragment>
                                                             )}
-                                                    </tr>
-                                                );
-                                            }
-                                        )}
+                                                            <td>
+                                                                $
+                                                                {
+                                                                    inventory.price
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {inventory.qty}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                }
+                                            )}
+                                        </React.Fragment>
+                                    )}
                                 </React.Fragment>
                             );
                         })}

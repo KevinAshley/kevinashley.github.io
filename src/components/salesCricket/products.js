@@ -37,17 +37,6 @@ import SampleTable from "../salesCricket/sampleTable";
 class Products extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            loading: true
-        };
-    }
-
-    componentDidUpdate() {
-        if (this.state.loading && this.props.products) {
-            this.setState({
-                loading: false
-            });
-        }
     }
 
     render() {
@@ -64,7 +53,7 @@ class Products extends Component {
                 </div>
                 <Row className="mb-4">
                     <Col>
-                        {this.state.loading ? (
+                        {!this.props.products ? (
                             <div className="text-center py-4">
                                 <Spinner
                                     style={{ width: "4rem", height: "4rem" }}
