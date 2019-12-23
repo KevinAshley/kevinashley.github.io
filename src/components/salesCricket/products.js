@@ -28,7 +28,8 @@ import {
 
 import { connect } from "react-redux";
 
-import Graph from "./components/graph";
+// import Graph from "./components/graph";
+import CustomTable from "./components/customTable";
 
 import { getCollectionDocs } from "../../utils/databaseQueries";
 
@@ -42,6 +43,52 @@ class Products extends Component {
     render() {
         // console.log("products props - ", this.props);
         // console.log("products state - ", this.state);
+        const tableCols = [
+            {
+                label: "Name",
+                value: "name"
+            },
+            {
+                label: "Opt. 1",
+                value: 0
+            },
+            {
+                label: "Opt. 2",
+                value: 1
+            },
+            {
+                label: "Price",
+                value: "price"
+            },
+            {
+                label: "Qty",
+                value: "qty"
+            }
+        ];
+        const tableData = [];
+
+        if (this.props.products) {
+            this.props.products.map(product => {
+                if (product.inventory) {
+                    product.inventory.map((unit, unitIndex) => {
+                        var thisUnit = {};
+                        if (unit.options) {
+                            thisUnit[tableCols[0].value] =
+                                product[tableCols[0].value];
+                            thisUnit[tableCols[1].value] =
+                                unit.options[tableCols[1].value];
+                            thisUnit[tableCols[2].value] =
+                                unit.options[tableCols[2].value];
+                            thisUnit[tableCols[3].value] =
+                                unit[tableCols[3].value];
+                            thisUnit[tableCols[4].value] =
+                                unit[tableCols[4].value];
+                        }
+                        tableData.push(thisUnit);
+                    });
+                }
+            });
+        }
 
         return (
             <React.Fragment>
@@ -61,7 +108,10 @@ class Products extends Component {
                                 />
                             </div>
                         ) : (
-                            <Graph graphData={this.props.products} />
+                            <CustomTable
+                                tableCols={tableCols}
+                                tableData={tableData}
+                            />
                         )}
                     </Col>
                 </Row>
