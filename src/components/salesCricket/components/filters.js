@@ -42,7 +42,7 @@ class Filters extends Component {
     }
 
     render() {
-        console.log(this.props);
+        // console.log(this.props);
         // this.props.filterData(this.props.tableData);
 
         return (
