@@ -35,15 +35,15 @@ import { getCollectionDocs } from "../../utils/databaseQueries";
 
 import SampleTable from "../salesCricket/sampleTable";
 
+import { productsTableData } from "./utils/tableData";
+
+import Filters from "./components/filters";
+
 class Products extends Component {
     constructor(props) {
         super(props);
-    }
 
-    render() {
-        // console.log("products props - ", this.props);
-        // console.log("products state - ", this.state);
-        const tableCols = [
+        this.tableCols = [
             {
                 label: "Name",
                 value: "name"
@@ -65,34 +65,26 @@ class Products extends Component {
                 value: "qty"
             }
         ];
-        const tableData = [];
+        this.state = {
+            tableCols: this.tableCols
+        };
+    }
 
-        if (this.props.products) {
-            this.props.products.map(product => {
-                if (product.inventory) {
-                    product.inventory.map((unit, unitIndex) => {
-                        var thisUnit = {};
-                        if (unit.options) {
-                            thisUnit[tableCols[0].value] =
-                                product[tableCols[0].value];
-                            thisUnit[tableCols[1].value] =
-                                unit.options[tableCols[1].value];
-                            thisUnit[tableCols[2].value] =
-                                unit.options[tableCols[2].value];
-                            thisUnit[tableCols[3].value] =
-                                unit[tableCols[3].value];
-                            thisUnit[tableCols[4].value] =
-                                unit[tableCols[4].value];
-                        }
-                        tableData.push(thisUnit);
-                    });
-                }
-            });
-        }
+    render() {
+        // console.log("products props - ", this.props);
+        // console.log("products state - ", this.state);
+        const tableData = productsTableData(
+            this.props.products,
+            this.state.tableCols
+        );
 
         return (
             <React.Fragment>
-                <div className="text-right mb-4">
+                <div className="d-flex justify-content-between mb-4">
+                    <Filters
+                        tableCols={this.state.tableCols}
+                        tableData={tableData}
+                    />
                     <Button color="link">
                         Add Product
                         <i className="fas fa-plus-circle ml-2"></i>
@@ -109,7 +101,7 @@ class Products extends Component {
                             </div>
                         ) : (
                             <CustomTable
-                                tableCols={tableCols}
+                                tableCols={this.state.tableCols}
                                 tableData={tableData}
                             />
                         )}
