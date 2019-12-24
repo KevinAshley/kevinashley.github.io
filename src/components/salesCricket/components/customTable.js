@@ -13,7 +13,6 @@ class CustomTable extends Component {
                 descending: true
             }
         };
-
         this.sort = this.sort.bind(this);
         this.changeSort = this.changeSort.bind(this);
     }
@@ -38,31 +37,24 @@ class CustomTable extends Component {
 
     sort(a, b) {
         let comparison = 0;
-
         if (
             typeof a[this.state.sort.column] == "number" &&
             typeof b[this.state.sort.column] == "number"
         ) {
-            if (a[this.state.sort.column] > b[this.state.sort.column]) {
-                comparison = 1;
-            } else if (a < b) {
-                comparison = -1;
-            }
+            comparison = a[this.state.sort.column] - b[this.state.sort.column];
         } else {
             // Use toUpperCase() to ignore character casing
             var itemA = a[this.state.sort.column].toUpperCase();
             var itemB = b[this.state.sort.column].toUpperCase();
-            if (itemA > itemB) {
+            if (itemA >= itemB) {
                 comparison = 1;
             } else if (itemA < itemB) {
                 comparison = -1;
             }
         }
-
         if (!this.state.sort.descending) {
             comparison = comparison * -1;
         }
-
         return comparison;
     }
 
