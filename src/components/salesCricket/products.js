@@ -35,7 +35,7 @@ import { getCollectionDocs } from "../../utils/databaseQueries";
 
 import SampleTable from "../salesCricket/sampleTable";
 
-import { productsTableData } from "./utils/tableData";
+import { productsTableData, filteredTableData } from "./utils/tableData";
 
 import Filters from "./components/filters";
 
@@ -78,7 +78,7 @@ class Products extends Component {
 
     updateFilters(col, exclusion) {
         var newState = JSON.parse(JSON.stringify(this.state));
-        this.state.tableCols.map(item => {
+        newState.tableCols.map(item => {
             if (item.value == col) {
                 if (item.exclude.includes(exclusion)) {
                     item.exclude.splice(item.exclude.indexOf(exclusion), 1);
@@ -87,7 +87,7 @@ class Products extends Component {
                 }
             }
         });
-        this.setState({});
+        this.setState(newState);
     }
 
     render() {
@@ -97,6 +97,8 @@ class Products extends Component {
             this.props.products,
             this.state.tableCols
         );
+
+        const filteredData = filteredTableData(tableData, this.state.tableCols);
 
         return (
             <React.Fragment>
@@ -123,7 +125,7 @@ class Products extends Component {
                         ) : (
                             <CustomTable
                                 tableCols={this.state.tableCols}
-                                tableData={tableData}
+                                tableData={filteredData}
                             />
                         )}
                     </Col>

@@ -3,7 +3,7 @@
 import React from "react";
 
 export const productsTableData = (products, tableCols) => {
-    const tableData = [];
+    let tableData = [];
 
     if (products) {
         products.map(product => {
@@ -27,4 +27,20 @@ export const productsTableData = (products, tableCols) => {
     }
 
     return tableData;
+};
+
+export const filteredTableData = (data, tableCols) => {
+    let filteredData = [];
+    data.map(item => {
+        var includeThisRow = true;
+        tableCols.map(tableCol => {
+            if (tableCol.exclude.includes(item[tableCol.value])) {
+                includeThisRow = false;
+            }
+        });
+        if (includeThisRow) {
+            filteredData.push(item);
+        }
+    });
+    return filteredData;
 };
