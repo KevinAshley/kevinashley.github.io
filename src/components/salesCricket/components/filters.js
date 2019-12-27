@@ -51,12 +51,17 @@ class Filters extends Component {
         // this.props.filterData(this.props.tableData);
 
         const filters = {};
+        const filtersStrings = {};
 
         this.props.tableCols.map(item => {
             filters[item.value] = [];
+            filtersStrings[item.value] = [];
             this.props.tableData.map(dataItem => {
                 if (!filters[item.value].includes(dataItem[item.value])) {
                     filters[item.value].push(dataItem[item.value]);
+                    if (!item.exclude.includes(dataItem[item.value])) {
+                        filtersStrings[item.value].push(dataItem[item.value]);
+                    }
                 }
             });
         });
@@ -89,35 +94,9 @@ class Filters extends Component {
                                             {item.exclude.length > 0 ? (
                                                 <span className="text-left position-relative flex-shrink-1 overflow-hidden text-overflow-ellipses min-width-0">
                                                     <span className="text-nowrap">
-                                                        {filters[
+                                                        {filtersStrings[
                                                             item.value
-                                                        ].map(
-                                                            (
-                                                                dataItem,
-                                                                dataItemIndex
-                                                            ) => {
-                                                                if (
-                                                                    !item.exclude.includes(
-                                                                        dataItem
-                                                                    )
-                                                                ) {
-                                                                    return (
-                                                                        <React.Fragment
-                                                                            key={
-                                                                                dataItemIndex
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                dataItem
-                                                                            }
-                                                                            {
-                                                                                ", "
-                                                                            }
-                                                                        </React.Fragment>
-                                                                    );
-                                                                }
-                                                            }
-                                                        )}
+                                                        ].join(", ")}
                                                     </span>
                                                 </span>
                                             ) : (
