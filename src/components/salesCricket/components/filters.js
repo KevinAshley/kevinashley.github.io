@@ -32,6 +32,7 @@ class Filters extends Component {
     toggleCollapse(item) {
         var newState = JSON.parse(JSON.stringify(this.state));
         if (!newState.collapseOpen[item]) {
+            newState.collapseOpen = {};
             newState.collapseOpen[item] = true;
         } else {
             newState.collapseOpen[item] = false;
@@ -82,15 +83,56 @@ class Filters extends Component {
                                             }
                                             color="link"
                                             block
+                                            className="d-flex"
                                         >
-                                            {item.label} (show all)
-                                            {this.state.collapseOpen[
-                                                item.value
-                                            ] ? (
-                                                <i className="fas fa-chevron-up ml-2"></i>
+                                            <span>{item.label}&nbsp;(</span>
+                                            {item.exclude.length > 0 ? (
+                                                <span className="text-left position-relative flex-shrink-1 overflow-hidden text-overflow-ellipses min-width-0">
+                                                    <span className="text-nowrap">
+                                                        {filters[
+                                                            item.value
+                                                        ].map(
+                                                            (
+                                                                dataItem,
+                                                                dataItemIndex
+                                                            ) => {
+                                                                if (
+                                                                    !item.exclude.includes(
+                                                                        dataItem
+                                                                    )
+                                                                ) {
+                                                                    return (
+                                                                        <React.Fragment
+                                                                            key={
+                                                                                dataItemIndex
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                dataItem
+                                                                            }
+                                                                            {
+                                                                                ", "
+                                                                            }
+                                                                        </React.Fragment>
+                                                                    );
+                                                                }
+                                                            }
+                                                        )}
+                                                    </span>
+                                                </span>
                                             ) : (
-                                                <i className="fas fa-chevron-down ml-2"></i>
+                                                "show all"
                                             )}
+                                            <span className="text-nowrap">
+                                                {")"}
+                                                {this.state.collapseOpen[
+                                                    item.value
+                                                ] ? (
+                                                    <i className="fas fa-chevron-up ml-2"></i>
+                                                ) : (
+                                                    <i className="fas fa-chevron-down ml-2"></i>
+                                                )}
+                                            </span>
                                         </Button>
                                         <Collapse
                                             isOpen={
@@ -107,7 +149,22 @@ class Filters extends Component {
                                                             check
                                                         >
                                                             <Label check>
-                                                                <Input type="checkbox" />{" "}
+                                                                <Input
+                                                                    type="checkbox"
+                                                                    onChange={() =>
+                                                                        this.props.updateFilters(
+                                                                            item.value,
+                                                                            dataItem
+                                                                        )
+                                                                    }
+                                                                    checked={
+                                                                        item.exclude.includes(
+                                                                            dataItem
+                                                                        )
+                                                                            ? false
+                                                                            : true
+                                                                    }
+                                                                />{" "}
                                                                 {dataItem}
                                                             </Label>
                                                         </FormGroup>

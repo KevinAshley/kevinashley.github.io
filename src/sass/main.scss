@@ -1,28 +1,37 @@
 // compileCompressed: ../css/$1.css
 
+
 $primary: #0f688c;
 $light: #e9ecef;
 
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .app-header {
-  padding: 5px 20px;
+    padding: 5px 20px;
 }
 
 .app-title {
-  font-family: 'Molle', cursive;
-  font-size: 2.5em;
-  margin-top: 0.25em;
+    font-family: "Molle", cursive;
+    font-size: 2.5em;
+    margin-top: 0.25em;
 }
 
 .App-intro {
-  font-size: large;
+    font-size: large;
 }
 
 .page-wrapper {
     min-height: 100vh;
+}
+
+.text-overflow-ellipses {
+    text-overflow: ellipsis;
+}
+
+.min-width-0 {
+    min-width: 0px;
 }
 
 // nav.navbar {
@@ -44,11 +53,11 @@ nav.navbar-dark .navbar-nav .nav-link {
 
 nav.navbar-dark .navbar-toggler {
     color: #fff;
-    border-color: rgba(255,255,255,0.5);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .darkened-nav {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hp-slideshow-container .carousel-item {
@@ -67,21 +76,30 @@ nav.navbar-dark .navbar-toggler {
 }
 #chart_div {
     width: 100%;
-    height:600px;
+    height: 600px;
 }
-#ticker, .react-select {
+#ticker,
+.react-select {
     text-transform: uppercase;
 }
 
 @keyframes coin-flip {
-    from { transform: rotate(0deg); height: 200px; width: 200px;}
-    to { transform: rotate(360deg); height: 200px; width: 0px;}
+    from {
+        transform: rotate(0deg);
+        height: 200px;
+        width: 200px;
+    }
+    to {
+        transform: rotate(360deg);
+        height: 200px;
+        width: 0px;
+    }
 }
 
 .coin {
     user-select: none;
 
-    &> img {
+    & > img {
         user-select: none;
         display: none;
         cursor: pointer;
@@ -97,16 +115,17 @@ nav.navbar-dark .navbar-toggler {
     min-width: 40px;
     font-size: 1.5rem !important;
     padding: 0 !important;
-    font-family: 'ZCOOL KuaiLe', cursive;
+    font-family: "ZCOOL KuaiLe", cursive;
 }
 .versus-text {
-    font-family: 'ZCOOL KuaiLe', cursive;
+    font-family: "ZCOOL KuaiLe", cursive;
     font-size: 1.5rem !important;
     text-decoration: underline;
 }
-.target-label, .player-score {
+.target-label,
+.player-score {
     font-size: 1.6rem;
-    font-family: 'ZCOOL KuaiLe', cursive;
+    font-family: "ZCOOL KuaiLe", cursive;
     &.closed-out {
         text-decoration: line-through;
         opacity: 0.5;
@@ -117,7 +136,7 @@ nav.navbar-dark .navbar-toggler {
 }
 .cricket-name-select__control {
     font-size: 1.1rem;
-    font-family: 'ZCOOL KuaiLe', cursive;
+    font-family: "ZCOOL KuaiLe", cursive;
 }
 .right-slash {
     position: absolute;
@@ -142,24 +161,24 @@ nav.navbar-dark .navbar-toggler {
     transform: translateX(-50%) translateY(-50%);
 }
 
-
-.cricket-name-select__control--is-focused, .react-select__control--is-focused {
+.cricket-name-select__control--is-focused,
+.react-select__control--is-focused {
     border-color: $primary !important;
     box-shadow: 0 0 0 1px $primary !important;
 }
-.cricket-name-select__option--is-focused, .react-select__option--is-focused {
+.cricket-name-select__option--is-focused,
+.react-select__option--is-focused {
     background-color: rgba($primary, 0.3) !important;
 }
 
-.cricket-name-select__option--is-selected, .react-select__option--is-selected {
+.cricket-name-select__option--is-selected,
+.react-select__option--is-selected {
     background-color: $primary !important;
 }
 
 .stockPage-spacer {
     height: 400px;
 }
-
-
 
 .right-column {
     .react-datepicker-popper {

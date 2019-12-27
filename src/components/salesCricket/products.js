@@ -80,7 +80,11 @@ class Products extends Component {
         var newState = JSON.parse(JSON.stringify(this.state));
         this.state.tableCols.map(item => {
             if (item.value == col) {
-                newState.exclude.push(exclusion);
+                if (item.exclude.includes(exclusion)) {
+                    item.exclude.splice(item.exclude.indexOf(exclusion), 1);
+                } else {
+                    item.exclude.push(exclusion);
+                }
             }
         });
         this.setState({});
