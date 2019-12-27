@@ -23,16 +23,20 @@ class Filters extends Component {
         super(props);
         this.state = {
             modalIsOpen: false,
-            collapseOpen: false
+            collapseOpen: {}
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.toggleCollapse = this.toggleCollapse.bind(this);
     }
 
-    toggleCollapse() {
-        this.setState({
-            collapseOpen: !this.state.collapseOpen
-        });
+    toggleCollapse(item) {
+        var newState = JSON.parse(JSON.stringify(this.state));
+        if (!newState.collapseOpen[item]) {
+            newState.collapseOpen[item] = true;
+        } else {
+            newState.collapseOpen[item] = false;
+        }
+        this.setState(newState);
     }
 
     toggleModal() {
@@ -45,9 +49,20 @@ class Filters extends Component {
         // console.log(this.props);
         // this.props.filterData(this.props.tableData);
 
+        const filters = {};
+
+        this.props.tableCols.map(item => {
+            filters[item.value] = [];
+            this.props.tableData.map(dataItem => {
+                if (!filters[item.value].includes(dataItem[item.value])) {
+                    filters[item.value].push(dataItem[item.value]);
+                }
+            });
+        });
+
         return (
             <React.Fragment>
-                <Button onClick={this.toggleModal} color="light">
+                <Button onClick={this.toggleModal} color="link">
                     <i className="fas fa-filter mr-2"></i>
                     Filters
                 </Button>
@@ -62,28 +77,43 @@ class Filters extends Component {
                                 return (
                                     <ListGroupItem key={index}>
                                         <Button
-                                            onClick={this.toggleCollapse}
+                                            onClick={() =>
+                                                this.toggleCollapse(item.value)
+                                            }
                                             color="link"
                                             block
                                         >
-                                            {item.label}
-                                            <i className="fas fa-chevron-down ml-2"></i>
+                                            {item.label} (show all)
+                                            {this.state.collapseOpen[
+                                                item.value
+                                            ] ? (
+                                                <i className="fas fa-chevron-up ml-2"></i>
+                                            ) : (
+                                                <i className="fas fa-chevron-down ml-2"></i>
+                                            )}
                                         </Button>
                                         <Collapse
-                                            isOpen={this.state.collapseOpen}
+                                            isOpen={
+                                                this.state.collapseOpen[
+                                                    item.value
+                                                ]
+                                            }
                                         >
-                                            <FormGroup check>
-                                                <Label check>
-                                                    <Input type="checkbox" />{" "}
-                                                    Filter 1
-                                                </Label>
-                                            </FormGroup>
-                                            <FormGroup check>
-                                                <Label check>
-                                                    <Input type="checkbox" />{" "}
-                                                    Filter 2
-                                                </Label>
-                                            </FormGroup>
+                                            {filters[item.value].map(
+                                                (dataItem, dataItemIndex) => {
+                                                    return (
+                                                        <FormGroup
+                                                            key={dataItemIndex}
+                                                            check
+                                                        >
+                                                            <Label check>
+                                                                <Input type="checkbox" />{" "}
+                                                                {dataItem}
+                                                            </Label>
+                                                        </FormGroup>
+                                                    );
+                                                }
+                                            )}
                                         </Collapse>
                                     </ListGroupItem>
                                 );

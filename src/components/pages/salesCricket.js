@@ -38,7 +38,6 @@ import { getCollectionDocs } from "../../utils/databaseQueries";
 
 var database = firebase.firestore();
 
-const rowsOfJunk = ["1", "1"];
 const tabs = [
     {
         name: "Home"

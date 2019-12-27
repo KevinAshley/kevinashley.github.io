@@ -46,28 +46,44 @@ class Products extends Component {
         this.tableCols = [
             {
                 label: "Name",
-                value: "name"
+                value: "name",
+                exclude: []
             },
             {
                 label: "Opt. 1",
-                value: 0
+                value: 0,
+                exclude: []
             },
             {
                 label: "Opt. 2",
-                value: 1
+                value: 1,
+                exclude: []
             },
             {
                 label: "Price",
-                value: "price"
+                value: "price",
+                exclude: []
             },
             {
                 label: "Qty",
-                value: "qty"
+                value: "qty",
+                exclude: []
             }
         ];
         this.state = {
             tableCols: this.tableCols
         };
+        this.updateFilters = this.updateFilters.bind(this);
+    }
+
+    updateFilters(col, exclusion) {
+        var newState = JSON.parse(JSON.stringify(this.state));
+        this.state.tableCols.map(item => {
+            if (item.value == col) {
+                newState.exclude.push(exclusion);
+            }
+        });
+        this.setState({});
     }
 
     render() {
@@ -84,6 +100,7 @@ class Products extends Component {
                     <Filters
                         tableCols={this.state.tableCols}
                         tableData={tableData}
+                        updateFilters={this.updateFilters}
                     />
                     <Button color="link">
                         Add Product
