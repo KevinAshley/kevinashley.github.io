@@ -107,7 +107,20 @@ class CustomTable extends Component {
                                 {this.props.tableCols.map((col, colIndex) => {
                                     return (
                                         <td key={colIndex}>
-                                            {item[col.value]}
+                                            {col.value == "price" ? (
+                                                <React.Fragment>
+                                                    {item[
+                                                        col.value
+                                                    ].toLocaleString("en-US", {
+                                                        style: "currency",
+                                                        currency: "USD"
+                                                    })}
+                                                </React.Fragment>
+                                            ) : (
+                                                <React.Fragment>
+                                                    {item[col.value]}
+                                                </React.Fragment>
+                                            )}
                                         </td>
                                     );
                                 })}

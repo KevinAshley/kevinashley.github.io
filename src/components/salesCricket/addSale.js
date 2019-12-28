@@ -1,26 +1,12 @@
-import React, {Component} from "react";
+/** @format */
+
+import React, { Component } from "react";
 
 import {
-    Container,
     Row,
     Col,
     Card,
-    Jumbotron,
     Button,
-    Nav,
-    NavItem,
-    Dropdown,
-    DropdownItem,
-    DropdownToggle,
-    DropdownMenu,
-    NavLink,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    ListGroup,
-    ListGroupItem,
-    Table,
     Modal,
     ModalHeader,
     ModalBody,
@@ -28,9 +14,8 @@ import {
 } from "reactstrap";
 
 import Select from "react-select";
-import {connect} from "react-redux";
-import {makeSelectOptionsArray} from "../../utils/reactSelect";
-const rowsOfJunk = ["1", "1"];
+
+import { makeSelectOptionsArray } from "../../utils/reactSelect";
 
 const storeInputs = [
     {
@@ -75,12 +60,12 @@ class AddSale extends Component {
     addItem() {
         var orderItems = JSON.parse(JSON.stringify(this.state.orderItems));
         orderItems.push("testOrder");
-        this.setState({orderItems: orderItems});
+        this.setState({ orderItems: orderItems });
     }
     removeItem() {
         var orderItems = JSON.parse(JSON.stringify(this.state.orderItems));
         orderItems.pop();
-        this.setState({orderItems: orderItems});
+        this.setState({ orderItems: orderItems });
     }
 
     render() {
@@ -130,7 +115,6 @@ class AddSale extends Component {
                                                                             }
                                                                         >
                                                                             <Col
-
                                                                                 xs={
                                                                                     item.xsWidth
                                                                                 }

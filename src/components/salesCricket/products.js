@@ -39,6 +39,8 @@ import { productsTableData, filteredTableData } from "./utils/tableData";
 
 import Filters from "./components/filters";
 
+import AddItemModal from "./components/addItemModal";
+
 class Products extends Component {
     constructor(props) {
         super(props);
@@ -110,10 +112,11 @@ class Products extends Component {
                         tableData={tableData}
                         updateFilters={this.updateFilters}
                     />
-                    <Button color="link">
-                        Add Product
-                        <i className="fas fa-plus-circle ml-2"></i>
-                    </Button>
+                    <AddItemModal
+                        tableCols={this.state.tableCols}
+                        tableData={tableData}
+                        label="Product"
+                    />
                 </div>
                 <Row className="mb-4">
                     <Col>

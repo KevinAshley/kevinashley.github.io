@@ -8,8 +8,6 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    Card,
-    CardBody,
     ListGroup,
     ListGroupItem,
     Collapse,
@@ -184,7 +182,7 @@ class Filters extends Component {
                             <Row>
                                 <Col xs={6}>
                                     <Button
-                                        color="danger"
+                                        color="light"
                                         onClick={() =>
                                             this.props.updateFilters(
                                                 "",
@@ -192,7 +190,6 @@ class Filters extends Component {
                                                 true
                                             )
                                         }
-                                        outline={true}
                                         block
                                     >
                                         Reset Filters
