@@ -15,7 +15,10 @@ import {
     Collapse,
     Input,
     FormGroup,
-    Label
+    Label,
+    Container,
+    Row,
+    Col
 } from "reactstrap";
 
 class Filters extends Component {
@@ -42,7 +45,9 @@ class Filters extends Component {
 
     toggleModal() {
         this.setState({
-            modalIsOpen: !this.state.modalIsOpen
+            modalIsOpen: !this.state.modalIsOpen,
+            collapseOpen:
+                this.state.modalIsOpen == false ? {} : this.state.collapseOpen
         });
     }
 
@@ -50,10 +55,14 @@ class Filters extends Component {
         // console.log(this.props);
         // this.props.filterData(this.props.tableData);
 
-        const filters = {};
-        const filtersStrings = {};
+        let filters = {};
+        let filtersStrings = {};
+        let filtersApplied = false;
 
         this.props.tableCols.map(item => {
+            if (item.exclude.length > 0) {
+                filtersApplied = true;
+            }
             filters[item.value] = [];
             filtersStrings[item.value] = [];
             this.props.tableData.map(dataItem => {
@@ -68,9 +77,13 @@ class Filters extends Component {
 
         return (
             <React.Fragment>
-                <Button onClick={this.toggleModal} color="link">
+                <Button
+                    onClick={this.toggleModal}
+                    color={filtersApplied ? "light" : "link"}
+                    outline={filtersApplied ? false : false}
+                >
                     <i className="fas fa-filter mr-2"></i>
-                    Filters
+                    Filter{filtersApplied ? "ed ..." : "s"}
                 </Button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
@@ -90,13 +103,23 @@ class Filters extends Component {
                                             block
                                             className="d-flex"
                                         >
-                                            <span>{item.label}&nbsp;(</span>
+                                            <span className="text-nowrap">
+                                                {item.label}&nbsp;(
+                                            </span>
                                             {item.exclude.length > 0 ? (
                                                 <span className="text-left position-relative flex-shrink-1 overflow-hidden text-overflow-ellipses min-width-0">
                                                     <span className="text-nowrap">
                                                         {filtersStrings[
                                                             item.value
-                                                        ].join(", ")}
+                                                        ].length == 0 ? (
+                                                            <span>none</span>
+                                                        ) : (
+                                                            <React.Fragment>
+                                                                {filtersStrings[
+                                                                    item.value
+                                                                ].join(", ")}
+                                                            </React.Fragment>
+                                                        )}
                                                     </span>
                                                 </span>
                                             ) : (
@@ -157,12 +180,35 @@ class Filters extends Component {
                         </ListGroup>
                     </ModalBody>
                     <ModalFooter className="d-flex justify-content-between">
-                        <Button color="danger" onClick={this.toggleModal}>
-                            Reset Filters
-                        </Button>{" "}
-                        <Button color="primary" onClick={this.toggleModal}>
-                            Done
-                        </Button>
+                        <Container className="px-0">
+                            <Row>
+                                <Col xs={6}>
+                                    <Button
+                                        color="danger"
+                                        onClick={() =>
+                                            this.props.updateFilters(
+                                                "",
+                                                "",
+                                                true
+                                            )
+                                        }
+                                        outline={true}
+                                        block
+                                    >
+                                        Reset Filters
+                                    </Button>
+                                </Col>
+                                <Col xs={6}>
+                                    <Button
+                                        color="primary"
+                                        onClick={this.toggleModal}
+                                        block
+                                    >
+                                        Done
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Container>
                     </ModalFooter>
                 </Modal>
             </React.Fragment>

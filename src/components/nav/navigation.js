@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { Component } from "react";
 
 import { Container, Collapse, Navbar, Button, Nav, NavItem } from "reactstrap";
@@ -67,7 +69,7 @@ class NavigationComponent extends Component {
                         <Button
                             onClick={this.toggle}
                             type="button"
-                            className="navbar-toggler"
+                            className="navbar-toggler py-2"
                         >
                             <i className="fas fa-bars"></i>
                         </Button>
@@ -78,7 +80,7 @@ class NavigationComponent extends Component {
                         className="flex-grow-0 darkened-nav"
                         navbar
                     >
-                        <Container>
+                        <Container className="justify-content-center">
                             <Nav navbar className="py-3">
                                 {navLinksArray.map((item, key) => {
                                     return (

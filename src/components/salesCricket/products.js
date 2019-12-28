@@ -76,10 +76,12 @@ class Products extends Component {
         this.updateFilters = this.updateFilters.bind(this);
     }
 
-    updateFilters(col, exclusion) {
+    updateFilters(col, exclusion, reset) {
         var newState = JSON.parse(JSON.stringify(this.state));
         newState.tableCols.map(item => {
-            if (item.value == col) {
+            if (reset) {
+                item.exclude = [];
+            } else if (item.value == col) {
                 if (item.exclude.includes(exclusion)) {
                     item.exclude.splice(item.exclude.indexOf(exclusion), 1);
                 } else {
